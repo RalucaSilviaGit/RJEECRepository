@@ -22,6 +22,7 @@ namespace RJEEC
         {
             services.AddMvc();
             services.AddSingleton<IAuthorRepository, MockAuthorRepository>();
+            services.AddSingleton<IEventRepository, EventRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

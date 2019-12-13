@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RJEEC.Models;
 
 namespace RJEEC.Controllers
 {
     public class EventController : Controller
     {
+        private readonly IEventRepository _eventRepository;
+
+        public EventController(IEventRepository eventRepository)
+        {
+            _eventRepository = eventRepository;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int? id)
         {
-            return View();
-        }
+            Event event1 = _eventRepository.GetEvent(id ?? 1);
+            return View(event1);
+    }
     }
 }

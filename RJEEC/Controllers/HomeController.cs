@@ -8,5 +8,11 @@ namespace RJEEC.Controllers
         {
             return View();
         }
+
+        [Route("EditorialBoard")]
+        public IActionResult EditorialBoard()
+        {
+            return View();
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace RJEEC.Controllers
             return View(authorRepository.GetAllAuthors());
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int? id)
         {
-            Author author = authorRepository.GetAuthor(1);
+            Author author = authorRepository.GetAuthor(id ?? 1);
             return View(author);
         }
     }
