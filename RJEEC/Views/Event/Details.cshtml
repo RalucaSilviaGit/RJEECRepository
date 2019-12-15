@@ -1,7 +1,7 @@
-﻿@model Author
+﻿@model Event
 
 @{
-    ViewBag.PageTitle = "Author Details";
+    ViewBag.PageTitle = "Event Details";
 }
 
 <h3>@ViewBag.PageTitle</h3>
@@ -10,14 +10,15 @@
     <div class="col-sm-8">
         <div class="card">
             <div class="card-header">
-                <h1>@Model.FirstName @Model.LastName</h1>
+                <h1>@Model.Name</h1>
             </div>
 
             <div class="card-body text-center">
                 <img class="card-img-top" src="~/images/noimage.jpg" asp-append-version="true" />
 
-                <h4>Author ID : @Model.Id</h4>
-                <h4>Email : @Model.Email</h4>
+                <h4>Date : @Model.Date</h4>
+                <h4>Location : @Model.Location</h4>
+                <p>@Model.Description</p>
 
             </div>
             <div class="card-footer text-center">

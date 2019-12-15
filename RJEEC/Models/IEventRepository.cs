@@ -7,6 +7,7 @@ namespace RJEEC.Models
 {
     public interface IEventRepository
     {
+        IEnumerable<Event> GetAllEvents();
         Event GetEvent(int id);
     }
 }

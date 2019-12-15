@@ -26,5 +26,22 @@ namespace RJEEC.Controllers
             Author author = authorRepository.GetAuthor(id ?? 1);
             return View(author);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Author author)
+        {
+            if (ModelState.IsValid)
+            {
+                Author newAuthor = authorRepository.AddAuthor(author);
+                return RedirectToAction("Details","Author", new { id = author.Id });
+            }
+            return View();
+        }
     }
 }

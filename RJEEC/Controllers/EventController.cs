@@ -18,13 +18,18 @@ namespace RJEEC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_eventRepository.GetAllEvents());
         }
 
         public IActionResult Details(int? id)
         {
             Event event1 = _eventRepository.GetEvent(id ?? 1);
             return View(event1);
-    }
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

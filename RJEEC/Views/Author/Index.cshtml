@@ -6,6 +6,9 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
+<a asp-controller="Author" asp-action="Create" class="btn btn-primary m-1">New Author</a>
+
+
 <div class="card-deck">
     @foreach (var author in Model)
     {
