@@ -7,25 +7,47 @@ namespace RJEEC.Models
 {
     public class EventRepository : IEventRepository
     {
-        public List<Event> _eventList { get; set; }
+        private readonly RJEECDbContext context;
 
-        public EventRepository()
+        public EventRepository(RJEECDbContext context)
         {
-            _eventList = new List<Event>()
-            {
-                new Event() { Id = 1, Name = "Event1", Date=new DateTime(), Description = "Event mary@pragimtech.com" },
-                new Event() { Id = 2, Name = "Event2", Date=new DateTime(), Description = "Event john@pragimtech.com" },
-                new Event() { Id = 3, Name = "Event3", Date=new DateTime(), Description = "Event sam@pragimtech.com" },
-            };
+            this.context = context;
         }
-        public Event GetEvent(int id)
+
+        public Event AddEvent(Event newEvent)
         {
-            return _eventList.FirstOrDefault(e=>e.Id == id);
+            context.Events.Add(newEvent);
+            context.SaveChanges();
+            return newEvent;
+        }
+
+        public Event Delete(int Id)
+        {
+            Event deletedEvent = context.Events.Find(Id);
+            if (deletedEvent != null)
+            {
+                context.Events.Remove(deletedEvent);
+                context.SaveChanges();
+            }
+            return deletedEvent;
         }
 
         public IEnumerable<Event> GetAllEvents()
         {
-            return _eventList;
+            return context.Events;
+        }
+
+        public Event GetEvent(int Id)
+        {
+            return context.Events.Find(Id);
+        }
+
+        public Event Update(Event eventChanges)
+        {
+            var eventUpdated = context.Events.Attach(eventChanges);
+            eventUpdated.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return eventChanges;
         }
     }
 }

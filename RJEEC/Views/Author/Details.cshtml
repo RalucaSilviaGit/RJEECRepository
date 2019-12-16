@@ -2,6 +2,7 @@
 
 @{
     ViewBag.PageTitle = "Author Details";
+    var photoPath = "~/authorImages/" + (Model.PhotoPath ?? "noimage.jpg");
 }
 
 <h3>@ViewBag.PageTitle</h3>
@@ -14,15 +15,15 @@
             </div>
 
             <div class="card-body text-center">
-                <img class="card-img-top" src="~/images/noimage.jpg" asp-append-version="true" />
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" />
 
                 <h4>Author ID : @Model.Id</h4>
                 <h4>Email : @Model.Email</h4>
 
             </div>
             <div class="card-footer text-center">
-                <a href="#" class="btn btn-primary">Back</a>
-                <a href="#" class="btn btn-primary">Edit</a>
+                <a asp-controller="author" asp-action="index" class="btn btn-primary">Back</a>
+                <a asp-controller="author" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
                 <a href="#" class="btn btn-danger">Delete</a>
             </div>
         </div>

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RJEEC.Models;
 
 namespace RJEEC.Migrations
 {
     [DbContext(typeof(RJEECDbContext))]
-    partial class RJEECDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191216092433_EventPhotoPath")]
+    partial class EventPhotoPath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +80,8 @@ namespace RJEEC.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("PhotoPath");
+
                     b.HasKey("Id");
 
                     b.ToTable("Events");
@@ -104,30 +108,6 @@ namespace RJEEC.Migrations
                             Description = "Event sam@pragimtech.com",
                             Name = "Event3"
                         });
-                });
-
-            modelBuilder.Entity("RJEEC.Models.EventPhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EventId");
-
-                    b.Property<string>("PhotoPath");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventPhotos");
-                });
-
-            modelBuilder.Entity("RJEEC.Models.EventPhoto", b =>
-                {
-                    b.HasOne("RJEEC.Models.Event")
-                        .WithMany("EventPhotos")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

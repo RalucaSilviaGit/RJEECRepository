@@ -6,16 +6,17 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
-<a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1">New Event</a>
+<a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:150px">New Event</a>
 
 <div class="card-deck">
     @foreach (var ev in Model)
     {
+        var photoPath = "~/eventImages/" + ((ev.EventPhotos != null && ev.EventPhotos.Count > 0) ? ev.EventPhotos[0].PhotoPath : "noimage.jpg");
         <div class="card m-3">
             <div class="card-header">
                 <h3>@ev.Name</h3>
             </div>
-            <img class="card-img-top" src="~/images/noimage.jpg" asp-append-version="true" />
+            <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
             <div class="card-footer text-center">
                 <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary m-1">View</a>
                 <a href="#" class="btn btn-primary m-1">Edit</a>

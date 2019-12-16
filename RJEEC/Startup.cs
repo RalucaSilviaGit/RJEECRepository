@@ -25,6 +25,7 @@ namespace RJEEC
             services.AddMvc();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventPhotoRepository, EventPhotoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,6 +34,11 @@ namespace RJEEC
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             //FileServerOptions fileServerOptions = new FileServerOptions();

@@ -15,5 +15,11 @@ namespace RJEEC.Models
 
         public DbSet<Author> Authors { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventPhoto> EventPhotos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
     }
 }

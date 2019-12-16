@@ -9,5 +9,8 @@ namespace RJEEC.Models
     {
         IEnumerable<Event> GetAllEvents();
         Event GetEvent(int id);
+        Event AddEvent(Event newEvent);
+        Event Update(Event eventChanges);
+        Event Delete(int id);
     }
 }
