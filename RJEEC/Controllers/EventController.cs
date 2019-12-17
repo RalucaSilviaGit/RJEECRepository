@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace RJEEC.Controllers
             this.eventPhotoRepository = eventPhotoRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Event> events = _eventRepository.GetAllEvents();
@@ -35,7 +36,7 @@ namespace RJEEC.Controllers
             }
             return View(events);
         }
-
+        [AllowAnonymous]
         public IActionResult Details(int? id)
         {
             Event event1 = _eventRepository.GetEvent(id ?? 1);
@@ -51,12 +52,14 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles="Admin, SuperAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Create(EventCreateViewModel model)
         {
             if (ModelState.IsValid)

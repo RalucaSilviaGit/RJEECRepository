@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using RJEEC.Models;
@@ -20,11 +21,14 @@ namespace RJEEC.Controllers
             this.authorRepository = authorRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
+
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View(authorRepository.GetAllAuthors());
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int? id)
         {
             Author author = authorRepository.GetAuthor(id ?? 1);
@@ -36,6 +40,22 @@ namespace RJEEC.Controllers
             }
 
             return View(author);
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public IActionResult IsEmailInUse(string email)
+        {
+            var user = authorRepository.GetAllAuthors().FirstOrDefault(a=>a.Email==email);
+
+            if (user == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email {email} is already in use.");
+            }
         }
 
         [HttpGet]

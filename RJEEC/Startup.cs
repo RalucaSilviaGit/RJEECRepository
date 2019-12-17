@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,14 +25,33 @@ namespace RJEEC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<RJEECDbContext>(options => options.UseMySql(_config.GetConnectionString("DefaultDbConnection")));
-            services.AddMvc();
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 3;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<RJEECDbContext>();
+
+            services.AddMvc(config => {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IEventPhotoRepository, EventPhotoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -47,7 +69,8 @@ namespace RJEEC
             //app.UseFileServer(fileServerOptions);
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
+            IdentityDataInitializer.SeedData(userManager, roleManager);
             app.UseMvcWithDefaultRoute();
 
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,8 @@ namespace RJEEC.ViewModels
         [MaxLength(30, ErrorMessage = "Last Name should not exceed 30 characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [EmailAddress(ErrorMessage = "The email format is invalid.")]
+        [EmailAddress]
+        [Remote(action: "IsEmailInUse", controller: "Author")]
         public string Email { get; set; }
         public IFormFile Photo { get; set; }
     }
