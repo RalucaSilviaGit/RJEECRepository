@@ -8,6 +8,10 @@ namespace RJEEC.Models
 {
     public class Event
     {
+        public Event()
+        {
+            EventPhotos = new List<EventPhoto>();
+        }
         public int Id { get; set; }
         [Required]
         [MaxLength(100, ErrorMessage = "Event Name should not exceed 100 characters.")]

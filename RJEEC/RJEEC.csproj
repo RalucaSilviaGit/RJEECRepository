@@ -18,5 +18,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
+<ItemGroup>
+  <Folder Include="wwwroot\generalDocuments\" />
+  <Folder Include="wwwroot\articles\" />
+  <Folder Include="wwwroot\additionalDocuments\" />
+  <Folder Include="wwwroot\publishingAgreements\" />
+</ItemGroup>
 
 </Project>

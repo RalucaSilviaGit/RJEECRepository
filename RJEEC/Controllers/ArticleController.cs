@@ -1,66 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RJEEC.Models;
-using RJEEC.ViewModels;
 
 namespace RJEEC.Controllers
 {
-    public class EventController : Controller
+    public class ArticleController : Controller
     {
-        private readonly IEventRepository _eventRepository;
-        private readonly IEventPhotoRepository eventPhotoRepository;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IArticleRepository articleRepository;
+        private readonly IDocumentRepository documentRepository;
 
-        public EventController(IEventRepository eventRepository, 
-                            IEventPhotoRepository eventPhotoRepository, 
-                            IHostingEnvironment hostingEnvironment)
+        public ArticleController(IArticleRepository articleRepository,
+                            IDocumentRepository documentRepository)
         {
-            this._eventRepository = eventRepository;
-            this.eventPhotoRepository = eventPhotoRepository;
-            this.hostingEnvironment = hostingEnvironment;
+            this.articleRepository = articleRepository;
+            this.documentRepository = documentRepository;
         }
+
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Event> events = _eventRepository.GetAllEvents();
-            foreach (var ev in events)
+            IEnumerable<Article> articles = articleRepository.GetAllArticles();
+            foreach (var article in articles)
             {
-                ev.EventPhotos.Add(eventPhotoRepository.GetFirstEventPhoto(ev.Id));
+                article.Documents = documentRepository.GetAllDocumentsForArticle(article.Id).ToList();
             }
-            return View(events);
+            return View(articles);
         }
+
         [AllowAnonymous]
         public IActionResult Details(int? id)
         {
-            Event event1 = _eventRepository.GetEvent(id ?? 1);
+            Article article = articleRepository.GetArticle(id ?? 1);
 
-            if (event1 == null)
+            if (article == null)
             {
                 Response.StatusCode = 404;
-                return View("EventNotFound", id);
+                return View("ArticleNotFound", id);
             }
 
-            event1.EventPhotos = eventPhotoRepository.GetAllEventPhotos(id ?? 1).ToList();
-            return View(event1);
+            article.Documents = documentRepository.GetAllDocumentsForArticle(id ?? 1).ToList();
+            return View(article);
         }
 
         [HttpGet]
-        [Authorize(Roles="Admin, SuperAdmin")]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
-        public IActionResult Create(EventCreateViewModel model)
+        [AllowAnonymous]
+        public IActionResult Create(ArticleCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +90,7 @@ namespace RJEEC.Controllers
                     }
                 }
 
-                
+
                 return RedirectToAction("details", new { id = newEvent.Id });
             }
 

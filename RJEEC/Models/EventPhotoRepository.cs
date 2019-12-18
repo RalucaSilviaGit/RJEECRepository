@@ -26,9 +26,9 @@ namespace RJEEC.Models
             return context.EventPhotos.Where( ep => ep.EventId == eventId);
         }
 
-        public EventPhoto GetEventPhoto(int Id)
+        public EventPhoto GetFirstEventPhoto(int eventId)
         {
-            return context.EventPhotos.Find(Id);
+            return context.EventPhotos.FirstOrDefault(ep => ep.EventId == eventId);
         }
     }
 }

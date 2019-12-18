@@ -8,7 +8,7 @@ namespace RJEEC.Models
     public interface IEventPhotoRepository
     {
         IEnumerable<EventPhoto> GetAllEventPhotos(int eventId);
-        EventPhoto GetEventPhoto(int id);
+        EventPhoto GetFirstEventPhoto(int eventid);
         EventPhoto AddEventPhoto(EventPhoto newEventPhoto);
     }
 }

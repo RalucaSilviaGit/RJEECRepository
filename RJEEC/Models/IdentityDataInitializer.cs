@@ -22,6 +22,7 @@ namespace RJEEC.Models
                 IdentityUser user = new IdentityUser();
                 user.UserName = "raluca.silvia87@yahoo.com";
                 user.Email = "raluca.silvia87@yahoo.com";
+                user.EmailConfirmed = true;
 
                 IdentityResult result = userManager.CreateAsync(user, "Network1").Result;
 
