@@ -1,6 +1,14 @@
-﻿.card-deck .card {
+﻿.default .card-deck .card {
     min-width:30%;
     max-width:30%;
+}
+
+.article .card-deck .card {
+    max-width: 100%;
+}
+
+.event .card-deck .card {
+    max-width: 50%;
 }
 /* Style the button that is used to open and close the collapsible content */
 

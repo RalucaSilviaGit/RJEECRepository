@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RJEEC.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,6 @@ namespace RJEEC.ViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [EmailAddress]
-        [Remote(action: "IsEmailInUse", controller: "Author")]
         public string Email { get; set; }
         public IFormFile Photo { get; set; }
     }

@@ -6,21 +6,18 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
-<a asp-controller="Article" asp-action="Create" class="btn btn-primary m-1" style="width:150px">New Article</a>
-
-
-<div class="card-deck">
+<div class="article card-deck">
     @foreach (var article in Model)
     {
         <div class="card m-3">
             <div class="card-header">
                 <h3>@article.Title</h3>
             </div>
-            <h4>Author: @article.contactAuthor.LastName @article.contactAuthor.FirstName</h4>
-            <div class="card-footer text-center">
+            <h4>Author: @(article.contactAuthor != null ? (article.contactAuthor.LastName + " " + article.contactAuthor.FirstName) : String.Empty)</h4>
+            <div class="card-footer">
                 <a asp-controller="Article" asp-action="Details" asp-route-id="@article.Id" class="btn btn-primary m-1">View</a>
                 <a asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id" class="btn btn-primary m-1">Review</a>
-                <a asp-controller="Article" asp-action="Check" asp-route-id="@article.Id" class="btn btn-primary m-1">Check Review Status</a>
+                <a asp-controller="Article" asp-action="Check" asp-route-id="@article.Id" class="btn btn-primary m-1" style="width:200px">Check Review Status</a>
             </div>
         </div>
     }

@@ -8,7 +8,7 @@
 
 <a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:150px">New Event</a>
 
-<div class="card-deck">
+<div class="event card-deck">
     @foreach (var ev in Model)
     {
         var photoPath = "~/eventImages/" + ((ev.EventPhotos != null && ev.EventPhotos.Count > 0) ? ev.EventPhotos[0].PhotoPath : "noimage.jpg");

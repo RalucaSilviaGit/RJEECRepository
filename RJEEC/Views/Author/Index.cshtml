@@ -9,7 +9,7 @@
 <a asp-controller="Author" asp-action="Create" class="btn btn-primary m-1" style="width:150px">New Author</a>
 
 
-<div class="card-deck">
+<div class="default card-deck">
     @foreach (var author in Model)
     {
         var photoPath = "~/authorImages/" + (author.PhotoPath ?? "noimage.jpg");

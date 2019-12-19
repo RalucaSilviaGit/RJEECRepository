@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RJEEC.Models;
+using RJEEC.ViewModels;
 
 namespace RJEEC.Controllers
 {
@@ -12,22 +16,21 @@ namespace RJEEC.Controllers
     {
         private readonly IArticleRepository articleRepository;
         private readonly IDocumentRepository documentRepository;
+        private readonly IHostingEnvironment hostingEnvironment;
 
         public ArticleController(IArticleRepository articleRepository,
-                            IDocumentRepository documentRepository)
+                            IDocumentRepository documentRepository,
+                            IHostingEnvironment hostingEnvironment)
         {
             this.articleRepository = articleRepository;
             this.documentRepository = documentRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Article> articles = articleRepository.GetAllArticles();
-            foreach (var article in articles)
-            {
-                article.Documents = documentRepository.GetAllDocumentsForArticle(article.Id).ToList();
-            }
+            IEnumerable<Article> articles = articleRepository.GetAllArticles().ToList();
             return View(articles);
         }
 
@@ -42,8 +45,18 @@ namespace RJEEC.Controllers
                 return View("ArticleNotFound", id);
             }
 
-            article.Documents = documentRepository.GetAllDocumentsForArticle(id ?? 1).ToList();
-            return View(article);
+            ArticleDetailsViewModel articleDetailsViewModel = new ArticleDetailsViewModel
+            {
+                Id = article.Id,
+                Title = article.Title,
+                AuthorFirstName = article.contactAuthor != null ? article.contactAuthor.FirstName : String.Empty,
+                AuthorLastName = article.contactAuthor != null ? article.contactAuthor.LastName : String.Empty,
+                AuthorEmail = article.contactAuthor != null ? article.contactAuthor.Email : String.Empty,
+                Status = article.Status,
+                Magazine = article.Magazine
+            };
+
+            return View(articleDetailsViewModel);
         }
 
         [HttpGet]
@@ -59,42 +72,66 @@ namespace RJEEC.Controllers
         {
             if (ModelState.IsValid)
             {
-                Event newEvent = new Event
+                Article newArticle = new Article
                 {
-                    Name = model.Name,
-                    Date = model.Date,
-                    Location = model.Location,
-                    Description = model.Description
+                    Title = model.Title,
+                    AgreePublishingEthics=model.AgreePublishingEthics,
+                    Authors=model.Authors,
+                    KeyWords=model.KeyWords,
+                    Description = model.Description,
+                    contactAuthor = new Author
+                    {
+                        FirstName = model.AuthorFirstName,
+                        LastName = model.AuthorLastName,
+                        Email = model.AuthorEmail
+                    },
+                    Comments = model.Comments                    
                 };
 
-                _eventRepository.AddEvent(newEvent);
+                articleRepository.AddArticle(newArticle);
 
-                List<EventPhoto> uniqueFileNames = new List<EventPhoto>();
-                string uniqueFileName = null;
+                Dictionary<string, DocumentType> uniqueFileNames = new Dictionary<string, DocumentType>();
+                uniqueFileNames.Add(ProcessUploadedFile(model.ArticleContentDoc, "articles") ?? String.Empty, DocumentType.ArticleContent);
+                uniqueFileNames.Add(ProcessUploadedFile(model.PulishingAgreementDoc, "publishingAgreements") ?? String.Empty, DocumentType.PublishingAgreement);
+                uniqueFileNames.Add(ProcessUploadedFile(model.AdditionalDoc1, "additionalDocuments") ?? String.Empty, DocumentType.Additional);
+                uniqueFileNames.Add(ProcessUploadedFile(model.AdditionalDoc2, "additionalDocuments") ?? String.Empty, DocumentType.Additional);
 
-                if (model.Photos != null && model.Photos.Count > 0)
+                foreach (var fileName in uniqueFileNames)
                 {
-                    foreach (IFormFile photo in model.Photos)
+                    if (!String.IsNullOrWhiteSpace(fileName.Key))
                     {
-                        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "eventImages");
-                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
-                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                        EventPhoto newEventPhoto = new EventPhoto
+                        Document newDocument = new Document
                         {
-                            EventId = newEvent.Id,
-                            PhotoPath = uniqueFileName
+                            ArticleId = newArticle.Id,
+                            Type = fileName.Value,
+                            DocumentPath = fileName.Key
                         };
-
-                        eventPhotoRepository.AddEventPhoto(newEventPhoto);
+                        documentRepository.AddDocument(newDocument);
                     }
                 }
 
-
-                return RedirectToAction("details", new { id = newEvent.Id });
+                return RedirectToAction("details", new { id = newArticle.Id });
             }
 
             return View();
+        }
+
+        private string ProcessUploadedFile(IFormFile file, string subfolder)
+        {
+            string uniqueFileName = null;
+
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, subfolder);
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }

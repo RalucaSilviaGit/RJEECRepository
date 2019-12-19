@@ -58,6 +58,8 @@ namespace RJEEC
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IEventPhotoRepository, EventPhotoRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

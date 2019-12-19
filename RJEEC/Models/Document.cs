@@ -9,7 +9,7 @@ namespace RJEEC.Models
     {
         public int Id { get; set; }
         public int ArticleId { get; set; }
-        public string Type { get; set; }
+        public DocumentType Type { get; set; }
         public string DocumentPath { get; set; }
     }
 }
