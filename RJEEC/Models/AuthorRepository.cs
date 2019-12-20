@@ -41,6 +41,10 @@ namespace RJEEC.Models
         {
             return context.Authors.Find(Id);
         }
+        public Author GetAuthorByEmail(string email)
+        {
+            return context.Authors.FirstOrDefault(a => a.Email == email);
+        }
 
         public Author Update(Author authorChanges)
         {

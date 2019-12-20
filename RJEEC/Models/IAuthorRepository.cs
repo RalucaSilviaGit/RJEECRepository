@@ -9,6 +9,7 @@ namespace RJEEC.Models
     {
         IEnumerable<Author> GetAllAuthors();
         Author GetAuthor(int id);
+        Author GetAuthorByEmail(string email);
         Author AddAuthor(Author author);
         Author Update(Author authorChanges);
         Author Delete(int id);

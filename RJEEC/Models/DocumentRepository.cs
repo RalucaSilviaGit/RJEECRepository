@@ -30,5 +30,10 @@ namespace RJEEC.Models
         {
             return context.Documents.Find(id);
         }
+
+        public Document GetDocumentByArticleAndType(int articleId, DocumentType type)
+        {
+            return context.Documents.FirstOrDefault(d => d.ArticleId == articleId && d.Type == type);
+        }
     }
 }

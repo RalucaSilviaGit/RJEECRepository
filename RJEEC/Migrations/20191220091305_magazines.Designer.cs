@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RJEEC.Models;
 
 namespace RJEEC.Migrations
 {
     [DbContext(typeof(RJEECDbContext))]
-    partial class RJEECDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191220091305_magazines")]
+    partial class magazines
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,11 +197,13 @@ namespace RJEEC.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("contactAuthorId");
+                    b.Property<int?>("contactAuthorId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MagazineId");
+
+                    b.HasIndex("contactAuthorId");
 
                     b.ToTable("Articles");
                 });
@@ -390,9 +394,14 @@ namespace RJEEC.Migrations
 
             modelBuilder.Entity("RJEEC.Models.Article", b =>
                 {
-                    b.HasOne("RJEEC.Models.Magazine")
-                        .WithMany("Articles")
+                    b.HasOne("RJEEC.Models.Magazine", "Magazine")
+                        .WithMany()
                         .HasForeignKey("MagazineId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("RJEEC.Models.Author", "contactAuthor")
+                        .WithMany()
+                        .HasForeignKey("contactAuthorId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

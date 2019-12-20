@@ -127,8 +127,6 @@ namespace RJEEC.Controllers
                     author.PhotoPath = ProcessUploadedFile(model);
                 }
 
-                // Call update method on the repository service passing it the
-                // employee object to update the data in the database table
                 Author updatedAuthor = authorRepository.Update(author);
 
                 return RedirectToAction("index");

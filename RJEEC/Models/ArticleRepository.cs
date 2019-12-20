@@ -38,13 +38,13 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticlesByMagazine(int id)
         {
-            return context.Articles.Where(a => a.Magazine.Id == id);
+            return context.Articles.Where(a => a.MagazineId == id);
         }
 
-        public IEnumerable<Article> GetAllArticlesByPublishingYear(int id)
-        {
-            return context.Articles.Where(a => a.Magazine.PublishingYear == id);
-        }
+        //public IEnumerable<Article> GetAllArticlesByPublishingYear(int id)
+        //{
+        //    return context.Articles.Where(a => a.MagazineId == id);
+        //}
 
         public IEnumerable<Article> GetAllArticlesByStatus(int statusId)
         {
@@ -53,7 +53,7 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticlesForAuthor(int authorId)
         {
-            return context.Articles.Where(a => a.contactAuthor.Id == authorId);
+            return context.Articles.Where(a => a.contactAuthorId == authorId);
         }
 
         public Article GetArticle(int id)

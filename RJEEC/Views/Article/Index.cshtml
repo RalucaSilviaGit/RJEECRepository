@@ -6,18 +6,19 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
-<div class="article card-deck">
+<div class="card-deck">
     @foreach (var article in Model)
     {
-        <div class="card m-3">
+        <div class="articlecard card m-3">
             <div class="card-header">
                 <h3>@article.Title</h3>
             </div>
-            <h4>Author: @(article.contactAuthor != null ? (article.contactAuthor.LastName + " " + article.contactAuthor.FirstName) : String.Empty)</h4>
+            <h4>Author: @article.Authors</h4>
             <div class="card-footer">
                 <a asp-controller="Article" asp-action="Details" asp-route-id="@article.Id" class="btn btn-primary m-1">View</a>
-                <a asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id" class="btn btn-primary m-1">Review</a>
-                <a asp-controller="Article" asp-action="Check" asp-route-id="@article.Id" class="btn btn-primary m-1" style="width:200px">Check Review Status</a>
+                <a asp-controller="Article" asp-action="Review" asp-route-id="@article.Id" class="btn btn-primary m-1">Review</a>
+                <a asp-controller="Article" asp-action="Read" asp-route-id="@article.Id" class="btn btn-primary m-1">Read</a>
+                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@article.Title" class="btn btn-primary" style="width:150px">Download</a>
             </div>
         </div>
     }

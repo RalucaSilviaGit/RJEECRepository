@@ -3,8 +3,9 @@
     max-width:30%;
 }
 
-.article .card-deck .card {
+.articlecard {
     max-width: 100%;
+    min-width: 100%;
 }
 
 .event .card-deck .card {

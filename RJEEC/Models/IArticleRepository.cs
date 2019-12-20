@@ -11,7 +11,7 @@ namespace RJEEC.Models
         IEnumerable<Article> GetAllArticlesForAuthor(int authorId);
         IEnumerable<Article> GetAllArticlesByStatus(int statusId);
         IEnumerable<Article> GetAllArticlesByMagazine(int id);
-        IEnumerable<Article> GetAllArticlesByPublishingYear(int id);
+        //IEnumerable<Article> GetAllArticlesByPublishingYear(int id);
         Article GetArticle(int id);
         Article AddArticle(Article newArticle);
         Article Update(Article articleChanges);

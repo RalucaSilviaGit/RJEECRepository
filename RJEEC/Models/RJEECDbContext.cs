@@ -19,6 +19,7 @@ namespace RJEEC.Models
         public DbSet<EventPhoto> EventPhotos { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Magazine> Magazines { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

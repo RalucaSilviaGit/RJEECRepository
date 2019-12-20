@@ -11,5 +11,6 @@ namespace RJEEC.Models
         public int Volume { get; set; }
         public int Number { get; set; }
         public int PublishingYear { get; set; }
+        public List<Article> Articles { get; set; }
     }
 }

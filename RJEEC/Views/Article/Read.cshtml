@@ -1,0 +1,37 @@
+﻿@model ArticleReadViewModel
+
+@{
+    ViewBag.PageTitle = "Article Read";
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Title</h1>
+                <h2>@Model.Authors</h2>
+                <h3>@Model.KeyWords</h3>
+            </div>
+
+            <div class="card-body text-center">
+                <p>@Model.Description</p>
+                <a id="iframefill" target="iframepdf" asp-action="PreviewFile" asp-controller="Article" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" style="display:none">Preview</a>
+                <iframe id="iframepdf" name="iframepdf" style="height:600px;width:100%"></iframe>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Article" asp-action="index" class="btn btn-primary">Back</a>
+                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:150px">Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#iframefill')[0].click();
+            $('#iframefill1')[0].click();
+            $('#iframefill2')[0].click();
+        });
+    </script>
+}

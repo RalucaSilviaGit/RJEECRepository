@@ -10,9 +10,10 @@
             <div class="checkbox">
                 <label asp-for="AgreePublishingEthics" style="width:100%; font-size:1.5rem;">
                     <input asp-for="AgreePublishingEthics" class="form-control col-sm-1" style="display:inline-block; font-size:0.5rem" />
-                    <div class="col-sm-1" style="display:inline-block"></div>
+                    <span class="col-sm-1" style="display:inline-block"></span>
                     @Html.DisplayNameFor(m => m.AgreePublishingEthics)
                 </label>
+                <span asp-validation-for="AgreePublishingEthics" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">

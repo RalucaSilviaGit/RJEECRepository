@@ -20,6 +20,11 @@ namespace RJEEC.ViewModels
         public string AuthorEmail { get; set; }
         [Display(Name = "Article Status")]
         public ArticleStatus Status { get; set; }
-        public Magazine Magazine { get; set; }
+        [Display(Name = "Volume")]
+        public int? MagazineVolume { get; set; }
+        [Display(Name = "No")]
+        public int? MagazineNumber { get; set; }
+        [Display(Name = "Year")]
+        public int? MagazinePublishingYear { get; set; }
     }
 }
