@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Office.Interop.Word;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RJEEC.Models;
 using RJEEC.ViewModels;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 
 namespace RJEEC.Controllers
 {
@@ -147,7 +150,7 @@ namespace RJEEC.Controllers
                 {
                     if (!String.IsNullOrWhiteSpace(fileName.Key))
                     {
-                        Document newDocument = new Document
+                        RJEEC.Models.Document newDocument = new RJEEC.Models.Document
                         {
                             ArticleId = newArticle.Id,
                             Type = fileName.Value,
@@ -245,19 +248,37 @@ namespace RJEEC.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, title + fileExt);
         }
 
+        //public IActionResult DownloadAbstract(int id)
+        //{
+        //    Article art = articleRepository.GetArticle(id);
+        //    string html = "<html><body style='font-size:20px'>" + art.Description + "</body></html>";
+
+        //    Byte[] res = null;
+        //    PdfDocument d = PdfReader.Open(new MemoryStream(html, 0, html.Length));
+        //    res = ms.ToArray();
+
+        //    return File(res, System.Net.Mime.MediaTypeNames.Application.Octet, art.Title + ".pdf");
+        //}
+
         public IActionResult PreviewFile(string fileName, string subfolder)
         {
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
-            var stream = new FileStream(downloadFile, FileMode.Open);            
             var fileExt = Path.GetExtension(fileName);
             switch (fileExt)
             {
                 case ".pdf":
+                    var stream = new FileStream(downloadFile, FileMode.Open);
                     return new FileStreamResult(stream, "application/pdf");
                 case ".doc":
-                    return new FileStreamResult(stream, "application/msword");
                 case ".docx":
-                    return new FileStreamResult(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                    string newFileName = Path.GetFileNameWithoutExtension(downloadFile) + "ToPdf.pdf";
+                    Application word = new Application();
+                    Microsoft.Office.Interop.Word.Document doc = word.Documents.Open(downloadFile);
+                    doc.Activate();
+                    downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, newFileName);
+                    doc.SaveAs2(downloadFile, WdSaveFormat.wdFormatPDF);
+                    doc.Close();
+                    goto case ".pdf";
                 default:
                     return null;
             }

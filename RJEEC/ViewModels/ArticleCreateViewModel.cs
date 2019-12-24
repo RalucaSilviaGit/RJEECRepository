@@ -9,8 +9,11 @@ namespace RJEEC.ViewModels
 {
     public class ArticleCreateViewModel
     {
+        public bool IsTrue => true;
+
         [Required]
-        [Range(typeof(bool), "true", "true", ErrorMessage = "The field Agree Publishing Ethics must be checked.")]
+        [Display(Name = "Agree Publishing Ethics")]
+        [Compare(nameof(IsTrue), ErrorMessage = "Please agree to the Publishing Ethics")]
         public bool AgreePublishingEthics { get; set; }
         [Required]
         [MaxLength(500)]

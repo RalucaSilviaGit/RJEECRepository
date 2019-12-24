@@ -18,7 +18,8 @@
                 <a asp-controller="Article" asp-action="Details" asp-route-id="@article.Id" class="btn btn-primary m-1">View</a>
                 <a asp-controller="Article" asp-action="Review" asp-route-id="@article.Id" class="btn btn-primary m-1">Review</a>
                 <a asp-controller="Article" asp-action="Read" asp-route-id="@article.Id" class="btn btn-primary m-1">Read</a>
-                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@article.Title" class="btn btn-primary" style="width:150px">Download</a>
+                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@article.Title" class="btn btn-primary" style="width:150px">Download Article</a>
+                <a asp-controller="Article" asp-action="DownloadAbstract" asp-route-id="@article.Id" class="btn btn-primary" style="width:180px">Download Abstract</a>
             </div>
         </div>
     }
