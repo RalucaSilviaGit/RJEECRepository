@@ -32,7 +32,9 @@ namespace RJEEC.Controllers
             IEnumerable<Event> events = _eventRepository.GetAllEvents();
             foreach (var ev in events)
             {
-                ev.EventPhotos.Add(eventPhotoRepository.GetFirstEventPhoto(ev.Id));
+                var image = eventPhotoRepository.GetFirstEventPhoto(ev.Id);
+                if(image != null)
+                    ev.EventPhotos.Add(eventPhotoRepository.GetFirstEventPhoto(ev.Id));
             }
             return View(events);
         }
