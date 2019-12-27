@@ -36,9 +36,11 @@ namespace RJEEC.ViewModels
         [Required]
         [EmailAddress]
         [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)]
         public string AuthorEmail { get; set; }
         [MaxLength(20)]
         [Display(Name = "Phone")]
+        [DataType(DataType.PhoneNumber)]
         public string AuthorPhone { get; set; }
         [Required]
         [Display(Name = "Upload article")]

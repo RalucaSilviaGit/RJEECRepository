@@ -17,6 +17,7 @@ namespace RJEEC.ViewModels
         [Display(Name = "Last Name")]
         public string AuthorLastName { get; set; }
         [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)]
         public string AuthorEmail { get; set; }
         [Display(Name = "Article Status")]
         public ArticleStatus Status { get; set; }
