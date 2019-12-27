@@ -1,4 +1,13 @@
-﻿.default .card-deck .card {
+﻿.lead img{
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+}
+.container {
+    max-width:98% !important;
+}
+
+.default .card-deck .card {
     min-width:30%;
     max-width:30%;
 }

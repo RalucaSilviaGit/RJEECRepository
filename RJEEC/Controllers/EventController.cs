@@ -15,27 +15,18 @@ namespace RJEEC.Controllers
     public class EventController : Controller
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IEventPhotoRepository eventPhotoRepository;
         private readonly IHostingEnvironment hostingEnvironment;
 
         public EventController(IEventRepository eventRepository, 
-                            IEventPhotoRepository eventPhotoRepository, 
                             IHostingEnvironment hostingEnvironment)
         {
             this._eventRepository = eventRepository;
-            this.eventPhotoRepository = eventPhotoRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
         [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Event> events = _eventRepository.GetAllEvents();
-            foreach (var ev in events)
-            {
-                var image = eventPhotoRepository.GetFirstEventPhoto(ev.Id);
-                if(image != null)
-                    ev.EventPhotos.Add(eventPhotoRepository.GetFirstEventPhoto(ev.Id));
-            }
             return View(events);
         }
         [AllowAnonymous]
@@ -49,7 +40,6 @@ namespace RJEEC.Controllers
                 return View("EventNotFound", id);
             }
 
-            event1.EventPhotos = eventPhotoRepository.GetAllEventPhotos(id ?? 1).ToList();
             return View(event1);
         }
 
@@ -74,8 +64,6 @@ namespace RJEEC.Controllers
                     Description = model.Description
                 };
 
-                _eventRepository.AddEvent(newEvent);
-
                 List<EventPhoto> uniqueFileNames = new List<EventPhoto>();
                 string uniqueFileName = null;
 
@@ -93,11 +81,13 @@ namespace RJEEC.Controllers
                             PhotoPath = uniqueFileName
                         };
 
-                        eventPhotoRepository.AddEventPhoto(newEventPhoto);
+                        uniqueFileNames.Add(newEventPhoto);
                     }
                 }
+                newEvent.EventPhotos = uniqueFileNames;
 
-                
+                _eventRepository.AddEvent(newEvent);
+
                 return RedirectToAction("details", new { id = newEvent.Id });
             }
 

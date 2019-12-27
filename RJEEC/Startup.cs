@@ -57,9 +57,7 @@ namespace RJEEC
             });
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IEventPhotoRepository, EventPhotoRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
-            services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IMagazineRepository, MagazineRepository>();
         }
 

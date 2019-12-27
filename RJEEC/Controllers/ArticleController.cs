@@ -12,26 +12,24 @@ using RJEEC.ViewModels;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using Document = RJEEC.Models.Document;
 
 namespace RJEEC.Controllers
 {
     public class ArticleController : Controller
     {
         private readonly IArticleRepository articleRepository;
-        private readonly IDocumentRepository documentRepository;
         private readonly IMagazineRepository magazineRepository;
         private readonly IAuthorRepository authorRepository;
         private readonly IHostingEnvironment hostingEnvironment;
 
 
         public ArticleController(IArticleRepository articleRepository,
-                            IDocumentRepository documentRepository,
                             IMagazineRepository magazineRepository,
                             IAuthorRepository authorRepository,
                             IHostingEnvironment hostingEnvironment)
         {
             this.articleRepository = articleRepository;
-            this.documentRepository = documentRepository;
             this.magazineRepository = magazineRepository;
             this.authorRepository = authorRepository;
             this.hostingEnvironment = hostingEnvironment;
@@ -41,10 +39,6 @@ namespace RJEEC.Controllers
         public IActionResult Index()
         {
             IEnumerable<Article> articles = articleRepository.GetAllArticles().ToList();
-            foreach (var article in articles)
-            {
-                article.Documents = documentRepository.GetAllDocumentsForArticle(article.Id).ToList();
-            }
             return View(articles);
         }
 
@@ -65,7 +59,7 @@ namespace RJEEC.Controllers
                 Description = article.Description,
                 Authors = article.Authors,
                 KeyWords = article.KeyWords,
-                Content = documentRepository.GetDocumentByArticleAndType(article.Id, DocumentType.ArticleContent).DocumentPath
+                Content = article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent).DocumentPath
             };
 
             return View(articleReadViewModel);
@@ -136,8 +130,9 @@ namespace RJEEC.Controllers
                     authorRepository.AddAuthor(contactAuthor);
                 }
                 newArticle.contactAuthorId = contactAuthor.Id;
-                articleRepository.AddArticle(newArticle);
 
+                List<Document> docs = new List<Document>();
+                                
                 Dictionary<string, DocumentType> uniqueFileNames = new Dictionary<string, DocumentType>();
                 uniqueFileNames.Add(ProcessUploadedFile(model.ArticleContentDoc, "articles") ?? String.Empty, DocumentType.ArticleContent);
                 uniqueFileNames.Add(ProcessUploadedFile(model.PulishingAgreementDoc, "publishingAgreements") ?? String.Empty, DocumentType.PublishingAgreement);
@@ -152,13 +147,16 @@ namespace RJEEC.Controllers
                     {
                         RJEEC.Models.Document newDocument = new RJEEC.Models.Document
                         {
-                            ArticleId = newArticle.Id,
                             Type = fileName.Value,
                             DocumentPath = fileName.Key
                         };
-                        documentRepository.AddDocument(newDocument);
+                        docs.Add(newDocument);
                     }
                 }
+
+                newArticle.Documents = docs;
+
+                articleRepository.AddArticle(newArticle);
 
                 return RedirectToAction("details", new { id = newArticle.Id });
             }

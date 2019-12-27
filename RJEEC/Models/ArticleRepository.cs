@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,12 +34,12 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticles()
         {
-            return context.Articles;
+            return context.Articles.Include(a=>a.Documents);
         }
 
         public IEnumerable<Article> GetAllArticlesByMagazine(int id)
         {
-            return context.Articles.Where(a => a.MagazineId == id);
+            return context.Articles.Include(a => a.Documents).Where(a => a.MagazineId == id);
         }
 
         //public IEnumerable<Article> GetAllArticlesByPublishingYear(int id)
@@ -48,17 +49,17 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticlesByStatus(int statusId)
         {
-            return context.Articles.Where(a => (int)a.Status == statusId);
+            return context.Articles.Include(a => a.Documents).Where(a => (int)a.Status == statusId);
         }
 
         public IEnumerable<Article> GetAllArticlesForAuthor(int authorId)
         {
-            return context.Articles.Where(a => a.contactAuthorId == authorId);
+            return context.Articles.Include(a => a.Documents).Where(a => a.contactAuthorId == authorId);
         }
 
         public Article GetArticle(int id)
         {
-            return context.Articles.Find(id);
+            return context.Articles.Include(a => a.Documents).FirstOrDefault(a => a.Id == id);
         }
 
         public Article Update(Article articleChanges)

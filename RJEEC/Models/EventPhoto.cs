@@ -9,6 +9,7 @@ namespace RJEEC.Models
     {
         public int Id { get; set; }
         public int EventId { get; set; }
+        public Event ev { get; set; }
         public string PhotoPath { get; set; }
     }
 }

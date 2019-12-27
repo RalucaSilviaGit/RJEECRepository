@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,12 +35,12 @@ namespace RJEEC.Models
 
         public IEnumerable<Event> GetAllEvents()
         {
-            return context.Events;
+            return context.Events.Include(ep=>ep.EventPhotos);
         }
 
         public Event GetEvent(int Id)
         {
-            return context.Events.Find(Id);
+            return context.Events.Include(ep => ep.EventPhotos).FirstOrDefault(e=>e.Id==Id);
         }
 
         public Event Update(Event eventChanges)

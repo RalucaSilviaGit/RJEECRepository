@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191227125331_articleflow2.cs" />
+    <Compile Remove="Migrations\20191227125331_articleflow2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HtmlRenderer.Core" Version="1.5.0.5" />
     <PackageReference Include="HtmlRenderer.PdfSharp" Version="1.5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
