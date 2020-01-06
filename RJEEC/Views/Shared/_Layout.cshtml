@@ -63,22 +63,37 @@
                             <a class="nav-link" asp-controller="home" asp-action="editorialboard">Editorial Board</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" asp-controller="home" asp-action="authorGuidelines">Author Guidelines</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" asp-controller="article" asp-action="create">Manuscript submission</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="author" asp-action="index">Authors</a>
+                            <a class="nav-link" asp-controller="home" asp-action="publishingEthics">Publishing Ethics</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="event" asp-action="index">Events</a>
+                            <a class="nav-link" asp-controller="home" asp-action="PrivacyPolicy">Privacy Policy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="article" asp-action="index">Archive</a>
+                            <a class="nav-link" asp-controller="article" asp-action="search">Search</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="contact" asp-action="index">Contact</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="article" asp-action="index">Archive</a>
+                        </li>
                         @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                         {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="article" asp-action="index">Archive</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="event" asp-action="index">Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="author" asp-action="index">Authors</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -128,18 +143,61 @@
                 </div>
             </div>
         </nav>
-        <div class="row">
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-7">
-                @RenderBody()
-            </div>
-            <div class="col-md-3">
-
-            </div>
+        <div class="row" id="rowcontent">
+                <div class="col-md-2">
+                    <p>OSIM Nr.</p>
+                    <br />
+                    <p>ISSN: 2668-5418</p>
+                    <p>ISSN-L: 2668-5418</p>
+                    <br />
+                    <h3>ARCHIVE</h3>
+                    <a class="nav-link" asp-controller="article" asp-action="index">See all..</a>
+                </div>
+                <div class="col-md-7">
+                    @RenderBody()
+                </div>
+                <div class="col-md-3">
+                    <h4>Publisher: National Research and Development Institute for Industrial Ecology ECOIND Bucharest</h4>
+                    <ul>
+                        <li>
+                            Editor -in Chief:
+                        </li>
+                        <li>
+                            Manager Editor:
+                        </li>
+                        <li>
+                            Associate Editors:
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <a asp-controller="home" asp-action="IndexingAndAbstracting">Indexing and Abstracting</a>
+                        </li>
+                        <li>
+                            <a asp-controller="home" asp-action="peerReviewProcess">Peer Review Process</a>
+                        </li>
+                        <li>
+                            <a asp-controller="event" asp-action="index">Conferences</a>
+                        </li>
+                    </ul>
+                </div>
         </div>
-
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    ROMANIAN JOURNAL OF ECOLOGY AND ENVIRONMENTAL CHEMISTRY publishes  Original Scientific Studies, Review articles, Meeting Abstracts, Conference Proceedings submitted by Romanian and Foreign researchers.
+                    <br />ISSN: 2668-5418
+                    <br />ISSN-L: 2668-5418
+                </p>
+                <p>
+                    Contact<br />
+                    Editorial office: National Research and Development Institute for Industrial Ecology ECOIND Bucharest<br />
+                    Drumul Podu Dambovitei no. 71-73, district 6, 060652 code, Bucharest, Romania<br />
+                    Phone:<br />
+                    Email: office@rjeec.ro
+                </p>
+            </div>
+        </footer>
         @if (IsSectionDefined("Scripts"))
         {
             @RenderSection("Scripts", required: false)

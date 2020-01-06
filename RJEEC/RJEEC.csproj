@@ -8,6 +8,19 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191227125331_articleflow2.cs" />
     <Compile Remove="Migrations\20191227125331_articleflow2.Designer.cs" />
+    <Compile Remove="Migrations\20200106121656_articlemag.cs" />
+    <Compile Remove="Migrations\20200106121656_articlemag.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Controllers\AccountController.cs" />
+    <Content Include="Controllers\AdministrationController.cs" />
+    <Content Include="Controllers\ArticleController.cs" />
+    <Content Include="Controllers\AuthorController.cs" />
+    <Content Include="Controllers\ContactController.cs" />
+    <Content Include="Controllers\ErrorController.cs" />
+    <Content Include="Controllers\EventController.cs" />
+    <Content Include="Controllers\HomeController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +42,8 @@
   </ItemGroup>
   
 <ItemGroup>
-  <Folder Include="wwwroot\generalDocuments\" />
   <Folder Include="wwwroot\articles\" />
   <Folder Include="wwwroot\additionalDocuments\" />
-  <Folder Include="wwwroot\publishingAgreements\" />
 </ItemGroup>
 
 </Project>

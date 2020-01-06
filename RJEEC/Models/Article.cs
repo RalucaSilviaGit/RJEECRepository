@@ -20,6 +20,7 @@ namespace RJEEC.Models
         public ArticleStatus Status { get; set; }
         public List<Document> Documents { get; set; }
         public int? MagazineId { get; set; }
+        public Magazine Magazine { get; set; }
         public bool AgreePublishingEthics { get; set; }
         public string Comments { get; set; }
     }

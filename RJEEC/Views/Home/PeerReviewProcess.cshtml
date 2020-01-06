@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.PageTitle = "Peer Review Process";
+}
+
+<h3>@ViewBag.PageTitle</h3>
+<br />
+<p>Peer Review Process - un text care arata cum se face recenzia, nu este inca gata</p>
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Reviewer decision.docx" asp-route-subfolder="generalDocuments">Reviewer decision</a>
+    </div>
+</div>
+<hr />
+<br />
+
+<div class="row">
+    <a asp-controller="Article" asp-action="Details" class="btn btn-primary m-1" style="width:150px">Article Status</a>
+
+</div>

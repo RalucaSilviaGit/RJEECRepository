@@ -31,27 +31,40 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult Index(Contact contact)
         {
-            try
+            if(ModelState.IsValid)
             {
                 string host = _config.GetSection("SMTP").GetSection("Host").Value;
-                string from = _config.GetSection("SMTP").GetSection("From").Value;
-                using (SmtpClient client = new SmtpClient(host))
+                string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
+                string pass = _config.GetSection("SMTP").GetSection("Password").Value;
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress(rjeecContactMail);
+                mailMessage.To.Add(rjeecContactMail);
+                mailMessage.Body = contact.Message + contact.Email;
+                mailMessage.Subject = "[RJEEC] Message from " + contact.FirstName + " " + contact.LastName;
+                mailMessage.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient(host, 587))
                 {
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress(contact.Email);
-                    mailMessage.To.Add(from);
-                    mailMessage.Body = contact.Message;
-                    mailMessage.Subject = "[RJEEC] Message from " + contact.FirstName + " " + contact.LastName;
-                    mailMessage.BodyEncoding = Encoding.UTF8;
-                    client.Send(mailMessage);
-                    return View("MessageSent");
+                    var credential = new NetworkCredential
+                    {
+                        UserName = rjeecContactMail,  // replace with valid value
+                        Password = pass  // replace with valid value
+                    };
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = credential;
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.Send(mailMessage);
+                    return RedirectToAction("MessageSent");
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-        }            
+            return View(contact);
+        }
+        [AllowAnonymous]
+        public ActionResult MessageSent()
+        {
+            return View();
+        }
     }
 }

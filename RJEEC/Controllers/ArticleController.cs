@@ -42,6 +42,43 @@ namespace RJEEC.Controllers
             return View(articles);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Search()
+        {
+            SearchViewModel model = new SearchViewModel();
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Search(SearchViewModel model)
+        {
+            IEnumerable<Article> articles = null;
+            if (!String.IsNullOrWhiteSpace(model.AuthorName))
+                articles = articleRepository.GetAllArticles().Where(a => a.Authors.ToUpper().Contains(model.AuthorName.ToUpper()));
+            if (model.Volume != null)
+                if(articles == null)
+                    articles = articleRepository.GetAllArticles().Where(a => a.Magazine?.Volume == model.Volume);
+                else
+                    articles = articles.Where(a => a.Magazine.Volume == model.Volume);
+            if (model.Year != null)
+                if (articles == null)
+                    articles = articleRepository.GetAllArticles().Where(a => a.Magazine?.PublishingYear == model.Year);
+                else
+                    articles = articles.Where(a => a.Magazine.PublishingYear == model.Year);
+            if (!String.IsNullOrWhiteSpace(model.Keywords))
+                if(articles == null)
+                    articles = articleRepository.GetAllArticles().Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
+                else
+                    articles = articles.Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
+            if (articles != null)
+            {
+                model.Articles = articles.ToList();
+            }
+            return View(model);
+        }
+
         [AllowAnonymous]        
         public IActionResult Read(int? id)
         {
@@ -186,9 +223,9 @@ namespace RJEEC.Controllers
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
                 AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
                 Status = article.Status,
-                MagazineVolume = magazine?.Volume,
-                MagazineNumber = magazine?.Number,
-                MagazinePublishingYear = magazine?.PublishingYear
+                MagazineVolume = article.Magazine?.Volume,
+                MagazineNumber = article.Magazine?.Number,
+                MagazinePublishingYear = article.Magazine?.PublishingYear
             };
 
             return View(articleDetailsViewModel);
@@ -201,8 +238,9 @@ namespace RJEEC.Controllers
             {
                 Article article = articleRepository.GetArticle(model.Id);
                 article.Status = model.Status;
+                article.Magazine = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear);
                 article.MagazineId = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear)?.Id;
-                if(article.MagazineId == null && model.MagazineVolume != null && model.MagazineNumber != null && model.MagazinePublishingYear != null)
+                if (article.Magazine == null && model.MagazineVolume != null && model.MagazineNumber != null && model.MagazinePublishingYear != null)
                 {
                     Magazine magazine = new Magazine {
                         Volume = model.MagazineVolume ?? 0,
@@ -210,7 +248,8 @@ namespace RJEEC.Controllers
                         PublishingYear = model.MagazinePublishingYear?? 0
                     };
                     magazineRepository.AddMagazine(magazine);
-                    article.MagazineId = magazine.Id; 
+                    article.MagazineId = magazine.Id;
+                    article.Magazine = magazine;
                 }
 
                 Article updatedArticle = articleRepository.Update(article);

@@ -34,7 +34,7 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticles()
         {
-            return context.Articles.Include(a=>a.Documents);
+            return context.Articles.Include(a=>a.Documents).Include(a=>a.Magazine);
         }
 
         public IEnumerable<Article> GetAllArticlesByMagazine(int id)

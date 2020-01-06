@@ -1,0 +1,14 @@
+﻿@model Article
+<div class="articlecard card m-3">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <h4>Author: @Model.Authors</h4>
+    <div class="card-footer">
+        <a asp-controller="Article" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary m-1">View</a>
+        <a asp-controller="Article" asp-action="Review" asp-route-id="@Model.Id" class="btn btn-primary m-1">Review</a>
+        <a asp-controller="Article" asp-action="Read" asp-route-id="@Model.Id" class="btn btn-primary m-1">Read</a>
+        <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:150px">Download Article</a>
+        <a asp-controller="Article" asp-action="DownloadAbstract" asp-route-id="@Model.Id" class="btn btn-primary" style="width:180px">Download Abstract</a>
+    </div>
+</div>

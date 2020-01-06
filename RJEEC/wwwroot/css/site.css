@@ -1,4 +1,13 @@
-﻿.lead img{
+﻿#rowcontent {
+    min-height: calc(50vh - 60px);
+}
+
+.footer {
+    background-color: #767676;
+    min-height: 60px;
+}
+
+.lead img{
     display: block;
     margin-right:auto;
     margin-left:auto;
