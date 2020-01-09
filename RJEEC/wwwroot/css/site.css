@@ -1,5 +1,6 @@
 ﻿#rowcontent {
-    min-height: calc(50vh - 60px);
+    min-height: calc(60vh - 60px);
+    margin-top:30px;
 }
 
 .footer {
@@ -24,6 +25,11 @@
 .articlecard {
     max-width: 100%;
     min-width: 100%;
+}
+
+.eventcard {
+    max-width: 30%;
+    min-width: 30%;
 }
 
 .event .card-deck .card {
@@ -75,6 +81,11 @@
 
 .imageThumbnail {
     height: 200px;
+    width: auto;
+}
+
+.imageThumbnailPlugin {
+    height: 30px;
     width: auto;
 }
 
@@ -187,4 +198,73 @@
     to {
         opacity: 1
     }
+}
+
+.sidebar-widget {
+    max-width: 95%;
+    color: #333333;
+    float: left;
+    font-size: 100%;
+    margin-bottom: 25px;
+    width: 100%;
+    border-width: 3px;
+    border-color: #e9e0db;
+    border-style: groove;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.sidebar-headline {
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 24px;
+    font-family: Georgia, "Times New Roman", Times, serif !important;
+    color: #000;
+}
+
+.sidebar-widget .sidebar-headline {
+    border-bottom: 1px dashed #cccccc;
+    margin: 0 0 5px;
+    padding: 0 0 7px;
+    position: relative;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.sigla {
+    padding-top: 3px;
+    margin: 20px 20px 20px 20px;
+}
+
+.sidebar-content {
+    line-height: 1.5;
+    font-family: Trebuchet MS, Helvetica, sans-serif;
+    font-size: 1.25em !important;
+    font-weight: 800;
+    text-align: center;
+    margin: 0px;
+    background: #eee;
+    border-radius: 5px;
+    padding:10px;
+}
+
+.sidebar-content ul {
+    list-style:none;
+    padding-left:0px;
+}
+
+.sidebar-subcontent {
+    line-height: 1.5;
+    text-align: left;
+    font-size: 1em !important;
+}
+
+.topevents{
+    text-align: left;
+}
+
+.maincontent {
+   padding-right:50px;
 }

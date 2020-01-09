@@ -1,0 +1,32 @@
+﻿<div class="sidebar-widget">
+    <p class="sidebar-headline">Publisher</p>
+    <div class="sidebar-content">
+        <img class="card-img-top imageThumbnail sigla" src="~/images/favicon.ico" asp-append-version="true" />
+        <p>National Research and Development Institute for Industrial Ecology ECOIND Bucharest</p>
+        <ul class="sidebar-subcontent">
+            <li>
+                Editor-in Chief:
+            </li>
+            <li>
+                Manager Editor:
+            </li>
+            <li>
+                Associate Editors:
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="sidebar-widget">
+    <div class="sidebar-content">
+        <ul class="sidebar-subcontent">
+            <li>
+                <a asp-controller="home" asp-action="IndexingAndAbstracting">Indexing and Abstracting</a>
+            </li>
+            <li>
+                <a asp-controller="home" asp-action="peerReviewProcess">Peer Review Process</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    @Html.RenderAction("GetNext5Events", "Event")

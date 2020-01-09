@@ -43,6 +43,13 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
+        public IActionResult GetAllArticlesByMagazineId(int magazineId)
+        {
+            IEnumerable<Article> articles = articleRepository.GetAllArticlesByMagazine(magazineId).ToList();
+            return View("Index", articles);
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Search()
         {
@@ -296,6 +303,13 @@ namespace RJEEC.Controllers
 
         //    return File(res, System.Net.Mime.MediaTypeNames.Application.Octet, art.Title + ".pdf");
         //}
+
+        [AllowAnonymous]
+        public IActionResult GetLast5Magazines()
+        {
+            IEnumerable<Magazine> magazines = magazineRepository.GetLast5Magazines();
+            return PartialView("_GetLast5Magazines", magazines);
+        }
 
         public IActionResult PreviewFile(string fileName, string subfolder)
         {

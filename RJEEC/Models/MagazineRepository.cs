@@ -25,6 +25,11 @@ namespace RJEEC.Models
             return context.Magazines;
         }
 
+        public IEnumerable<Magazine> GetLast5Magazines()
+        {
+            return context.Magazines.OrderByDescending(m => m.PublishingYear).ThenByDescending(m => m.Volume).ThenByDescending(m => m.Number).Take(5);
+        }
+
         public Magazine GetMagazine(int id)
         {
             return context.Magazines.Find(id);

@@ -43,6 +43,11 @@ namespace RJEEC.Models
             return context.Events.Include(ep => ep.EventPhotos).FirstOrDefault(e=>e.Id==Id);
         }
 
+        public IEnumerable<Event> GetNext5Events()
+        {
+            return context.Events.Include(ep => ep.EventPhotos).Where(e => e.Date >= DateTime.Now).OrderBy(e => e.Date).Take(5); 
+        }
+
         public Event Update(Event eventChanges)
         {
             var eventUpdated = context.Events.Attach(eventChanges);

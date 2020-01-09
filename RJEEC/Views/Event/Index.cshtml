@@ -12,7 +12,7 @@
     @foreach (var ev in Model)
     {
         var photoPath = "~/eventImages/" + ((ev.EventPhotos != null && ev.EventPhotos.Count > 0) ? ev.EventPhotos[0].PhotoPath : "noimage.jpg");
-        <div class="card m-3">
+        <div class="eventcard card m-3">
             <div class="card-header">
                 <h3>@ev.Name</h3>
             </div>

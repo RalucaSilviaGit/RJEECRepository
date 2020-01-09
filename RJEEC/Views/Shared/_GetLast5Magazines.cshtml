@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Magazine>
+
+<div class="sidebar-widget">
+    <p class="sidebar-headline">
+        Archive
+    </p>
+    <div class="sidebar-content topevents">
+        @foreach (var magazine in Model)
+        {
+            <p>
+                <a asp-controller="article" asp-action="GetAllArticlesByMagazineId" asp-route-magazineId="@magazine.Id">
+                    Volume @magazine.Volume, Number @magazine.Number, @magazine.PublishingYear
+                </a>
+            </p>
+        }
+        <a class="nav-link" asp-controller="article" asp-action="index">See all articles...</a>
+    </div>
+</div>

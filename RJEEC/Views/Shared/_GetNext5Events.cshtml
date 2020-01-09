@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Event>
+
+<div class="sidebar-widget">
+    <p class="sidebar-headline">
+       Conferences
+    </p>
+    <div class="sidebar-content topevents">
+        @foreach (var ev in Model)
+        {
+            var photoPath = "~/eventImages/" + ((ev.EventPhotos != null && ev.EventPhotos.Count > 0) ? ev.EventPhotos[0].PhotoPath : "noimage.jpg");
+            <p>
+                <a asp-controller="event" asp-action="details" asp-route-id="@ev.Id">
+                    <img class="card-img-top imageThumbnailPlugin" src="@photoPath" asp-append-version="true" />
+                    @ev.Name
+                </a>
+            </p>
+        }
+        <a class="nav-link" asp-controller="event" asp-action="index">See all...</a>
+    </div>
+</div>

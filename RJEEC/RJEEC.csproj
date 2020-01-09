@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191227125331_articleflow2.cs" />
-    <Compile Remove="Migrations\20191227125331_articleflow2.Designer.cs" />
-    <Compile Remove="Migrations\20200106121656_articlemag.cs" />
-    <Compile Remove="Migrations\20200106121656_articlemag.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Controllers\AccountController.cs" />
     <Content Include="Controllers\AdministrationController.cs" />
     <Content Include="Controllers\ArticleController.cs" />
@@ -28,10 +21,10 @@
     <PackageReference Include="HtmlRenderer.PdfSharp" Version="1.5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
     <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1003" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   

@@ -29,6 +29,14 @@ namespace RJEEC.Controllers
             IEnumerable<Event> events = _eventRepository.GetAllEvents();
             return View(events);
         }
+
+        [AllowAnonymous]
+        public IActionResult GetNext5Events()
+        {
+            IEnumerable<Event> events = _eventRepository.GetNext5Events();
+            return PartialView("_GetNext5Events", events);
+        }
+
         [AllowAnonymous]
         public IActionResult Details(int? id)
         {

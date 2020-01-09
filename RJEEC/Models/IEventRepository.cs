@@ -8,6 +8,7 @@ namespace RJEEC.Models
     public interface IEventRepository
     {
         IEnumerable<Event> GetAllEvents();
+        IEnumerable<Event> GetNext5Events();
         Event GetEvent(int id);
         Event AddEvent(Event newEvent);
         Event Update(Event eventChanges);
