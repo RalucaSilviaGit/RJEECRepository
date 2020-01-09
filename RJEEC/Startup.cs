@@ -82,6 +82,11 @@ namespace RJEEC
             //fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("home.html");
             //app.UseFileServer(fileServerOptions);
 
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<RJEECDbContext>().Database.Migrate();
+            }
+
             app.UseStaticFiles();
             app.UseAuthentication();
             IdentityDataInitializer.SeedData(userManager, roleManager);
