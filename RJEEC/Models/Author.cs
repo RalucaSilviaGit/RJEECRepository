@@ -19,6 +19,7 @@ namespace RJEEC.Models
         public string LastName { get; set; }
         [EmailAddress(ErrorMessage ="The email format is invalid.")]
         public string Email { get; set; }
+        public string Phone { get; set; }
         public string PhotoPath { get; set; }
     }
 }

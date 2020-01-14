@@ -75,6 +75,7 @@ namespace RJEEC.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
+                    Phone = model.Phone,
                     PhotoPath = uniqueFileName
                 };
                     

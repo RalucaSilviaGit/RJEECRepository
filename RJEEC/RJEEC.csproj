@@ -15,6 +15,8 @@
   <ItemGroup>
     <Compile Include="Migrations\20200109203144_InitialMigration.cs" />
     <Compile Include="Migrations\20200109203144_InitialMigration.Designer.cs" />
+    <Compile Include="Migrations\20200114095417_AuthorPhone.cs" />
+    <Compile Include="Migrations\20200114095417_AuthorPhone.Designer.cs" />
     <Compile Include="Migrations\RJEECDbContextModelSnapshot.cs" />
   </ItemGroup>
 

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RJEEC.ViewModels;
 
@@ -14,15 +17,15 @@ namespace RJEEC.Controllers
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly ILogger<AccountController> logger;
+        private readonly IConfiguration _config;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager,
-            ILogger<AccountController> logger)
+            IConfiguration config)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.logger = logger;
+            this._config = config;
         }
 
         [AcceptVerbs("Get", "Post")]
@@ -70,7 +73,7 @@ namespace RJEEC.Controllers
                 {
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-                    logger.Log(LogLevel.Warning, confirmationLink);
+                    sendEmail(confirmationLink, model.Email, "ConfirmEmail");
 
                     if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                     {
@@ -195,7 +198,7 @@ namespace RJEEC.Controllers
                     var passwordResetLink = Url.Action("ResetPassword", "Account",
                             new { email = model.Email, token = token }, Request.Scheme);
 
-                   logger.Log(LogLevel.Warning, passwordResetLink);
+                    sendEmail(passwordResetLink, model.Email, "PasswordReset");
 
                     return View("ForgotPasswordConfirmation");
                 }
@@ -204,6 +207,51 @@ namespace RJEEC.Controllers
             }
 
             return View(model);
+        }
+
+        private void sendEmail(string link, string email, string scope)
+        {
+            string host = _config.GetSection("SMTP").GetSection("Host").Value;
+            string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
+            string pass = _config.GetSection("SMTP").GetSection("Password").Value;
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(rjeecContactMail);
+            mailMessage.To.Add(email);
+            switch (scope)
+            {
+                case "PasswordReset":
+                    mailMessage.Subject = "[RJEEC] Password reset";
+                    mailMessage.Body = String.Format($"You've asked for a password reset link. " +
+                        $"In case this wasn't you, please contact us. " +
+                        $"In order to reset your password, please click on the following link: <a href={link}>{link}</a>");
+                    break;
+                case "ConfirmEmail":
+                    mailMessage.Subject = "[RJEEC] Confirm Email and registration";
+                    mailMessage.Body = String.Format($"You've created an account on www.rjeec.ro. " +
+                        $"In case this wasn't you, please ignore this email. " +
+                        $"In order to confirm your account, please click on the following link: <a href={link}>{link}</a>");
+                    break;
+                default:
+                    mailMessage.Subject = "";
+                    mailMessage.Body = "";
+                    break;
+            }
+            mailMessage.IsBodyHtml = true;            
+
+            using (var smtp = new SmtpClient(host, 587))
+            {
+                var credential = new NetworkCredential
+                {
+                    UserName = rjeecContactMail,  // replace with valid value
+                    Password = pass  // replace with valid value
+                };
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mailMessage);
+            }
         }
 
         [HttpGet]

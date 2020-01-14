@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using Microsoft.Office.Interop.Word;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +15,8 @@ using TheArtOfDev.HtmlRenderer.PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using Document = RJEEC.Models.Document;
+using Microsoft.Extensions.Configuration;
+using MailMessage = System.Net.Mail.MailMessage;
 
 namespace RJEEC.Controllers
 {
@@ -22,17 +26,19 @@ namespace RJEEC.Controllers
         private readonly IMagazineRepository magazineRepository;
         private readonly IAuthorRepository authorRepository;
         private readonly IHostingEnvironment hostingEnvironment;
-
+        private readonly IConfiguration _config;
 
         public ArticleController(IArticleRepository articleRepository,
                             IMagazineRepository magazineRepository,
                             IAuthorRepository authorRepository,
-                            IHostingEnvironment hostingEnvironment)
+                            IHostingEnvironment hostingEnvironment,
+                            IConfiguration config)
         {
             this.articleRepository = articleRepository;
             this.magazineRepository = magazineRepository;
             this.authorRepository = authorRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this._config = config;
         }
 
         [AllowAnonymous]
@@ -40,7 +46,7 @@ namespace RJEEC.Controllers
         {
             IEnumerable<Article> articles = articleRepository.GetAllArticles().ToList();
             return View(articles);
-        }
+        }        
 
         [AllowAnonymous]
         public IActionResult GetAllArticlesByMagazineId(int magazineId)
@@ -112,30 +118,36 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult Details(int? id)
         {
-            Article article = articleRepository.GetArticle(id ?? 1);
-
-            if (article == null)
+            if (id != null)
             {
-                Response.StatusCode = 404;
-                return View("ArticleNotFound", id);
+                Article article = articleRepository.GetArticle(id ?? 1);
+
+                if (article == null)
+                {
+                    Response.StatusCode = 404;
+                    return View("ArticleNotFound", id);
+                }
+                if (article != null)
+                {
+                    Magazine magazine = magazineRepository.GetMagazine(article.MagazineId ?? 0);
+
+                    ArticleDetailsViewModel articleDetailsViewModel = new ArticleDetailsViewModel
+                    {
+                        Id = article.Id,
+                        Title = article.Title,
+                        AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
+                        AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
+                        AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
+                        Status = article.Status,
+                        MagazineVolume = magazine?.Volume,
+                        MagazineNumber = magazine?.Number,
+                        MagazinePublishingYear = magazine?.PublishingYear
+                    };
+                    return View(articleDetailsViewModel);
+                }
             }
-
-            Magazine magazine = magazineRepository.GetMagazine(article.MagazineId ?? 0);
-
-            ArticleDetailsViewModel articleDetailsViewModel = new ArticleDetailsViewModel
-            {
-                Id = article.Id,
-                Title = article.Title,
-                AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
-                AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
-                AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
-                Status = article.Status,
-                MagazineVolume = magazine?.Volume,
-                MagazineNumber = magazine?.Number,
-                MagazinePublishingYear = magazine?.PublishingYear
-            };
-
-            return View(articleDetailsViewModel);
+            return View(null);
+            
         }
 
         [HttpGet]
@@ -169,7 +181,8 @@ namespace RJEEC.Controllers
                     {
                         FirstName = model.AuthorFirstName,
                         LastName = model.AuthorLastName,
-                        Email = model.AuthorEmail
+                        Email = model.AuthorEmail,
+                        Phone = model.AuthorPhone
                     };
                     authorRepository.AddAuthor(contactAuthor);
                 }
@@ -202,10 +215,57 @@ namespace RJEEC.Controllers
 
                 articleRepository.AddArticle(newArticle);
 
+                sendArticleByEmail(newArticle);
+
                 return RedirectToAction("details", new { id = newArticle.Id });
             }
 
             return View();
+        }
+
+        public void sendArticleByEmail(Article model)
+        {
+            string host = _config.GetSection("SMTP").GetSection("Host").Value;
+            string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
+            string pass = _config.GetSection("SMTP").GetSection("Password").Value;
+
+            Author author = authorRepository.GetAuthor(model.contactAuthorId);
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(rjeecContactMail);
+            mailMessage.To.Add(rjeecContactMail);
+            mailMessage.Subject = "[RJEEC] New Article Submitted By " + author.FirstName + " " + author.LastName;
+            mailMessage.Body = String.Format($"<b>Article No.:</b> {model.Id} <br />" +
+                $"<b>Title:</b> {model.Title} <br />" +
+                $"<b>Authors:</b> {model.Authors} <br />" +
+                $"<b>Abstract:</b> {model.Description} <br />" +
+                $"<b>Keywords:</b> {model.KeyWords} <br />" +
+                $"<b>Correspondent Author:</b> {author.FirstName} {author.LastName} <br />" +
+                $"<b>Correspondence Email:</b> {author.Email} <br />" +
+                $"<b>Contact Phone:</b> {author.Phone} <br />" +
+                $"<b>Comments:</b> {model.Comments} <br />" );
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "articles", model.Documents.FirstOrDefault(d=>d.Type==DocumentType.ArticleContent).DocumentPath)));
+            mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "publishingAgreements", model.Documents.FirstOrDefault(d => d.Type == DocumentType.PublishingAgreement).DocumentPath)));
+            foreach (var additional in model.Documents.Where(d => d.Type == DocumentType.Additional))
+            {
+                mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "additionalDocuments", additional.DocumentPath)));
+
+            }
+            
+            using (var smtp = new SmtpClient(host, 587))
+            {
+                var credential = new NetworkCredential
+                {
+                    UserName = rjeecContactMail,  // replace with valid value
+                    Password = pass  // replace with valid value
+                };
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mailMessage);
+            }
         }
 
         [AllowAnonymous]
