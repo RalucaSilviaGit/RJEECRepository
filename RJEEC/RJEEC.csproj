@@ -6,21 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <Content Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200109203144_InitialMigration.cs" />
-    <Compile Include="Migrations\20200109203144_InitialMigration.Designer.cs" />
-    <Compile Include="Migrations\20200114095417_AuthorPhone.cs" />
-    <Compile Include="Migrations\20200114095417_AuthorPhone.Designer.cs" />
-    <Compile Include="Migrations\RJEECDbContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Controllers\AccountController.cs" />
     <Content Include="Controllers\AdministrationController.cs" />
     <Content Include="Controllers\ArticleController.cs" />

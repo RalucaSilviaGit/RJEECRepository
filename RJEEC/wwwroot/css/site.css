@@ -1,11 +1,12 @@
 ﻿#rowcontent {
-    min-height: calc(60vh - 60px);
-    margin-top:30px;
+    min-height: calc(60vh - 15em);
+    margin-top:2em;
 }
 
 .footer {
     background-color: #767676;
-    min-height: 60px;
+    min-height: 15em;
+    padding: 2em;
 }
 
 .lead img{
@@ -27,7 +28,7 @@
     min-width: 100%;
 }
 
-.eventcard {
+.eventcard, .authorcard {
     max-width: 30%;
     min-width: 30%;
 }
@@ -41,12 +42,12 @@
     background-color: #eee;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 1.5em;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 1em;
 }
 
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -56,19 +57,19 @@
 
 /* Style the collapsible content. Note: hidden by default */
 .content {
-    padding: 0 18px;
+    padding: 0.05em 1em;
     background-color: white;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
 
-.collapsible:after {
+.collapsible:after, .collapsibleAbs:after {
     content: '\02795'; /* Unicode character for "plus" sign (+) */
-    font-size: 13px;
+    font-size: 0.75em;
     color: white;
     float: right;
-    margin-left: 5px;
+    margin-left: 0.3em;
 }
 
 .active:after {
@@ -76,16 +77,16 @@
 }
 
 .btn{
-    width: 75px;
+    width: 5em;
 }
 
 .imageThumbnail {
-    height: 200px;
+    height: 14em;
     width: auto;
 }
 
 .imageThumbnailPlugin {
-    height: 30px;
+    height: 2em;
     width: auto;
 }
 
@@ -96,7 +97,7 @@
 
 /* Slideshow container */
 .slideshow-container {
-    max-width: 1000px;
+    max-width: 60em;
     position: relative;
     margin: auto;
 }
@@ -112,13 +113,13 @@
     position: absolute;
     top: 50%;
     width: auto;
-    margin-top: -22px;
-    padding: 16px;
+    margin-top: -1em;
+    padding: 1em;
     color: white !important;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1em;
     transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
+    border-radius: 0 0.2em 0.2em 0;
     user-select: none;
 }
 
@@ -128,7 +129,7 @@
     /* Position the "next button" to the right */
     .next {
         right: 0;
-        border-radius: 3px 0 0 3px;
+        border-radius: 0.2em 0 0 0.2em;
     }
 
     /* On hover, add a black background color with a little bit see-through */
@@ -139,10 +140,10 @@
 /* Caption text */
 .text {
     color: #f2f2f2;
-    font-size: 15px;
-    padding: 8px 12px;
+    font-size: 1em;
+    padding: 0.5em 0.75em;
     position: absolute;
-    bottom: 8px;
+    bottom: 0.5em;
     width: 100%;
     text-align: center;
 }
@@ -150,8 +151,8 @@
 /* Number text (1/3 etc) */
 .numbertext {
     color: #f2f2f2;
-    font-size: 12px;
-    padding: 8px 12px;
+    font-size: 1em;
+    padding: 0.5em 0.75em;
     position: absolute;
     top: 0;
 }
@@ -159,9 +160,9 @@
 /* The dots/bullets/indicators */
 .dot {
     cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
+    height: 1em;
+    width: 1em;
+    margin: 0 0.2em;
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
@@ -205,27 +206,27 @@
     color: #333333;
     float: left;
     font-size: 100%;
-    margin-bottom: 25px;
+    margin-bottom: 2em;
     width: 100%;
-    border-width: 3px;
+    border-width: 0.2em;
     border-color: #e9e0db;
     border-style: groove;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 0.5em;
+    padding: 0.75em;
 }
 
 .sidebar-headline {
     text-align: center;
-    letter-spacing: 2px;
-    font-size: 24px;
+    letter-spacing: 0.13em;
+    font-size: 1.5em;
     font-family: Georgia, "Times New Roman", Times, serif !important;
     color: #000;
 }
 
 .sidebar-widget .sidebar-headline {
-    border-bottom: 1px dashed #cccccc;
-    margin: 0 0 5px;
-    padding: 0 0 7px;
+    border-bottom: 0.1em dashed #cccccc;
+    margin: 0 0 0.3em;
+    padding: 0 0 0.5em;
     position: relative;
 }
 
@@ -234,8 +235,8 @@
 }
 
 .sigla {
-    padding-top: 3px;
-    margin: 20px 20px 20px 20px;
+    padding-top: 0.2em;
+    margin: 1.2em;
 }
 
 .sidebar-content {
@@ -244,15 +245,15 @@
     font-size: 1.25em !important;
     font-weight: 800;
     text-align: center;
-    margin: 0px;
+    margin: 0;
     background: #eee;
-    border-radius: 5px;
-    padding:10px;
+    border-radius: 0.3em;
+    padding:0.5em;
 }
 
 .sidebar-content ul {
     list-style:none;
-    padding-left:0px;
+    padding-left:0;
 }
 
 .sidebar-subcontent {
@@ -266,5 +267,5 @@
 }
 
 .maincontent {
-   padding-right:50px;
+   padding-right:3em;
 }

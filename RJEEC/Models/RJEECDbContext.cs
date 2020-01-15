@@ -28,6 +28,9 @@ namespace RJEEC.Models
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+            modelBuilder.Entity<Event>().HasMany(b => b.EventPhotos).WithOne()
+                .HasForeignKey(b => b.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Seed();
         }
     }

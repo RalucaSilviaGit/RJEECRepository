@@ -6,7 +6,7 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
-<a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:150px">New Event</a>
+<a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:10em">New Event</a>
 
 <div class="event card-deck">
     @foreach (var ev in Model)
@@ -18,9 +18,22 @@
             </div>
             <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
             <div class="card-footer text-center">
-                <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary m-1">View</a>
-                <a href="#" class="btn btn-primary m-1">Edit</a>
-                <a href="#" class="btn btn-danger m-1">Delete</a>
+                <form asp-action="Delete" asp-route-id="@ev.Id" method="post">
+                    <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary m-1">View</a>
+                    <a asp-controller="Event" asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-primary m-1">Edit</a>
+
+                    <div id="confirmDeleteSpan_@ev.Id" style="display:none">
+                        <span>Are you sure you want to delete?</span>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <a href="#" class="btn btn-primary"
+                           onclick="confirmDelete('@ev.Id', false)">No</a>
+                    </div>
+
+                    <span id="deleteSpan_@ev.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@ev.Id', true)">Delete</a>
+                    </span>
+                </form>
             </div>
         </div>
     }

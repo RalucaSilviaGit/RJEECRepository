@@ -8,19 +8,25 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h1>@Model.Title</h1>
-                <h2>@Model.Authors</h2>
-                <h3>@Model.KeyWords</h3>
+                <h2>@Model.Title</h2><br/>
+                @if (!String.IsNullOrWhiteSpace(Model.Authors))
+                {
+                    <h5>Authors: @Model.Authors</h5><br />
+                }
+                @if (!String.IsNullOrWhiteSpace(Model.KeyWords))
+                {
+                    <h6>Keywords: @Model.KeyWords</h6>
+                }
             </div>
 
-            <div class="card-body text-center">
+            <div class="card-body text-justify">
                 <p>@Model.Description</p>
                 <a id="iframefill" target="iframepdf" asp-action="PreviewFile" asp-controller="Article" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" style="display:none">Preview</a>
-                <iframe id="iframepdf" name="iframepdf" style="height:600px;width:100%"></iframe>
+                <iframe id="iframepdf" name="iframepdf" style="height:50em;width:100%"></iframe>
             </div>
             <div class="card-footer text-center">
                 <a asp-controller="Article" asp-action="index" class="btn btn-primary">Back</a>
-                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:150px">Download</a>
+                <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:10em">Download</a>
             </div>
         </div>
     </div>

@@ -11,11 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RJEEC.Models;
 using RJEEC.ViewModels;
-using TheArtOfDev.HtmlRenderer.PdfSharp;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
-using Document = RJEEC.Models.Document;
 using Microsoft.Extensions.Configuration;
+using Document = RJEEC.Models.Document;
 using MailMessage = System.Net.Mail.MailMessage;
 
 namespace RJEEC.Controllers
@@ -192,7 +189,8 @@ namespace RJEEC.Controllers
                                 
                 Dictionary<string, DocumentType> uniqueFileNames = new Dictionary<string, DocumentType>();
                 uniqueFileNames.Add(ProcessUploadedFile(model.ArticleContentDoc, "articles") ?? String.Empty, DocumentType.ArticleContent);
-                uniqueFileNames.Add(ProcessUploadedFile(model.PulishingAgreementDoc, "publishingAgreements") ?? String.Empty, DocumentType.PublishingAgreement);
+                if (model.PulishingAgreementDoc != null)
+                    uniqueFileNames.Add(ProcessUploadedFile(model.PulishingAgreementDoc, "publishingAgreements") ?? String.Empty, DocumentType.PublishingAgreement);
                 if(model.AdditionalDoc1 != null)
                     uniqueFileNames.Add(ProcessUploadedFile(model.AdditionalDoc1, "additionalDocuments") ?? String.Empty, DocumentType.Additional);
                 if (model.AdditionalDoc2 != null)
@@ -246,7 +244,10 @@ namespace RJEEC.Controllers
                 $"<b>Comments:</b> {model.Comments} <br />" );
             mailMessage.IsBodyHtml = true;
             mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "articles", model.Documents.FirstOrDefault(d=>d.Type==DocumentType.ArticleContent).DocumentPath)));
-            mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "publishingAgreements", model.Documents.FirstOrDefault(d => d.Type == DocumentType.PublishingAgreement).DocumentPath)));
+            if (model.Documents.FirstOrDefault(d => d.Type == DocumentType.PublishingAgreement) != null)
+            {
+                mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "publishingAgreements", model.Documents.FirstOrDefault(d => d.Type == DocumentType.PublishingAgreement).DocumentPath)));
+            }
             foreach (var additional in model.Documents.Where(d => d.Type == DocumentType.Additional))
             {
                 mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "additionalDocuments", additional.DocumentPath)));
@@ -344,6 +345,7 @@ namespace RJEEC.Controllers
             return uniqueFileName;
         }
 
+        [AllowAnonymous]
         public IActionResult DownloadFile(string fileName, string subfolder, string title)
         {
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
@@ -352,18 +354,6 @@ namespace RJEEC.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, title + fileExt);
         }
 
-        //public IActionResult DownloadAbstract(int id)
-        //{
-        //    Article art = articleRepository.GetArticle(id);
-        //    string html = "<html><body style='font-size:20px'>" + art.Description + "</body></html>";
-
-        //    Byte[] res = null;
-        //    PdfDocument d = PdfReader.Open(new MemoryStream(html, 0, html.Length));
-        //    res = ms.ToArray();
-
-        //    return File(res, System.Net.Mime.MediaTypeNames.Application.Octet, art.Title + ".pdf");
-        //}
-
         [AllowAnonymous]
         public IActionResult GetLast5Magazines()
         {
@@ -371,6 +361,7 @@ namespace RJEEC.Controllers
             return PartialView("_GetLast5Magazines", magazines);
         }
 
+        [AllowAnonymous]
         public IActionResult PreviewFile(string fileName, string subfolder)
         {
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);

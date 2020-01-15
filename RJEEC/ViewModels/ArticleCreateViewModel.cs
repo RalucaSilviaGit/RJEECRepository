@@ -18,13 +18,11 @@ namespace RJEEC.ViewModels
         [Required]
         [MaxLength(500)]
         public string Title { get; set; }
-        [Required]
         [MaxLength(1000)]
         public string Authors { get; set; }
         [MaxLength(1000)]
         public string KeyWords { get; set; }
-        [Required]
-        [MaxLength(300)]
+        [MaxLength(5000)]
         [Display(Name = "Abstract")]
         public string Description { get; set; }
         [Required]
@@ -46,7 +44,6 @@ namespace RJEEC.ViewModels
         [Display(Name = "Upload article")]
         [DocumentValidation]
         public IFormFile ArticleContentDoc { get; set; }
-        [Required]
         [Display(Name = "Publishing agreement")]
         [DocumentValidation]
         public IFormFile PulishingAgreementDoc { get; set; }

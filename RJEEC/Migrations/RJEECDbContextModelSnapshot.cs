@@ -333,9 +333,13 @@ namespace RJEEC.Migrations
 
                     b.Property<string>("PhotoPath");
 
+                    b.Property<int?>("evId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("evId");
 
                     b.ToTable("EventPhotos");
                 });
@@ -420,10 +424,14 @@ namespace RJEEC.Migrations
 
             modelBuilder.Entity("RJEEC.Models.EventPhoto", b =>
                 {
-                    b.HasOne("RJEEC.Models.Event", "ev")
+                    b.HasOne("RJEEC.Models.Event")
                         .WithMany("EventPhotos")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RJEEC.Models.Event", "ev")
+                        .WithMany()
+                        .HasForeignKey("evId");
                 });
 #pragma warning restore 612, 618
         }
