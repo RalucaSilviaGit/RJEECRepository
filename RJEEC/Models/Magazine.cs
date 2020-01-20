@@ -12,5 +12,7 @@ namespace RJEEC.Models
         public int Number { get; set; }
         public int PublishingYear { get; set; }
         public List<Article> Articles { get; set; }
+        public string CoverPath { get; set; }
+        public bool Published { get; set; }
     }
 }

@@ -43,6 +43,10 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="contact" asp-action="index">Contact</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="magazine" asp-action="index">Magazines</a>
+                </li>
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                 {
                     <li class="nav-item">

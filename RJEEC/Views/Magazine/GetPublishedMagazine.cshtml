@@ -1,0 +1,43 @@
+﻿@model GetPublishedMagazineViewModel
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<form name="form1" asp-controller="Magazine" asp-action="GetPublishedMagazine" method="post">
+    <h1>@ViewBag.Title</h1>
+    <input hidden asp-for="PublishedMagazines" />
+    <div class="form-group row">
+        <label asp-for="MagazineId" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select id="ChosenMagazine" asp-for="MagazineId" asp-items="Model.PublishedMagazines" class="form-control" onchange="DoPostBack();">
+                <option value="">Please Select</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+@if(Model.Articles != null && Model.Articles.Count() > 0)
+{
+    <div class="card-deck">
+        @foreach (var article in Model.Articles)
+        {
+            <partial name="_ArticleCard" model="@article" />
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function DoPostBack()
+            {
+                var select = document.getElementById("ChosenMagazine");
+                var option = select.options[select.selectedIndex];
+                if (option.value != "Please select") {
+                    document.form1.action = "/magazine/GetPublishedMagazine/" + option.value;
+                    document.form1.submit();
+                }
+            }
+    </script>
+}
+

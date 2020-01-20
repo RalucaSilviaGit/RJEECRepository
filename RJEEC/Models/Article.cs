@@ -23,5 +23,6 @@ namespace RJEEC.Models
         public Magazine Magazine { get; set; }
         public bool AgreePublishingEthics { get; set; }
         public string Comments { get; set; }
+        public int Order { get; set; }
     }
 }

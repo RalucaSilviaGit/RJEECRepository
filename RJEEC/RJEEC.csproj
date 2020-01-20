@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200117135118_Magazines1.cs" />
+    <Compile Remove="Migrations\20200117135118_Magazines1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Controllers\AccountController.cs" />
     <Content Include="Controllers\AdministrationController.cs" />
     <Content Include="Controllers\ArticleController.cs" />

@@ -12,5 +12,6 @@ namespace RJEEC.Models
         Magazine GetMagazine(int id);
         Magazine GetMagazineByVolumeNumberYear(int? volume, int? number, int? year);
         Magazine AddMagazine(Magazine magazine);
+        Magazine UpdateMagazine(Magazine magazineChanges);
     }
 }

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Magazine>
+
+@{
+    ViewBag.PageTitle = "Manage Magazines";
+}
+
+<h3>@ViewBag.PageTitle</h3>
+
+<div class="default card-deck">
+    @foreach (var magazine in Model)
+    {
+        var photoPath = "~/coverImages/" + (magazine.CoverPath ?? "noimage.jpg");
+        <div class="card m-3 authorcard">
+            <div class="card-header">
+                <h3>Vol.@magazine.Volume, No.@magazine.Number, @magazine.PublishingYear</h3>
+            </div>
+            <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+            <div class="card-footer text-center">
+                @if (magazine.Published != null && magazine.Published==true)
+                {
+                    <a asp-controller="Magazine" asp-action="Publish" asp-route-id="@magazine.Id" class="btn btn-primary m-1">Update</a>
+                }
+                else
+                {
+                    <a asp-controller="Magazine" asp-action="Publish" asp-route-id="@magazine.Id" class="btn btn-primary m-1">Publish</a>
+
+                }
+            </div>
+        </div>
+    }
+</div>
+

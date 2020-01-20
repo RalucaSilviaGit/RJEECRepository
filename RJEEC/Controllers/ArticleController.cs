@@ -357,7 +357,7 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult GetLast5Magazines()
         {
-            IEnumerable<Magazine> magazines = magazineRepository.GetLast5Magazines();
+            IEnumerable<Magazine> magazines = magazineRepository.GetLast5Magazines().Where(m => m.Published == true);
             return PartialView("_GetLast5Magazines", magazines);
         }
 

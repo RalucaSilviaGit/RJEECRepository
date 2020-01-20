@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace RJEEC.Models
 
         public IEnumerable<Magazine> GetAllMagazines()
         {
-            return context.Magazines;
+            return context.Magazines.Include(m => m.Articles);
         }
 
         public IEnumerable<Magazine> GetLast5Magazines()
@@ -32,12 +33,21 @@ namespace RJEEC.Models
 
         public Magazine GetMagazine(int id)
         {
-            return context.Magazines.Find(id);
+            return context.Magazines.Include(m => m.Articles).FirstOrDefault(m=>m.Id==id);
         }
 
         public Magazine GetMagazineByVolumeNumberYear(int? volume, int? number, int? year)
         {
             return context.Magazines.FirstOrDefault(m => m.Volume == volume && m.Number == number && m.PublishingYear == year);
         }
+
+        public Magazine UpdateMagazine(Magazine magazineChanges)
+        {
+            var magazine = context.Magazines.Attach(magazineChanges);
+            magazine.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return magazineChanges;
+        }
+
     }
 }
