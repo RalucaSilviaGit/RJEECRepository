@@ -42,6 +42,7 @@
 <ItemGroup>
   <Folder Include="wwwroot\articles\" />
   <Folder Include="wwwroot\additionalDocuments\" />
+  <Folder Include="wwwroot\reviewerDecision\" />
 </ItemGroup>
 
 </Project>

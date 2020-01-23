@@ -55,6 +55,7 @@ namespace RJEEC
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();

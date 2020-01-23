@@ -1,0 +1,42 @@
+﻿@model ArticlesInStatusViewModel
+
+@{
+    ViewBag.Title = "Check status of articles";
+}
+
+    <form name="form1" asp-controller="Article" asp-action="GetArticlesInStatus" method="post">
+        <div class="form-group row">
+            <label asp-for="StatusId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select id="ChosenStatus" asp-for="StatusId" asp-items="Html.GetEnumSelectList<ArticleStatus>()" class="form-control" onchange="DoPostBack();">
+                    <option value="">Please Select</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+@if (Model.Articles != null && Model.Articles.Count() > 0)
+{
+    <div class="card-deck">
+        @foreach (var article in Model.Articles)
+        {
+            <partial name="_ArticleCard" model="@article" />
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function DoPostBack()
+            {
+                var select = document.getElementById("ChosenStatus");
+                var option = select.options[select.selectedIndex];
+            if (option.value != "Please select") {
+                debugger;
+                    document.form1.action = "/article/GetArticlesInStatus/" + option.value;
+                    document.form1.submit();
+                }
+            }
+    </script>
+}
+

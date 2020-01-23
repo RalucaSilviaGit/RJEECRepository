@@ -10,6 +10,7 @@ namespace RJEEC.Models
         ArticleContent,
         PublishingAgreement,
         Additional,
-        General
+        General,
+        ReviewerDecision
     }
 }

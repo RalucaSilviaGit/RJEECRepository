@@ -14,6 +14,7 @@ namespace RJEEC.Models
         MinorRevision,
         [Display(Name = "Major Revision")]
         MajorRevision,
-        Rejected
+        Rejected, 
+        Published
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,11 @@ namespace RJEEC.Models
             base.OnModelCreating(modelBuilder);
             foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
             }
-            modelBuilder.Entity<Event>().HasMany(b => b.EventPhotos).WithOne()
-                .HasForeignKey(b => b.EventId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Event>().HasMany(b => b.EventPhotos).WithOne()
+            //    .HasForeignKey(b => b.EventId)
+            //    .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Seed();
         }
     }

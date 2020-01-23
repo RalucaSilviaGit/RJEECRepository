@@ -71,6 +71,7 @@ namespace RJEEC.Controllers
                 // SignInManager and redirect to index action of HomeController
                 if (result.Succeeded)
                 {
+                    userManager.AddToRoleAsync(user, "Researcher").Wait();
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
                     sendEmail(confirmationLink, model.Email, "ConfirmEmail");

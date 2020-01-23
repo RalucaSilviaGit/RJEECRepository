@@ -14,6 +14,7 @@ using RJEEC.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Document = RJEEC.Models.Document;
 using MailMessage = System.Net.Mail.MailMessage;
+using Microsoft.AspNetCore.Identity;
 
 namespace RJEEC.Controllers
 {
@@ -24,7 +25,7 @@ namespace RJEEC.Controllers
         private readonly IAuthorRepository authorRepository;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
-
+        
         public ArticleController(IArticleRepository articleRepository,
                             IMagazineRepository magazineRepository,
                             IAuthorRepository authorRepository,
@@ -115,47 +116,44 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult Details(int? id)
         {
-            if (id != null)
+            Article article = articleRepository.GetArticle(id ?? 1);
+
+            if (article == null)
             {
-                Article article = articleRepository.GetArticle(id ?? 1);
-
-                if (article == null)
-                {
-                    Response.StatusCode = 404;
-                    return View("ArticleNotFound", id);
-                }
-                if (article != null)
-                {
-                    Magazine magazine = magazineRepository.GetMagazine(article.MagazineId ?? 0);
-
-                    ArticleDetailsViewModel articleDetailsViewModel = new ArticleDetailsViewModel
-                    {
-                        Id = article.Id,
-                        Title = article.Title,
-                        AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
-                        AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
-                        AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
-                        Status = article.Status,
-                        MagazineVolume = magazine?.Volume,
-                        MagazineNumber = magazine?.Number,
-                        MagazinePublishingYear = magazine?.PublishingYear
-                    };
-                    return View(articleDetailsViewModel);
-                }
+                Response.StatusCode = 404;
+                return View("ArticleNotFound", id);
             }
-            return View(null);
-            
+
+            Magazine magazine = magazineRepository.GetMagazine(article.MagazineId ?? 0);
+
+            ArticleDetailsViewModel articleDetailsViewModel = new ArticleDetailsViewModel
+            {
+                Id = article.Id,
+                Title = article.Title,
+                AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
+                AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
+                AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
+                Status = article.Status,
+                MagazineVolume = magazine?.Volume,
+                MagazineNumber = magazine?.Number,
+                MagazinePublishingYear = magazine?.PublishingYear,
+                ExistingReviewerDecisionFileName = article.Documents.FirstOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath
+            };
+
+            return View(articleDetailsViewModel);
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Create()
         {
-            return View();
+            ArticleCreateViewModel model = new ArticleCreateViewModel
+            {
+                AuthorEmail = User?.Identity?.Name
+            };
+            return View(model);
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult Create(ArticleCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -182,8 +180,15 @@ namespace RJEEC.Controllers
                         Phone = model.AuthorPhone
                     };
                     authorRepository.AddAuthor(contactAuthor);
+                } else if (model.AuthorEmail != null) {
+                    Author auth = authorRepository.GetAuthorByEmail(model.AuthorEmail);
+                    auth.FirstName = model.AuthorFirstName;
+                    auth.LastName = model.AuthorLastName;
+                    auth.Phone = model.AuthorPhone;
+                    contactAuthor = authorRepository.Update(auth);
                 }
                 newArticle.contactAuthorId = contactAuthor.Id;
+                newArticle.contactAuthor = contactAuthor;
 
                 List<Document> docs = new List<Document>();
                                 
@@ -269,6 +274,22 @@ namespace RJEEC.Controllers
             }
         }
 
+        public IActionResult GetArticlesInStatus(int? statusId)
+        {            
+            ArticlesInStatusViewModel model = new ArticlesInStatusViewModel();
+
+            if (statusId != null)
+            {
+                model.StatusId = statusId;
+                if (User.IsInRole("Researcher"))
+                    model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).Where(a => (int)a.Status == statusId).ToList();
+                else if(User.IsInRole("Editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    model.Articles = articleRepository.GetAllArticlesByStatus(model.StatusId ?? 0).ToList();
+            }
+
+            return View("ViewReviewStatus", model);
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Review(int? id)
@@ -293,11 +314,13 @@ namespace RJEEC.Controllers
                 Status = article.Status,
                 MagazineVolume = article.Magazine?.Volume,
                 MagazineNumber = article.Magazine?.Number,
-                MagazinePublishingYear = article.Magazine?.PublishingYear
+                MagazinePublishingYear = article.Magazine?.PublishingYear,
+                ExistingReviewerDecisionFileName = article.Documents.FirstOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath
             };
 
             return View(articleDetailsViewModel);
         }
+
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Review(ArticleDetailsViewModel model)
@@ -308,6 +331,21 @@ namespace RJEEC.Controllers
                 article.Status = model.Status;
                 article.Magazine = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear);
                 article.MagazineId = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear)?.Id;
+
+                if (model.ReviewerDecision != null)
+                {
+                    var uniqueFileName = ProcessUploadedFile(model.ReviewerDecision, "reviewerDecision") ?? String.Empty;
+                    if (!String.IsNullOrWhiteSpace(uniqueFileName))
+                    {
+                        Document newDocument = new Document
+                        {
+                            Type = DocumentType.ReviewerDecision,
+                            DocumentPath = uniqueFileName
+                        };
+                        article.Documents.Add(newDocument);
+                    }
+                } 
+
                 if (article.Magazine == null && model.MagazineVolume != null && model.MagazineNumber != null && model.MagazinePublishingYear != null)
                 {
                     Magazine magazine = new Magazine {

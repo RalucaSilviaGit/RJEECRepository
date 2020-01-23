@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,6 +32,7 @@ namespace RJEEC.Controllers
             return View(magazines);
         }
 
+        [AllowAnonymous]
         public IActionResult GetPublishedMagazine(GetPublishedMagazineViewModel model)
         {
             if (model == null)
@@ -90,6 +92,7 @@ namespace RJEEC.Controllers
                 {
                     Article art = articleRepository.GetArticle(article.Id);
                     art.Order = article.Order;
+                    art.Status = ArticleStatus.Published;
                     Article updatedArticle = articleRepository.Update(art);
                 }        
 

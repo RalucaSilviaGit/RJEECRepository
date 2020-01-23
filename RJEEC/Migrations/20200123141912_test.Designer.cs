@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RJEEC.Models;
 
 namespace RJEEC.Migrations
 {
     [DbContext(typeof(RJEECDbContext))]
-    partial class RJEECDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200123141912_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,8 +212,6 @@ namespace RJEEC.Migrations
 
                     b.HasIndex("MagazineId");
 
-                    b.HasIndex("contactAuthorId");
-
                     b.ToTable("Articles");
                 });
 
@@ -369,11 +369,6 @@ namespace RJEEC.Migrations
                     b.HasOne("RJEEC.Models.Magazine", "Magazine")
                         .WithMany("Articles")
                         .HasForeignKey("MagazineId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RJEEC.Models.Author", "contactAuthor")
-                        .WithMany()
-                        .HasForeignKey("contactAuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -31,6 +31,12 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="article" asp-action="create">Manuscript submission</a>
                 </li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="article" asp-action="GetArticlesInStatus">Check Articles</a>
+                    </li>
+                }
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="home" asp-action="publishingEthics">Publishing Ethics</a>
                 </li>
@@ -43,10 +49,12 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="contact" asp-action="index">Contact</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="magazine" asp-action="index">Magazines</a>
-                </li>
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="magazine" asp-action="index">Magazines</a>
+                    </li>
+                }
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
                 {
                     <li class="nav-item">
@@ -60,14 +68,14 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" asp-controller="Administration"
-                               asp-action="ListUsers">Users</a>
+                                asp-action="ListUsers">Users</a>
                             <a class="dropdown-item" asp-controller="Administration"
-                               asp-action="ListRoles">Roles</a>
+                                asp-action="ListRoles">Roles</a>
                         </div>
                     </li>
                 }

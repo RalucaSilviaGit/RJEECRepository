@@ -14,6 +14,7 @@ namespace RJEEC.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public Author contactAuthor { get; set; }
         public int contactAuthorId { get; set; }
         public string KeyWords { get; set; }
         public string Authors { get; set; }

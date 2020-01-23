@@ -34,12 +34,12 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticles()
         {
-            return context.Articles.Include(a=>a.Documents).Include(a=>a.Magazine);
+            return context.Articles.Include(a=>a.Documents).Include(a=>a.Magazine).Include(a => a.contactAuthor);
         }
 
         public IEnumerable<Article> GetAllArticlesByMagazine(int id)
         {
-            return context.Articles.Include(a => a.Documents).Where(a => a.MagazineId == id);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => a.MagazineId == id);
         }
 
         //public IEnumerable<Article> GetAllArticlesByPublishingYear(int id)
@@ -49,17 +49,17 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticlesByStatus(int statusId)
         {
-            return context.Articles.Include(a => a.Documents).Where(a => (int)a.Status == statusId);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => (int)a.Status == statusId);
         }
 
         public IEnumerable<Article> GetAllArticlesForAuthor(int authorId)
         {
-            return context.Articles.Include(a => a.Documents).Where(a => a.contactAuthorId == authorId);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => a.contactAuthorId == authorId);
         }
 
         public Article GetArticle(int id)
         {
-            return context.Articles.Include(a => a.Documents).FirstOrDefault(a => a.Id == id);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).FirstOrDefault(a => a.Id == id);
         }
 
         public Article Update(Article articleChanges)

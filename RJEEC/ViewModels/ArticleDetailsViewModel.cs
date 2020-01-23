@@ -1,9 +1,7 @@
-﻿using RJEEC.Models;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using RJEEC.Models;
+using RJEEC.Utilities;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RJEEC.ViewModels
 {
@@ -27,5 +25,11 @@ namespace RJEEC.ViewModels
         public int? MagazineNumber { get; set; }
         [Display(Name = "Year")]
         public int? MagazinePublishingYear { get; set; }
+
+        [Display(Name = "Reviewer decision")]
+        [DocumentValidation]
+        public IFormFile ReviewerDecision { get; set; }
+
+        public string ExistingReviewerDecisionFileName { get; set; }
     }
 }

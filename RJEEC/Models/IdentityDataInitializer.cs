@@ -47,18 +47,18 @@ namespace RJEEC.Models
                 }
             }
 
-            if (userManager.FindByEmailAsync("reviewer@yahoo.com").Result == null)
+            if (userManager.FindByEmailAsync("researcher@yahoo.com").Result == null)
             {
                 IdentityUser user = new IdentityUser();
-                user.UserName = "reviewer@yahoo.com";
-                user.Email = "reviewer@yahoo.com";
+                user.UserName = "researcher@yahoo.com";
+                user.Email = "researcher@yahoo.com";
                 user.EmailConfirmed = true;
 
                 IdentityResult result = userManager.CreateAsync(user, "Network1").Result;
 
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(user, "Reviewer").Wait();
+                    userManager.AddToRoleAsync(user, "Researcher").Wait();
                 }
             }
 
@@ -102,10 +102,10 @@ namespace RJEEC.Models
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
             }
 
-            if (!roleManager.RoleExistsAsync("Reviewer").Result)
+            if (!roleManager.RoleExistsAsync("Researcher").Result)
             {
                 IdentityRole role = new IdentityRole();
-                role.Name = "Reviewer";
+                role.Name = "Researcher";
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
             }
         }

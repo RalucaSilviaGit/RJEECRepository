@@ -4,146 +4,78 @@
     ViewBag.PageTitle = "Article Page";
 }
 
-    <form asp-controller="article" asp-action="details" asp-route-id="@Model?.Id" method="post" class="mt-3">
-        @if (Model != null)
-        {
+    <form class="mt-3">
         <div class="form-group row">
             <label asp-for="Id" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-6">
-                <input asp-for="Id" class="form-control"/>
-            </div>
-            <div class="col-sm-4">
-                <button type="submit" class="btn btn-primary" style="width:10em">Find Article</button>
+            <div class="col-sm-10">
+                <input asp-for="Id" class="form-control" readonly />
             </div>
         </div>
-            <div class="form-group row">
-                <label asp-for="Title" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <textarea asp-for="Title" class="form-control" readonly></textarea>
-                </div>
+        <div class="form-group row">
+            <label asp-for="Title" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="Title" class="form-control" readonly></textarea>
             </div>
-            <h3>Corespondent Author</h3>
+        </div>
+        <h3>Corespondent Author</h3>
 
-            <div class="form-group row">
-                <label asp-for="AuthorFirstName" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-3">
-                    <input asp-for="AuthorFirstName" class="form-control" readonly>
-                </div>
-                <span class="col-sm-1"></span>
-                <label asp-for="AuthorLastName" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-4">
-                    <input asp-for="AuthorLastName" class="form-control" readonly>
-                </div>
+        <div class="form-group row">
+            <label asp-for="AuthorFirstName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-3">
+                <input asp-for="AuthorFirstName" class="form-control" readonly>
             </div>
-
-            <div class="form-group row">
-                <label asp-for="AuthorEmail" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="AuthorEmail" class="form-control" readonly>
-                </div>
+            <span class="col-sm-1"></span>
+            <label asp-for="AuthorLastName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="AuthorLastName" class="form-control" readonly>
             </div>
+        </div>
 
-            <div class="form-group row">
-                <label asp-for="Status" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    @foreach (var status in Enum.GetValues(typeof(ArticleStatus)))
+        <div class="form-group row">
+            <label asp-for="AuthorEmail" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="AuthorEmail" class="form-control" readonly>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Status" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                @foreach (var status in Enum.GetValues(typeof(ArticleStatus)))
+                {
+                    if ((int)status != 0)
                     {
-                        if ((int)status != 0)
-                        {
-                            <label class="col-sm-10 col-form-label">
-                                <input asp-for="Status" type="radio" value="@status" class="form-control col-sm-2" style="display: inline-block; height:1.2rem" disabled />
-                                @status
-                            </label>
-                        }
+                        <label class="col-sm-10 col-form-label">
+                            <input asp-for="Status" type="radio" value="@status" class="form-control col-sm-2" style="display: inline-block; height:1.2rem" disabled />
+                            @status
+                        </label>
                     }
-                </div>
+                }
             </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Will be published</label>
-                <div class="form-group row col-sm-10">
-                    <label asp-for="MagazineVolume" class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-2">
-                        <input asp-for="MagazineVolume" class="form-control" readonly>
-                    </div>
-                    <label asp-for="MagazineNumber" class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-2">
-                        <input asp-for="MagazineNumber" class="form-control" readonly>
-                    </div>
-                    <label asp-for="MagazinePublishingYear" class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-2">
-                        <input asp-for="MagazinePublishingYear" class="form-control" readonly>
-                    </div>
-                </div>
-            </div>
-        } else
+        </div>
+
+        @if (!String.IsNullOrEmpty(Model.ExistingReviewerDecisionFileName))
         {
-             <div class="form-group row">
-                 <label class="col-sm-2 col-form-label">Article number </label>
-                <div class="col-sm-6">
-                    <input asp-for="@Model.Id" type="number" class="form-control" />
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-primary" style="width:10em">Find Article</button>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" readonly></textarea>
-                </div>
-            </div>
-            <h3>Corespondent Author</h3>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">First Name</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" readonly>
-                </div>
-                <span class="col-sm-1"></span>
-                <label class="col-sm-2 col-form-label">Last Name</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" readonly>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">E-mail</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" readonly>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Article Status</label>
-                <div class="col-sm-10">
-                    @foreach (var status in Enum.GetValues(typeof(ArticleStatus)))
-                    {
-                        if ((int)status != 0)
-                        {
-                            <label class="col-sm-10 col-form-label">
-                                <input type="radio" value="@status" class="form-control col-sm-2" style="display: inline-block; height:1.2rem" disabled />
-                                @status
-                            </label>
-                        }
-                    }
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Will be published</label>
-                <div class="form-group row col-sm-10">
-                    <label class="col-sm-2 col-form-label">Volume</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" readonly>
-                    </div>
-                    <label class="col-sm-2 col-form-label">No</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" readonly>
-                    </div>
-                    <label class="col-sm-2 col-form-label">Year</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" readonly>
-                    </div>
-                </div>
+            <div class="form-group row col-sm-4">
+                <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName" asp-route-subfolder="reviewerDecision">Download Reviewer Decision</a>
             </div>
         }
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Will be published</label>
+            <div class="form-group row col-sm-10">
+                <label asp-for="MagazineVolume" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-2">
+                    <input asp-for="MagazineVolume" class="form-control" readonly>
+                </div>
+                <label asp-for="MagazineNumber" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-2">
+                    <input asp-for="MagazineNumber" class="form-control" readonly>
+                </div>
+                <label asp-for="MagazinePublishingYear" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-2">
+                    <input asp-for="MagazinePublishingYear" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
     </form>
