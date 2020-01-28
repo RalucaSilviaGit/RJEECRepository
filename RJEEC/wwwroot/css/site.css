@@ -10,15 +10,16 @@
 }
 
 .footer {
-    background-color: #ff9a17;
+    background-color: #53bfb4;
     min-height: 15em;
     padding: 2em;
+    color: #00675c;
 }
 
-.lead img{
+.lead img {
     display: block;
-    margin-right:auto;
-    margin-left:auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 .container {
     max-width:98% !important;
@@ -120,7 +121,8 @@
 
 
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
+    font-family: Georgia, "Times New Roman", Times, serif !important;
 }
 
 /* Slideshow container */
@@ -231,13 +233,13 @@
 
 .sidebar-widget {
     max-width: 95%;
-    color: #333333;
+    color: #ffae17;
     float: left;
     font-size: 100%;
     margin-bottom: 2em;
     width: 100%;
     border-width: 0.2em;
-    border-color: #e9e0db;
+    border-color: #53bfb4;
     border-style: groove;
     border-radius: 0.5em;
     padding: 0.75em;
@@ -248,15 +250,23 @@
     letter-spacing: 0.13em;
     font-size: 1.5em;
     font-family: Georgia, "Times New Roman", Times, serif !important;
-    color: #000;
+    color: #53bfb4;
 }
 
 .sidebar-widget .sidebar-headline {
-    border-bottom: 0.1em dashed #cccccc;
+    border-bottom: 0.1em dashed #00675c;
     margin: 0 0 0.3em;
     padding: 0 0 0.5em;
     position: relative;
 }
+
+a {
+    color: #00675c;
+}
+
+    a:hover {
+        color: #53bfb4;
+    }
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -271,7 +281,7 @@
 
 .sidebar-content {
     line-height: 1.5;
-    font-family: Trebuchet MS, Helvetica, sans-serif;
+    /*font-family: Trebuchet MS, Helvetica, sans-serif;*/
     font-size: 1.25em !important;
     font-weight: 800;
     text-align: center;
@@ -309,3 +319,57 @@
     .editorialboardcard div {
         text-align: center;
     }
+}
+
+.navbar {
+    background-color: #53bfb4;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #00675c;
+    font-weight:bold;
+}
+
+li .nav-item .activetab {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.btn-primary {
+    color: white;
+    background-color: #0d3a8b;
+    border-color: #0d3a8b;
+}
+
+    .btn-primary:hover {
+        color: #aaa;
+        background-color: #092d6e;
+        border-color: #6185c6;
+    }
+
+/*portocaliu
+#ff7917
+#ff9445
+#ffac6f
+#d25900
+#a45600
+
+galben
+#ffae17
+#ffcc6f
+#ffbe45
+#d28800
+#a56b00
+
+albastru
+#1e4faa
+#6185c6
+#3d67b4
+#0d3a8b
+#092d6e
+
+verde
+#0e9e8f
+#53bfb4
+#2eaa9d
+#008274
+#00675c*/

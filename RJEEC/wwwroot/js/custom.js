@@ -1,4 +1,10 @@
-﻿//collapsible text
+﻿$(".nav-list").on('click', 'li', function (e) {
+    debugger;
+    $(this).parent().find('li.nav-item.activetab').removeClass('activetab');
+    $(this).addClass('activetab');
+});
+
+//collapsible text
     var coll = document.getElementsByClassName("collapsible");
     var i;
     
