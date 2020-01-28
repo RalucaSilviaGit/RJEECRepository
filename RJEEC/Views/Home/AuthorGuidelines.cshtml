@@ -1,19 +1,19 @@
 ﻿@{
-    ViewBag.PageTitle = "Author Guidelines";
+    ViewBag.PageTitle = "AUTHOR GUIDELINES";
 }
 
-<h3>@ViewBag.PageTitle</h3>
+<h3 class="text-center">@ViewBag.PageTitle</h3>
 <br />
-<hr />
-<div class="row">
-    <div class="col-md-6">
+
+<div class="row" style="border:2px solid black">
+    <div class="col-sm-6 editorialboardcard">
         <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Author guidelines.docx" asp-route-subfolder="generalDocuments">Article format</a>
     </div>
-    <div class="col-md-6">
-        <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Publishing agreement.pdf" asp-route-subfolder="generalDocuments">Publising Agreement</a>
+    <div class="col-sm-6 editorialboardcard">
+        <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Publishing Agreement.doc" asp-route-subfolder="generalDocuments">Publising Agreement</a>
     </div>
 </div>
-<hr />
+
 <br />
 <div>
     <p>Your submission must contain the following items in separate Microsoft Word files:</p>
