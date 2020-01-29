@@ -25,7 +25,7 @@ namespace RJEEC.Controllers
         private readonly IAuthorRepository authorRepository;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
-        
+
         public ArticleController(IArticleRepository articleRepository,
                             IMagazineRepository magazineRepository,
                             IAuthorRepository authorRepository,
@@ -44,7 +44,7 @@ namespace RJEEC.Controllers
         {
             IEnumerable<Article> articles = articleRepository.GetAllArticles().ToList();
             return View(articles);
-        }        
+        }
 
         [AllowAnonymous]
         public IActionResult GetAllArticlesByMagazineId(int magazineId)
@@ -69,7 +69,7 @@ namespace RJEEC.Controllers
             if (!String.IsNullOrWhiteSpace(model.AuthorName))
                 articles = articleRepository.GetAllArticles().Where(a => a.Authors.ToUpper().Contains(model.AuthorName.ToUpper()));
             if (model.Volume != null)
-                if(articles == null)
+                if (articles == null)
                     articles = articleRepository.GetAllArticles().Where(a => a.Magazine?.Volume == model.Volume);
                 else
                     articles = articles.Where(a => a.Magazine.Volume == model.Volume);
@@ -79,7 +79,7 @@ namespace RJEEC.Controllers
                 else
                     articles = articles.Where(a => a.Magazine.PublishingYear == model.Year);
             if (!String.IsNullOrWhiteSpace(model.Keywords))
-                if(articles == null)
+                if (articles == null)
                     articles = articleRepository.GetAllArticles().Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
                 else
                     articles = articles.Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
@@ -90,15 +90,15 @@ namespace RJEEC.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]        
-        public IActionResult Read(int? id)
+        [AllowAnonymous]
+        public IActionResult Read(int? articleId, string id)
         {
-            Article article = articleRepository.GetArticle(id ?? 1);
+            Article article = articleRepository.GetArticle(articleId ?? 1);
 
             if (article == null)
             {
                 Response.StatusCode = 404;
-                return View("ArticleNotFound", id);
+                return View("ArticleNotFound", articleId);
             }
 
             ArticleReadViewModel articleReadViewModel = new ArticleReadViewModel
