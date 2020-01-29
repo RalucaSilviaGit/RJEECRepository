@@ -63,7 +63,7 @@ namespace RJEEC.Controllers
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
             byte[] fileBytes = System.IO.File.ReadAllBytes(downloadFile);
             var fileExt = Path.GetExtension(fileName);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName + fileExt);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
     }
 }
