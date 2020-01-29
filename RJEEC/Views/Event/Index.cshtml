@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Event>
+@inject SignInManager<IdentityUser> SignInManager
 
 @{
     ViewBag.PageTitle = "Events";
@@ -6,7 +7,10 @@
 
 <h3>@ViewBag.PageTitle</h3>
 
-<a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:10em">New Event</a>
+@if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+{
+    <a asp-controller="Event" asp-action="Create" class="btn btn-primary m-1" style="width:10em">New Event</a>
+}
 
 <div class="event card-deck">
     @foreach (var ev in Model)
@@ -20,19 +24,22 @@
             <div class="card-footer text-center">
                 <form asp-action="Delete" asp-route-id="@ev.Id" method="post">
                     <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary m-1">View</a>
-                    <a asp-controller="Event" asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-primary m-1">Edit</a>
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+                    {
+                        <a asp-controller="Event" asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-primary m-1">Edit</a>
 
-                    <div id="confirmDeleteSpan_@ev.Id" style="display:none">
-                        <span>Are you sure you want to delete?</span>
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                        <a href="#" class="btn btn-primary"
-                           onclick="confirmDelete('@ev.Id', false)">No</a>
-                    </div>
+                        <div id="confirmDeleteSpan_@ev.Id" style="display:none">
+                            <span>Are you sure you want to delete?</span>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a href="#" class="btn btn-primary"
+                               onclick="confirmDelete('@ev.Id', false)">No</a>
+                        </div>
 
-                    <span id="deleteSpan_@ev.Id">
-                        <a href="#" class="btn btn-danger"
-                           onclick="confirmDelete('@ev.Id', true)">Delete</a>
-                    </span>
+                        <span id="deleteSpan_@ev.Id">
+                            <a href="#" class="btn btn-danger"
+                               onclick="confirmDelete('@ev.Id', true)">Delete</a>
+                        </span>
+                    }
                 </form>
             </div>
         </div>

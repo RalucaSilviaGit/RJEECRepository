@@ -113,7 +113,6 @@ namespace RJEEC.Controllers
             return View(articleReadViewModel);
         }
 
-        [AllowAnonymous]
         public IActionResult Details(int? id)
         {
             Article article = articleRepository.GetArticle(id ?? 1);
@@ -290,7 +289,7 @@ namespace RJEEC.Controllers
             return View("ViewReviewStatus", model);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         [HttpGet]
         public IActionResult Review(int? id)
         {
@@ -322,7 +321,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Review(ArticleDetailsViewModel model)
         {
             if (ModelState.IsValid)

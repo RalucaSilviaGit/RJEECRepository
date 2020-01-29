@@ -58,6 +58,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Publish(int id)
         {
             Magazine magazine = magazineRepository.GetMagazine(id);
@@ -82,6 +83,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Publish(MagazinePublishViewModel model)
         {
             if (ModelState.IsValid)
