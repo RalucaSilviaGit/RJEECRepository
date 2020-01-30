@@ -68,13 +68,13 @@
         @if (!String.IsNullOrEmpty(Model.ExistingReviewerDecisionFileName))
         {
             <div class="form-group row col-sm-4">
-                <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName" asp-route-subfolder="reviewerDecision">Download Reviewer Decision</a>
+                <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName" asp-route-subfolder="reviewerDecision">Download Reviewer Suggestions</a>
             </div>
         }
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Will be published</label>
-            <div class="form-group row col-sm-10">
+            <label class="col-sm-3 col-form-label">Will be published</label>
+            <div class="form-group row col-sm-9">
                 <label asp-for="MagazineVolume" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-2">
                     <input asp-for="MagazineVolume" class="form-control">

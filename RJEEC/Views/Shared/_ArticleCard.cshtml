@@ -11,7 +11,7 @@
 
 
 <div class="card-footer">
-    @if (SignInManager.IsSignedIn(User) && (User.Identity.Name == Model.contactAuthor.Email || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
+    @if (SignInManager.IsSignedIn(User) && (User.Identity.Name == Model.contactAuthor?.Email || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
     {
         <a asp-controller="Article" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary m-1">View</a>
     }

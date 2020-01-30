@@ -1,21 +1,78 @@
-﻿@{
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
     ViewBag.PageTitle = "RJEEC - Peer Review Process";
 }
 
-    <h2>Peer Review Process</h2>
-<br />
-<p>Peer Review Process - un text care arata cum se face recenzia, nu este inca gata</p>
-<br />
-<hr />
+<h2>Peer Review Process</h2>
+
+<h4>Paper Submission</h4>
+<p>
+    The corresponding or submitting author submits the Paper and Publishing Agreement to the Journal
+    via online system (<a target="_blank" asp-controller="home" asp-action="index">www.rjeec.ro</a>) or by email 
+                       <a href="mailto:office@rjeec.ro?subject=Mail from RJEEC">office@rjeec.ro</a>.
+</p>
+
+<h4>Editorial Office Assessment</h4>
+<p>
+    The Editorial Office checks the paper’s composition and arrangement against the paper template to make
+    sure it includes the required sections and proper references. The quality of the paper is not assessed at this point.
+</p>
+
+<h4>Editor-In-Chief Approval</h4>
+<p>
+    The Editor-In-Chief checks that the paper is appropriate for the journal topics and sufficiently
+    original and interesting. If not, the paper may be rejected without being reviewed any further.
+    The answer is received within 2 weeks.
+</p>
+
+<h4>Reviewers Assessment</h4>
+<p>
+    For each paper the peer-review process is performed by two specialists, members of the Editorial
+    Advisory Board. The peer-review process is blind. The decision recommended to the Editorial
+    Office could be: accepted, rejected, paper need minor revision, paper need major revision.
+    For Reviewer's Questionnaire
+    <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Reviewer decision.docx" asp-route-subfolder="generalDocuments">read more</a>.
+    In order to check the originality, the papers will
+    be verified with an online plagiarism software (www.sistemantiplagiat.ro).
+</p>
+
+<h4>Editors Evaluate the Reviews</h4>
+<p>
+    The editors consider all the returned reviews before making an overall decision. If the reviews
+    differ widely, the editors may invite an additional reviewer to get an extra opinion before making a decision.
+</p>
+
+<h4>Decision</h4>
+<p>
+    The final decision is received within 4 weeks, when the author received an email.
+    <ul>
+        <li>If the article is accepted, the paper is included in RJEEC for publishing.</li>
+        <li>
+            If the article is sent back for either major or minor revision,
+            the e-mail includes constructive comments from the reviewers to help the author
+            improve the article. Where only minor changes were requested this follow-up review
+            will be done by the editors. If the paper request major revision, the paper must
+            be submitted within one month in order to be revaluated by the Editorial Advisory Board.
+        </li>
+        <li>If the article is rejected, the author will receive the reviewers feed-back.</li>
+    </ul>
+</p>
+
 <div class="row">
-    <div class="col-md-6">
-        <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Reviewer decision.docx" asp-route-subfolder="generalDocuments">Reviewer decision</a>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <a style="width:500px;text-decoration:none;" class="btn btn-primary m-1" asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Reviewer decision.docx" asp-route-subfolder="generalDocuments">Download Reviewer Decision Template</a>
     </div>
+    <div class="col-md-2"></div>
 </div>
-<hr />
-<br />
 
-<div class="row">
-    <a asp-controller="Article" asp-action="Details" class="btn btn-primary m-1" style="width:10em">Article Status</a>
-
-</div>
+@if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
+{
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <a style="width:500px;text-decoration:none;" asp-controller="Article" asp-action="GetArticlesInStatus" asp-route-id="0" class="btn btn-primary m-1" style="width:10em">Review Articles</a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+}

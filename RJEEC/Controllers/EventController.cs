@@ -108,7 +108,11 @@ namespace RJEEC.Controllers
             string filePath = Path.Combine(hostingEnvironment.WebRootPath, "eventImages", eventPhoto.PhotoPath);
             if ((System.IO.File.Exists(filePath)))
             {
-                System.IO.File.Delete(filePath);
+                try
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                catch { }
             }
         }
 

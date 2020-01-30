@@ -8,12 +8,12 @@
     <h2>Archive</h2>
     <input hidden asp-for="PublishedMagazines" />
     <div class="form-group row">
-        <label asp-for="MagazineId" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
+        <label asp-for="MagazineId" class="col-sm-3 col-form-label" style="text-align:right;"></label>
+        <div class="col-sm-8">
             <select id="ChosenMagazine" asp-for="MagazineId" asp-items="Model.PublishedMagazines" class="form-control" onchange="DoPostBack();">
                 <option value="">Please Select</option>
             </select>
-        </div>
+         </div> 
     </div>
 </form>
 

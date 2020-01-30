@@ -67,12 +67,12 @@ namespace RJEEC.Controllers
         {
             IEnumerable<Article> articles = null;
             if (!String.IsNullOrWhiteSpace(model.AuthorName))
-                articles = articleRepository.GetAllArticles().Where(a => a.Authors.ToUpper().Contains(model.AuthorName.ToUpper()));
+                articles = articleRepository.GetAllArticles().Where(a => a.Authors != null && a.Authors.ToUpper().Contains(model.AuthorName.ToUpper()));
             if (model.Volume != null)
                 if (articles == null)
                     articles = articleRepository.GetAllArticles().Where(a => a.Magazine?.Volume == model.Volume);
                 else
-                    articles = articles.Where(a => a.Magazine.Volume == model.Volume);
+                    articles = articles.Where(a => a.Magazine?.Volume == model.Volume);
             if (model.Year != null)
                 if (articles == null)
                     articles = articleRepository.GetAllArticles().Where(a => a.Magazine?.PublishingYear == model.Year);
@@ -80,10 +80,10 @@ namespace RJEEC.Controllers
                     articles = articles.Where(a => a.Magazine.PublishingYear == model.Year);
             if (!String.IsNullOrWhiteSpace(model.Keywords))
                 if (articles == null)
-                    articles = articleRepository.GetAllArticles().Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
+                    articles = articleRepository.GetAllArticles().Where(a=> a.KeyWords != null && a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
                 else
-                    articles = articles.Where(a => a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
-            if (articles != null)
+                    articles = articles.Where(a => a.KeyWords != null && a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
+            if (articles != null && articles.Count() > 0)
             {
                 model.Articles = articles.ToList();
             }
@@ -91,6 +91,7 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Read/{articleId}")]
         public IActionResult Read(int? articleId, string id)
         {
             Article article = articleRepository.GetArticle(articleId ?? 1);
@@ -273,15 +274,15 @@ namespace RJEEC.Controllers
             }
         }
 
-        public IActionResult GetArticlesInStatus(int? statusId)
+        public IActionResult GetArticlesInStatus(int? id)
         {            
             ArticlesInStatusViewModel model = new ArticlesInStatusViewModel();
 
-            if (statusId != null)
+            if (id != null)
             {
-                model.StatusId = statusId;
+                model.StatusId = id;
                 if (User.IsInRole("Researcher"))
-                    model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).Where(a => (int)a.Status == statusId).ToList();
+                    model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).Where(a => (int)a.Status == id).ToList();
                 else if(User.IsInRole("Editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                     model.Articles = articleRepository.GetAllArticlesByStatus(model.StatusId ?? 0).ToList();
             }
@@ -388,7 +389,8 @@ namespace RJEEC.Controllers
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
             byte[] fileBytes = System.IO.File.ReadAllBytes(downloadFile);
             var fileExt = Path.GetExtension(fileName);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, title + fileExt);
+            title = String.Join("/", title.Split("/").Select(s => System.Net.WebUtility.UrlEncode(s)));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, System.Web.HttpUtility.HtmlEncode(title) + fileExt);
         }
 
         [AllowAnonymous]

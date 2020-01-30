@@ -3,151 +3,152 @@
 @{
     ViewBag.PageTitle = "RJEEC - MANUSCRIPT SUBMISSION";
 }
+<h2>MANUSCRIPT SUBMISSION</h2>
 
-    <form enctype="multipart/form-data" asp-controller="article" asp-action="create" method="post" class="mt-3">
-        <h2>MANUSCRIPT SUBMISSION</h2>
-        @Html.Hidden(nameof(Model.IsTrue), "true")
-        <div class="form-group">
-            <div class="checkbox">
-                <label asp-for="AgreePublishingEthics" style="width:100%; font-size:1.5rem;">
-                    <input asp-for="AgreePublishingEthics" class="form-control col-sm-1" style="display:inline-block; font-size:0.5rem" />
-                    <span class="col-sm-1" style="display:inline-block"></span>
-                    @Html.DisplayNameFor(m => m.AgreePublishingEthics)
-                </label>
-                <span asp-validation-for="AgreePublishingEthics" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Title" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <textarea asp-for="Title" class="form-control" placeholder="Title"></textarea>
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Authors" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <textarea asp-for="Authors" class="form-control" placeholder="Authors"></textarea>
-                <span asp-validation-for="Authors" class="text-danger"></span>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="KeyWords" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <textarea asp-for="KeyWords" class="form-control" placeholder="KeyWords"></textarea>
-                <span asp-validation-for="KeyWords" class="text-danger"></span>
-            </div>
+<form enctype="multipart/form-data" asp-controller="article" asp-action="create" method="post" class="mt-3">
+    @Html.Hidden(nameof(Model.IsTrue), "true")
+    <div class="form-group">
+        <div class="checkbox">
+            <label asp-for="AgreePublishingEthics" style="width:100%; font-size:1.2rem;">
+                <input asp-for="AgreePublishingEthics" class="form-control col-sm-1" style="display:inline-block; font-size:0.25rem" />
+                <span class="col-sm-1" style="display:inline-block"></span>
+                @Html.DisplayNameFor(m => m.AgreePublishingEthics)
+            </label>
+            <span asp-validation-for="AgreePublishingEthics" class="text-danger"></span>
         </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Title" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Title" class="form-control" placeholder="Title"></textarea>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Authors" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Authors" class="form-control" placeholder="Authors"></textarea>
+            <span asp-validation-for="Authors" class="text-danger"></span>
+        </div>
+    </div>
 
-        <div class="form-group row">
-            <label asp-for="Description" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <textarea asp-for="Description" class="form-control" placeholder="Abstract"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+    <div class="form-group row">
+        <label asp-for="KeyWords" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="KeyWords" class="form-control" placeholder="KeyWords"></textarea>
+            <span asp-validation-for="KeyWords" class="text-danger"></span>
         </div>
-        <h3>Corespondent Author</h3>
-        <div class="form-group row">
-            <label asp-for="AuthorFirstName" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-4">
-                <input asp-for="AuthorFirstName" class="form-control" placeholder="First Name">
-                <span asp-validation-for="AuthorFirstName" class="text-danger"></span>
-            </div>
-            <label asp-for="AuthorLastName" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-4">
-                <input asp-for="AuthorLastName" class="form-control" placeholder="Last Name">
-                <span asp-validation-for="AuthorLastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="AuthorEmail" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="AuthorEmail" class="form-control" readonly>
-                <span asp-validation-for="AuthorEmail" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="AuthorPhone" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="AuthorPhone" class="form-control" placeholder="Phone">
-                <span asp-validation-for="AuthorPhone" class="text-danger"></span>
-            </div>
-        </div>
-        <h3>Upload Documents type .doc, .docx or .pdf</h3>
+    </div>
 
-        <div class="form-group row">
-            <label asp-for="ArticleContentDoc" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <div class="custom-file">
-                    <input asp-for="ArticleContentDoc" class="form-control custom-file-input">
-                    <label class="custom-file-label">Choose File...</label>
-                </div>
-                <span asp-validation-for="ArticleContentDoc" class="text-danger"></span>
-            </div>
+    <div class="form-group row">
+        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Description" class="form-control" placeholder="Abstract"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-        
-        <div class="form-group row">
-            <label asp-for="PulishingAgreementDoc" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-4">
-                <a class="btn btn-primary m-1" style="width:auto;" asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Publishing agreement.doc" asp-route-subfolder="generalDocuments">Download Publising Agreement Template</a>
-            </div>
-            <div class="col-sm-6">
-                <div class="custom-file" style="margin-top:0.3em;">
-                    <input asp-for="PulishingAgreementDoc" class="form-control custom-file-input">
-                    <label class="custom-file-label">Upload signed publishing agreement...</label>
-                </div>
-                <span asp-validation-for="PulishingAgreementDoc" class="text-danger"></span>
-            </div>
+    </div>
+    <h3>Corespondent Author</h3>
+    <div class="form-group row">
+        <label asp-for="AuthorFirstName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input asp-for="AuthorFirstName" class="form-control" placeholder="First Name">
+            <span asp-validation-for="AuthorFirstName" class="text-danger"></span>
         </div>
-        <h5>
-            If necessary you can upload more documents.
-        </h5>
-        <div class="form-group row">
-            <label asp-for="AdditionalDoc1" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <div class="custom-file">
-                    <input asp-for="AdditionalDoc1" class="form-control custom-file-input">
-                    <label class="custom-file-label">Choose File...</label>
-                </div>
-                <span asp-validation-for="AdditionalDoc1" class="text-danger"></span>
-            </div>
+        <label asp-for="AuthorLastName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input asp-for="AuthorLastName" class="form-control" placeholder="Last Name">
+            <span asp-validation-for="AuthorLastName" class="text-danger"></span>
         </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="AuthorEmail" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="AuthorEmail" class="form-control" readonly>
+            <span asp-validation-for="AuthorEmail" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="AuthorPhone" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="AuthorPhone" class="form-control" placeholder="Phone">
+            <span asp-validation-for="AuthorPhone" class="text-danger"></span>
+        </div>
+    </div>
+    <h3>Upload Documents type .doc, .docx or .pdf</h3>
 
-        <div class="form-group row">
-            <label asp-for="AdditionalDoc2" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <div class="custom-file">
-                    <input asp-for="AdditionalDoc2" class="form-control custom-file-input">
-                    <label class="custom-file-label">Choose File...</label>
-                </div>
-                <span asp-validation-for="AdditionalDoc2" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="ArticleContentDoc" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="ArticleContentDoc" class="form-control custom-file-input">
+                <label class="custom-file-label">Choose File...</label>
             </div>
+            <span asp-validation-for="ArticleContentDoc" class="text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label asp-for="Comments" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <textarea asp-for="Comments" class="form-control" placeholder="Comments"></textarea>
-                <span asp-validation-for="Comments" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="PulishingAgreementDoc" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <a class="btn btn-primary m-1" style="width:auto;" asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Publishing agreement.doc" asp-route-subfolder="generalDocuments">Download Publising Agreement Template</a>
+        </div>
+        <div class="col-sm-6">
+            <div class="custom-file" style="margin-top:0.3em;">
+                <input asp-for="PulishingAgreementDoc" class="form-control custom-file-input">
+                <label class="custom-file-label">Upload signed publishing agreement...</label>
             </div>
+            <span asp-validation-for="PulishingAgreementDoc" class="text-danger"></span>
         </div>
-
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary" style="width:10em">SUBMIT PAPER</button>
+    </div>
+    <h5>
+        If necessary you can upload more documents.
+    </h5>
+    <div class="form-group row">
+        <label asp-for="AdditionalDoc1" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="AdditionalDoc1" class="form-control custom-file-input">
+                <label class="custom-file-label">Choose File...</label>
             </div>
+            <span asp-validation-for="AdditionalDoc1" class="text-danger"></span>
         </div>
+    </div>
 
-        @section Scripts {
-            <script>
-                $(document).ready(function () {
-                    $('.custom-file-input').on("change", function () {
-                        var fileName = $(this).val().split("\\").pop();
-                        $(this).next('.custom-file-label').html(fileName);
-                    });
+    <div class="form-group row">
+        <label asp-for="AdditionalDoc2" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="AdditionalDoc2" class="form-control custom-file-input">
+                <label class="custom-file-label">Choose File...</label>
+            </div>
+            <span asp-validation-for="AdditionalDoc2" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Comments" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Comments" class="form-control" placeholder="Comments"></textarea>
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary" style="width:10em">SUBMIT PAPER</button>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
                 });
-            </script>
-        }
+            });
+        </script>
+    }
 
-    </form>
+</form>

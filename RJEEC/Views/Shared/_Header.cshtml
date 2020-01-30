@@ -1,16 +1,19 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
-    <div class="row header" style="background-color:#EAFAF1">
-        @*<div class="col-md-7 leaddiv">
-            ROMANIAN JOURNAL OF ECOLOGY
-            & ENVIRONMENT CHEMISTRY
-        </div>*@
-        @*<div class="col-sm-12 lead">*@
-            @*<p class="lead">*@
-                <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo.jpg" />
-            @*</p>*@
-        @*  *@</div>
+    <div class="row header">
+        <div class="col-md-7 leaddiv">
+            Romanian Journal of Ecology & Environmental Chemistry
+        </div>
+        <div class="col-sm-5 lead">
+            <p class="lead">
+                <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
+            </p>
+        </div>  
 
     </div>
+
+    @*<div class="row header" style="background-color:#EAFAF1">
+       <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo.jpg" />
+    </div>*@
 
 
 <nav class="navbar navbar-expand-sm navbar-dark navbar-default navbar-fixed-top" role="navigation">
@@ -32,8 +35,8 @@
         
 
         <div class="navbar-collapse navbar-toggleable-xs menu-content" id="collapsibleNavbar">
-            <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
-            <ul class="nav-list nav navbar-nav ml-auto">
+            @*<img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />*@
+            <ul class="nav-list nav navbar-nav ml-auto mr-auto">
                 <li class="nav-item activetab">
                     <a class="nav-link" asp-controller="home" asp-action="index">Home</a>
                 </li>
@@ -49,7 +52,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="article" asp-action="GetArticlesInStatus">Check Articles</a>
+                        <a class="nav-link" asp-controller="article" asp-action="GetArticlesInStatus" asp-route-id="0">Check Articles</a>
                     </li>
                 }
                 <li class="nav-item">
@@ -73,16 +76,17 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" asp-controller="magazine" asp-action="index">Magazines</a>
-                            <a class="dropdown-item" asp-controller="event"
-                               asp-action="index">Events</a>
-                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor"))
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
+                                <a class="dropdown-item" asp-controller="event"
+                                asp-action="index">Events</a>
+
                                 <a class="dropdown-item" asp-controller="author"
                                    asp-action="index">Authors</a>
                                 <a class="dropdown-item" asp-controller="Administration"
                                    asp-action="ListUsers">Users</a>
-                                <a class="dropdown-item" asp-controller="Administration"
-                                   asp-action="ListRoles">Roles</a>
+                                @*<a class="dropdown-item" asp-controller="Administration"
+                                   asp-action="ListRoles">Roles</a>*@
                             }
                         </div>
                     </li>
@@ -98,7 +102,7 @@
                     </li>
                     <li class="nav-item">
                         <form method="post" asp-controller="account" asp-action="logout">
-                            <button type="submit" style="width:auto; margin:0.4em;"
+                            <button type="submit" style="width:auto; margin:0.5rem 0;text-transform:none;"
                                     class="nav-link btn btn-link py-0">
                                 Logout @User.Identity.Name
                             </button>
