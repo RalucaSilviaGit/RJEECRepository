@@ -1,11 +1,16 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
-<div class="row">
-    <div class="col-md-12">
-        <p class="lead">
-            <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/flooop.png" />
-        </p>
+    <div class="row header" style="background-color:#EAFAF1">
+        <div class="col-md-7 leaddiv">
+            ROMANIAN JOURNAL OF ECOLOGY
+            & ENVIRONMENT CHEMISTRY
+        </div>
+        <div class="col-sm-5">
+            <p class="lead">
+                <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
+            </p>
+        </div>
+
     </div>
-</div>
 
 
 <nav class="navbar navbar-expand-sm navbar-dark navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +23,8 @@
         </div>
             -->
         <div class="collapse navbar-collapse navbar-toggleable-xs" id="collapsibleNavbar">
-            <ul class="nav-list nav navbar-nav">
+            <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
+            <ul class="nav-list nav navbar-nav ml-auto">
                 <li class="nav-item activetab">
                     <a class="nav-link" asp-controller="home" asp-action="index">Home</a>
                 </li>
@@ -59,23 +65,22 @@
                 {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" asp-controller="event"
-                                asp-action="index">Events</a>
+                               asp-action="index">Events</a>
                             <a class="dropdown-item" asp-controller="author"
-                                asp-action="index">Authors</a>
+                               asp-action="index">Authors</a>
                             <a class="dropdown-item" asp-controller="Administration"
-                                asp-action="ListUsers">Users</a>
+                               asp-action="ListUsers">Users</a>
                             <a class="dropdown-item" asp-controller="Administration"
-                                asp-action="ListRoles">Roles</a>
+                               asp-action="ListRoles">Roles</a>
                         </div>
                     </li>
                 }
-            </ul>
-            <ul class="navbar-nav ml-auto">
+
                 @if (SignInManager.IsSignedIn(User))
                 {
 
@@ -107,6 +112,7 @@
                     </li>
                 }
             </ul>
+            
         </div>
     </div>
 </nav>
