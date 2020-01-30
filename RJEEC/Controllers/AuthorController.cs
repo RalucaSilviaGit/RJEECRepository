@@ -22,13 +22,13 @@ namespace RJEEC.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Index()
         {
             return View(authorRepository.GetAllAuthors());
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Details(int? id)
         {
             Author author = authorRepository.GetAuthor(id ?? 1);
@@ -59,12 +59,14 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Create(AuthorCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -86,6 +88,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Edit(int id)
         {
             Author author = authorRepository.GetAuthor(id);
@@ -108,6 +111,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Edit(AuthorEditViewModel model)
         {
             if (ModelState.IsValid)
