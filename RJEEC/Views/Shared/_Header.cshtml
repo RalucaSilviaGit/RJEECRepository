@@ -1,28 +1,37 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
     <div class="row header" style="background-color:#EAFAF1">
-        <div class="col-md-7 leaddiv">
+        @*<div class="col-md-7 leaddiv">
             ROMANIAN JOURNAL OF ECOLOGY
             & ENVIRONMENT CHEMISTRY
-        </div>
-        <div class="col-sm-5">
-            <p class="lead">
-                <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
-            </p>
-        </div>
+        </div>*@
+        @*<div class="col-sm-12 lead">*@
+            @*<p class="lead">*@
+                <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo.jpg" />
+            @*</p>*@
+        @*  *@</div>
 
     </div>
 
 
 <nav class="navbar navbar-expand-sm navbar-dark navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container collapsible-menu">
         <!--
-        <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-expanded="false">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-            -->
-        <div class="collapse navbar-collapse navbar-toggleable-xs" id="collapsibleNavbar">
+    <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+        -->
+
+        <input type="checkbox" id="menu">
+        <label class="menulabel" for="menu">
+            <span class="navbar-toggler-icon"></span>
+            Menu
+            <img class="menuphoto" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
+        </label>
+        
+
+        <div class="navbar-collapse navbar-toggleable-xs menu-content" id="collapsibleNavbar">
             <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
             <ul class="nav-list nav navbar-nav ml-auto">
                 <li class="nav-item activetab">
@@ -57,26 +66,24 @@
                 </li>
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
                 {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="magazine" asp-action="index">Magazines</a>
-                    </li>
-                }
-                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
-                {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" asp-controller="magazine" asp-action="index">Magazines</a>
                             <a class="dropdown-item" asp-controller="event"
                                asp-action="index">Events</a>
-                            <a class="dropdown-item" asp-controller="author"
-                               asp-action="index">Authors</a>
-                            <a class="dropdown-item" asp-controller="Administration"
-                               asp-action="ListUsers">Users</a>
-                            <a class="dropdown-item" asp-controller="Administration"
-                               asp-action="ListRoles">Roles</a>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor"))
+                            {
+                                <a class="dropdown-item" asp-controller="author"
+                                   asp-action="index">Authors</a>
+                                <a class="dropdown-item" asp-controller="Administration"
+                                   asp-action="ListUsers">Users</a>
+                                <a class="dropdown-item" asp-controller="Administration"
+                                   asp-action="ListRoles">Roles</a>
+                            }
                         </div>
                     </li>
                 }
@@ -112,7 +119,7 @@
                     </li>
                 }
             </ul>
-            
+
         </div>
     </div>
 </nav>

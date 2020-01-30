@@ -1,10 +1,10 @@
 ﻿@model EventPhotosEditViewModel
 
 @{
-    ViewBag.PageTitle = "Events Photos";
+    ViewBag.PageTitle = "RJEEC - Event Photos";
 }
 
-<h3>@ViewBag.PageTitle</h3>
+    <h2>Event Photos</h2>
 <a asp-controller="Event" asp-action="Edit" asp-route-id="@Model.EventId" class="btn btn-primary">Back</a>
 <form enctype="multipart/form-data" asp-controller="event" asp-action="EditEventPhotos" method="post" class="mt-3">
     <input type="hidden" asp-for="EventId" />

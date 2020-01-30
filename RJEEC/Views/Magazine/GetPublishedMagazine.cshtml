@@ -1,11 +1,11 @@
 ﻿@model GetPublishedMagazineViewModel
 
 @{
-    ViewBag.Title = "Archive";
+    ViewBag.PageTitle = "RJEEC - Archive";
 }
 
 <form name="form1" asp-controller="Magazine" asp-action="GetPublishedMagazine" method="post">
-    <h1>@ViewBag.Title</h1>
+    <h2>Archive</h2>
     <input hidden asp-for="PublishedMagazines" />
     <div class="form-group row">
         <label asp-for="MagazineId" class="col-sm-2 col-form-label"></label>

@@ -1,9 +1,31 @@
 ﻿body {
-    font-size:1rem;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    text-align:justify;
-    margin:0 1rem;
+    font-size: 0.8rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: justify;
+    margin: 0 1rem;
+    padding: 0;
+    /*background-color: #EAFAF1;*/
+    background-color:rgb(248, 249, 253);
+    color: #00675c;
+}
+
+.img-responsive{
+    max-width:100%;
+}
+
+.container{
+    margin:0;
     padding:0;
+}
+
+.header{
+    margin-left: 0px;
+    margin-right:0px;
+}
+
+h2{
+    text-align:center;
+    text-transform:uppercase;
 }
 
 #rowcontent {
@@ -16,17 +38,16 @@
     min-height: 15em;
     padding: 2em;
     color: #00675c;
+    background-color: rgb(33, 95, 58);
+    color:white;
+}
+
+.footer a{
+    color:white;
 }
 
 .footer a:hover{
     color:rgba(255,255,255,0.75);
-}
-
-.navbar img {
-    display: block;
-    margin-right: auto;
-    height:5rem;
-    padding-bottom:0.5rem;
 }
 
 .lead img {
@@ -36,7 +57,7 @@
     height: 15rem;
 }
 .container {
-    max-width:98% !important;
+    max-width:100% !important;
 }
 
 .default .card-deck .card {
@@ -71,26 +92,30 @@
     font-weight:bold;
 }
 
-    .graytab {
-        background-color: #bbb;
-    }
+.graytab {
+    /*background-color: #bbb;*/
+    background-color: rgb(249, 242, 161);
+}
 
-    .greentab {
-        background-color: #58cb97;
-    }
+.greentab {
+    /*background-color: #58cb97;*/
+    background-color: rgb(115, 202, 211);
+}
 
     .darkbluetab {
         background-color: #5b98c3;
     }
 
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-    
-    .graytab:hover {
-        background-color: #999;
-    }
+
+.graytab:hover {
+    /*background-color: #999;*/
+    background-color: rgb(247, 240, 126);
+}
 
     .greentab:hover {
-        background-color: #32b97c;
+        /*background-color: #32b97c;*/
+        background-color: rgb(11, 189, 237);
     }
 
     .darkbluetab:hover {
@@ -246,7 +271,7 @@
 }
 
 .sidebar-widget {
-    max-width: 95%;
+    max-width: 100%;
     color: #00675c;
     float: left;
     font-size: 100%;
@@ -265,6 +290,8 @@
     font-size: 1.5em;
     font-family: Georgia, "Times New Roman", Times, serif !important;
     color: #53bfb4;
+    font-weight: bold;
+    word-wrap: break-word;
 }
 
 .sidebar-widget .sidebar-headline {
@@ -304,6 +331,7 @@ a {
     background: #D5F5E3;
     border-radius: 0.3em;
     padding: 0.5em;
+    word-wrap: break-word;
 }
 
 .sidebar-content ul {
@@ -326,7 +354,8 @@ a {
     }
 
 .maincontent {
-   padding-right:3em;
+   padding-right:1em;
+   font-size:1rem;
 }
 
 .editorialboardcard {
@@ -339,35 +368,16 @@ a {
         text-align: center;
     }
 
-.navbar {
-    background-color: #53bfb4;
-    height:4.5rem;
-    border-radius:50%;
-    /*background-color: #ff9A17;*/
-}
-
-.navbar-dark .navbar-nav .nav-link {
-    color: #00675c;
-    /*color: #327713;*/
-    /*color: #873600;*/
-    font-weight: bold;
-    text-decoration: none;
-}
-
-li .nav-item .activetab {
-    color: rgba(255, 255, 255, 0.75);
-}
-
 .btn-primary {
     color: white;
-    background-color: #0d3a8b;
-    border-color: #0d3a8b;
+    background-color: #5b98c3;
+    border-color: #377dae;
 }
 
     .btn-primary:hover {
         color: #aaa;
-        background-color: #092d6e;
-        border-color: #6185c6;
+        background-color: #377dae;
+        border-color: #5b98c3;
     }
 
 .lead {
@@ -391,10 +401,159 @@ li .nav-item .activetab {
     margin:0;
 }
 
-body {
-    background-color: #EAFAF1;
-    color: #00675c;    
+@media (min-width: 768px) {
+    #smallscreensaside {
+        display: none;
+    }
 }
+
+
+@media (max-width: 767px) {
+    .header > .col-sm-5 {
+        display: none !important;
+    }
+
+    .asideleft, .asideright{
+        display: none;
+    }
+
+    #smallscreensaside {
+        padding: 2em;
+    }
+
+    #smallscreensaside div {
+        width:100%;
+    }    
+}
+
+@media (min-width: 738px) {
+    .collapsible-menu input, .collapsible-menu label{
+        display: none;
+    }
+
+    .navbar {
+        background-color: #53bfb4;
+        height: auto;
+        border-radius: 0 0 0.5em 0.5em;
+        /*background-color: #ff9A17;*/
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: #00675c;
+        /*color: #327713;*/
+        /*color: #873600;*/
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: capitalize;
+    }
+
+    li .nav-item .activetab {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .navbar img {
+        display: block;
+        margin-right: auto;
+        height: 5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .menuphoto{
+        display:none !important;
+    }
+} 
+
+@media (max-width: 737px) {
+    .header {
+        display: none;
+    }
+
+    .navbar > .container {
+        display: block !important;
+    }
+
+    .collapsible-menu {
+        background-color: #53bfb4;
+        box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+        flex-wrap: nowrap !important;
+    }
+
+       .collapsible-menu label {
+            font-size:2rem;
+            display: block !important;
+            cursor: pointer;
+            padding: 10px 0 10px 20px;
+        }
+
+    /*input:checked + label {
+        background-image: url(close.png);
+    }*/
+
+    .menu-content {
+        max-height: 0;
+        overflow: hidden !important;
+        padding: 0 0 0 50px;
+        width:100% !important;
+    }
+
+    #menu {
+        display: none !important;
+    }
+
+    input:checked ~ .menu-content {
+        max-height: 100% !important;
+    }
+
+    input:checked ~ .menulabel .navbar-toggler-icon {
+        opacity: 0.5;
+    }
+
+    .navbar {
+        height: auto !important;
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: #00675c;
+        /*color: #327713;*/
+        /*color: #873600;*/
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: capitalize;        
+    }
+
+    .nav-item {
+        width: 100% !important;
+    }
+
+    .navbar img {
+        display: none;
+    }
+
+    .menuphoto{
+        display:inline-block !important;
+        float:right;
+        height:4rem;
+        margin: -8px 30px -12px 0;
+    }
+
+    body, .container, .navbar{
+        width:100%;
+        margin:0;
+        padding:0;
+        max-width:100% !important;
+    }
+
+    .maincontent{
+        margin: 0 3rem;
+        padding:0;
+    }
+
+    
+}
+
+
 
 /*portocaliu
 #ff7917

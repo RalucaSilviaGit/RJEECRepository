@@ -1,13 +1,13 @@
 ﻿@model MagazinePublishViewModel
 
 @{
-    ViewBag.Title = "Edit Magazine For Publishing";
+    ViewBag.PageTitle = "RJEEC - Edit Magazine For Publishing";
     var photoPath = "~/coverImages/" + (Model.ExistingCoverPath ?? "noimage.jpg");
 }
 
     <form enctype="multipart/form-data" asp-controller="magazine" asp-action="publish" method="post" class="mt-3">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <h1>@ViewBag.Title</h1>
+        <h2>Edit Magazine For Publishing</h2>
         <input hidden asp-for="Id" />
         <input hidden asp-for="Published" />
         <input hidden asp-for="ExistingCoverPath" />
@@ -74,7 +74,7 @@
                     }
                     else
                     {
-                        <button type="submit" class="btn btn-primary" style="width:10em">Update Magazine</button>
+                        <button type="submit" class="btn btn-primary" style="width:10em">Publish Magazine</button>
                     }
                     <a asp-action="index" asp-controller="Magazine" class="btn btn-primary">Cancel</a>
                 </div>

@@ -2,10 +2,10 @@
 @inject SignInManager<IdentityUser> SignInManager
 
 @{
-    ViewBag.PageTitle = "Events";
+    ViewBag.PageTitle = "RJEEC - All Events";
 }
 
-<h3>@ViewBag.PageTitle</h3>
+<h2>All events</h2>
 
 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
 {
