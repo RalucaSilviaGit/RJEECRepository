@@ -2,7 +2,8 @@
     font-size:1rem;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align:justify;
-    margin: 0 1rem;
+    margin:0 1rem;
+    padding:0;
 }
 
 #rowcontent {
@@ -17,10 +18,22 @@
     color: #00675c;
 }
 
+.footer a:hover{
+    color:rgba(255,255,255,0.75);
+}
+
+.navbar img {
+    display: block;
+    margin-right: auto;
+    height:5rem;
+    padding-bottom:0.5rem;
+}
+
 .lead img {
     display: block;
     margin-right: auto;
     margin-left: auto;
+    height: 15rem;
 }
 .container {
     max-width:98% !important;
@@ -59,7 +72,7 @@
 }
 
     .graytab {
-        background-color: #eee;
+        background-color: #bbb;
     }
 
     .greentab {
@@ -73,7 +86,7 @@
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
     
     .graytab:hover {
-        background-color: #ccc;
+        background-color: #999;
     }
 
     .greentab:hover {
@@ -234,7 +247,7 @@
 
 .sidebar-widget {
     max-width: 95%;
-    color: #ffae17;
+    color: #00675c;
     float: left;
     font-size: 100%;
     margin-bottom: 2em;
@@ -263,6 +276,7 @@
 
 a {
     color: #00675c;
+    text-decoration: underline;
 }
 
     a:hover {
@@ -287,9 +301,9 @@ a {
     font-weight: 800;
     text-align: center;
     margin: 0;
-    background: #eee;
+    background: #D5F5E3;
     border-radius: 0.3em;
-    padding:0.5em;
+    padding: 0.5em;
 }
 
 .sidebar-content ul {
@@ -303,9 +317,13 @@ a {
     font-size: 1em !important;
 }
 
-.topevents{
-    text-align: left;
-}
+    .sidebar-subcontent a{
+        line-height:2.5rem;
+    }
+
+    .topevents {
+        text-align: left;
+    }
 
 .maincontent {
    padding-right:3em;
@@ -320,15 +338,20 @@ a {
     .editorialboardcard div {
         text-align: center;
     }
-}
 
 .navbar {
     background-color: #53bfb4;
+    height:4.5rem;
+    border-radius:50%;
+    /*background-color: #ff9A17;*/
 }
 
 .navbar-dark .navbar-nav .nav-link {
     color: #00675c;
-    font-weight:bold;
+    /*color: #327713;*/
+    /*color: #873600;*/
+    font-weight: bold;
+    text-decoration: none;
 }
 
 li .nav-item .activetab {
@@ -346,6 +369,32 @@ li .nav-item .activetab {
         background-color: #092d6e;
         border-color: #6185c6;
     }
+
+.lead {
+    font-size: 2.5rem;
+    padding: 0% 6% 0% 5%;
+    text-align: center;
+    font-weight: bold;
+    color: #327713;
+}
+
+.leaddiv {
+    font-size: 2.5rem;
+    padding: 4% 6% 0% 5%;
+    text-align: center;
+    font-weight: bold;
+    color: #327713;
+    color: #ff9a17;
+}
+
+.row .header{
+    margin:0;
+}
+
+body {
+    background-color: #EAFAF1;
+    color: #00675c;    
+}
 
 /*portocaliu
 #ff7917
