@@ -49,6 +49,15 @@ namespace RJEEC
             services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(5));
             services.Configure<CustomEmailConfirmationTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromDays(3));
 
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential 
+                // cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                // requires using Microsoft.AspNetCore.Http;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.AddMvc(config => {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
@@ -89,6 +98,7 @@ namespace RJEEC
             }
 
             app.UseStaticFiles();
+            app.UseCookiePolicy();
             app.UseAuthentication();
             IdentityDataInitializer.SeedData(userManager, roleManager);
             app.UseMvcWithDefaultRoute();
