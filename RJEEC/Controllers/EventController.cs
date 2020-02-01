@@ -52,14 +52,14 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="Admin, SuperAdmin")]
+        [Authorize(Roles="Editor, Admin, SuperAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Create(EventCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -117,7 +117,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="Admin, SuperAdmin")]
+        [Authorize(Roles= "Editor, Admin, SuperAdmin")]
         public IActionResult Edit(int id)
         {
             Event ev = _eventRepository.GetEvent(id);
@@ -140,7 +140,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Edit(EventEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -160,7 +160,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult EditEventPhotos(int id)
         {
             Event ev = _eventRepository.GetEvent(id);
@@ -180,7 +180,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult Delete(int id)
         {
             var ev = _eventRepository.GetEvent(id);
@@ -203,7 +203,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult DeletePhoto(int eventId, int id)
         {
             var ev = _eventRepository.GetEvent(eventId);
@@ -224,7 +224,7 @@ namespace RJEEC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, SuperAdmin")]
+        [Authorize(Roles = "Editor, Admin, SuperAdmin")]
         public IActionResult EditEventPhotos(EventPhotosEditViewModel model)
         {
             var ev = _eventRepository.GetEvent(model.EventId);

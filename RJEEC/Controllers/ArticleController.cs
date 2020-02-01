@@ -49,7 +49,7 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult GetAllArticlesByMagazineId(int magazineId)
         {
-            IEnumerable<Article> articles = articleRepository.GetAllArticlesByMagazine(magazineId).ToList();
+            IEnumerable<Article> articles = articleRepository.GetAllArticlesByMagazine(magazineId).OrderBy(a => a.Order).ToList();
             return View("Index", articles);
         }
 
@@ -85,7 +85,7 @@ namespace RJEEC.Controllers
                     articles = articles.Where(a => a.KeyWords != null && a.KeyWords.ToUpper().Contains(model.Keywords.ToUpper()));
             if (articles != null && articles.Count() > 0)
             {
-                model.Articles = articles.ToList();
+                model.Articles = articles.Where(a=>a.Status == ArticleStatus.Published).ToList();
             }
             return View(model);
         }
@@ -144,8 +144,13 @@ namespace RJEEC.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Create()
         {
+            if(User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
             ArticleCreateViewModel model = new ArticleCreateViewModel
             {
                 AuthorEmail = User?.Identity?.Name
@@ -285,6 +290,11 @@ namespace RJEEC.Controllers
                     model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).Where(a => (int)a.Status == id).ToList();
                 else if(User.IsInRole("Editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                     model.Articles = articleRepository.GetAllArticlesByStatus(model.StatusId ?? 0).ToList();
+            }
+            else
+            {
+                if (User.IsInRole("Researcher"))
+                    model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).ToList();
             }
 
             return View("ViewReviewStatus", model);

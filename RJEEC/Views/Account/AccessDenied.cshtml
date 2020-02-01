@@ -4,6 +4,11 @@
 
 <div class="text-center">
     <h1 class="text-danger">Access Denied</h1>
-    <h6 class="text-danger">You do not have persmission to view this resource</h6>
-    <img src="~/images/noaccess.png" style="height:20em; width:20em" />
+    <h6 class="text-danger">You do not have persmission to view this resource. Please login or register first.</h6>
+    <div>
+        <a class="btn btn-primary" style="width:10em" asp-controller="Account" asp-action="Login">Login</a>
+        <a class="btn btn-primary" style="width:10em" asp-controller="Account" asp-action="Register">Register</a>
+    </div>
+    <img src="~/images/noaccess.png" style="height:15rem; width:17rem" />
+    
 </div>

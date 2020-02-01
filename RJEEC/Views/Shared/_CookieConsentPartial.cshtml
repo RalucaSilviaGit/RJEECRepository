@@ -2,13 +2,13 @@
 
 @{
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    var showBanner = consentFeature?.CanTrack ?? false;
+    var showBanner = !consentFeature?.CanTrack ?? false;
     var cookieString = consentFeature?.CreateConsentCookie();
 }
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="modal fade bottom show" role="dialog" style="display:block;">
+    <div id="cookieConsent" class="modal fade bottom show" role="dialog">
         <div class="modal-dialog modal-lg modal-bottom">
 
             <!-- Modal content-->
@@ -18,7 +18,9 @@
                     <h4 class="modal-title">Modal Header</h4>
                 </div>*@
                 <div class="modal-body">
-                    This website uses cookies to ensure you get the best experience on our website. <a asp-controller="Home" asp-action="PrivacyPolicy">Learn More</a>.
+                    <span class="consentText">
+                        This website uses cookies to ensure you get the best experience on our website. <a asp-controller="Home" asp-action="PrivacyPolicy">Learn more about our Privacy Policy</a>.
+                    </span>
                     <button type="button" class="btn btn-primary" style="float:right;" data-dismiss="modal" aria-label="Close" data-cookie-string="@cookieString">
                         <span aria-hidden="true">Accept</span>
                     </button>
@@ -29,6 +31,9 @@
     </div>
 
     <script>
+        $(window).on('load',function(){
+            $('#cookieConsent').modal('show');
+        });
         (function () {
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {

@@ -371,6 +371,14 @@ a {
    margin-bottom:1rem;
 }
 
+#cookieConsent .modal-dialog {
+    position: absolute;
+    bottom: 0;
+    max-width:90%;
+    width:100%;
+    margin-left:5%;
+}
+
 .editorialboardcard {
     text-align:center;
     margin-bottom:1em;

@@ -1,10 +1,11 @@
 ﻿@model Event
+@inject SignInManager<IdentityUser> SignInManager
 
 @{
     ViewBag.PageTitle = "RJEEC - Event Details";
 }
 
-    <h2>Event Details</h2>
+<h2>Event Details</h2>
 
 <div class="row justify-content-center m-3">
     <div class="col-sm-12">
@@ -30,7 +31,7 @@
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
                     </div>
-                    <br/>
+                    <br />
 
                     <!-- The dots/circles -->
                     <div style="text-align:center">
@@ -52,20 +53,23 @@
             </div>
             <div class="card-footer text-center">
                 <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
-                    <a asp-controller="Event" asp-action="index" class="btn btn-primary">Back</a>
-                    <a asp-controller="Event" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                    <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+                    {
+                        <a asp-controller="Event" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
 
-                    <span id="confirmDeleteSpan_@Model.Id" style="display:none">
-                        <span>Are you sure you want to delete?</span>
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                        <a href="#" class="btn btn-primary"
-                           onclick="confirmDelete('@Model.Id', false)">No</a>
-                    </span>
+                        <span id="confirmDeleteSpan_@Model.Id" style="display:none">
+                            <span>Are you sure you want to delete?</span>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a href="#" class="btn btn-primary"
+                               onclick="confirmDelete('@Model.Id', false)">No</a>
+                        </span>
 
-                    <span id="deleteSpan_@Model.Id">
-                        <a href="#" class="btn btn-danger"
-                           onclick="confirmDelete('@Model.Id', true)">Delete</a>
-                    </span>
+                        <span id="deleteSpan_@Model.Id">
+                            <a href="#" class="btn btn-danger"
+                               onclick="confirmDelete('@Model.Id', true)">Delete</a>
+                        </span>
+                    }
                 </form>
             </div>
         </div>
@@ -80,28 +84,28 @@
 
         // Next/previous controls
         function plusSlides(n) {
-          showSlides(slideIndex += n);
+            showSlides(slideIndex += n);
         }
 
         // Thumbnail image controls
         function currentSlide(n) {
-          showSlides(slideIndex = n);
+            showSlides(slideIndex = n);
         }
 
         function showSlides(n) {
-          var i;
-          var slides = document.getElementsByClassName("mySlides");
-          var dots = document.getElementsByClassName("dot");
-          if (n > slides.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = slides.length}
-          for (i = 0; i < slides.length; i++) {
-              slides[i].style.display = "none";
-          }
-          for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" activeimg", "");
-          }
-          slides[slideIndex-1].style.display = "block";
-          dots[slideIndex-1].className += " activeimg";
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" activeimg", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " activeimg";
         }
     </script>
 }

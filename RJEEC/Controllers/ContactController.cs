@@ -40,7 +40,10 @@ namespace RJEEC.Controllers
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress(rjeecContactMail);
                 mailMessage.To.Add(rjeecContactMail);
-                mailMessage.Body = contact.Message + contact.Email;
+                mailMessage.Body = "First Name: " + contact.FirstName + "<br />" +
+                    "Last Name: " + contact.LastName + "<br />" +
+                    "Email: " + contact.Email + "<br />" +
+                    "Message: " + contact.Message + "<br />" ;
                 mailMessage.Subject = "[RJEEC] Message from " + contact.FirstName + " " + contact.LastName;
                 mailMessage.IsBodyHtml = true;
 

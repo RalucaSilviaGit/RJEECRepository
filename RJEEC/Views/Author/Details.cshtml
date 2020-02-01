@@ -19,10 +19,11 @@
 
                 <h4>Author ID : @Model.Id</h4>
                 <h4>Email : @Model.Email</h4>
+                <h4>Phone : @Model.Phone</h4>
 
             </div>
             <div class="card-footer text-center">
-                <a asp-controller="author" asp-action="index" class="btn btn-primary">Back</a>
+                <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
                 <a asp-controller="author" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
             </div>
         </div>

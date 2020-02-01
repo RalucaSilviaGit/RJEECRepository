@@ -105,6 +105,7 @@ namespace RJEEC.Controllers
                 FirstName = author.FirstName,
                 LastName = author.LastName,
                 Email = author.Email,
+                Phone = author.Phone,
                 ExistingPhotoPath = author.PhotoPath
             };
             return View(authorEditViewModel);
@@ -120,6 +121,7 @@ namespace RJEEC.Controllers
                 author.FirstName = model.FirstName;
                 author.LastName = model.LastName;
                 author.Email = model.Email;
+                author.Phone = model.Phone;
 
                 if (model.Photo != null)
                 {
