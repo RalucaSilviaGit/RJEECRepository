@@ -4,11 +4,14 @@
 
 <div class="text-center">
     <h2 class="text-danger">Access Denied</h2>
-    <h6>You do not have persmission to submit a manuscript. Please login or register first.</h6>
-    <div>
-        <a class="btn btn-primary" style="width:10em" asp-controller="Account" asp-action="Login">Login</a>
-        <a class="btn btn-primary" style="width:10em" asp-controller="Account" asp-action="Register">Register</a>
-    </div>
-    <img src="~/images/noaccess.png" style="height:15rem; width:17rem" />
+    <h6>
+        You do not have persmission to submit a manuscript. Please 
+        <a asp-controller="Account" asp-action="Login">login</a>
+        or
+        <a asp-controller="Account" asp-action="Register">register</a>
+
+        first.
+    </h6>
+   <img src="~/images/noaccess.png" style="height:15rem; width:17rem" />
     
 </div>
