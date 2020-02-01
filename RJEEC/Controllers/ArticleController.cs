@@ -49,8 +49,13 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult GetAllArticlesByMagazineId(int magazineId)
         {
-            IEnumerable<Article> articles = articleRepository.GetAllArticlesByMagazine(magazineId).OrderBy(a => a.Order).ToList();
-            return View("Index", articles);
+            IEnumerable<Article> articles = articleRepository.GetAllArticlesByMagazine(magazineId).OrderBy(a => a.Order);
+            GetArticlesByMagazineViewModel model = new GetArticlesByMagazineViewModel
+            {
+                Articles = articles.ToList(),
+                ExistingCoverPath = magazineRepository.GetMagazine(magazineId).CoverPath
+            };
+            return View("GetAllArticlesByMagazine", model);
         }
 
         [AllowAnonymous]

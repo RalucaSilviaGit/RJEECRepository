@@ -13,6 +13,8 @@ namespace RJEEC.ViewModels
         [Display(Name = "Choose Magazine")]
         public int? MagazineId { get; set; }
         public List<SelectListItem> PublishedMagazines { get; set; }
+
+        public string ExistingCoverPath { get; set; }
         public List<Article> Articles { get; set; }
     }
 }

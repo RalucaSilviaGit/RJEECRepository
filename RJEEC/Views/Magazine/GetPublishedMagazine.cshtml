@@ -2,6 +2,8 @@
 
 @{
     ViewBag.PageTitle = "RJEEC - Archive";
+    var photoPath = "~/coverImages/" + (Model.ExistingCoverPath ?? "noimage.jpg");
+
 }
 
 <form name="form1" asp-controller="Magazine" asp-action="GetPublishedMagazine" method="post">
@@ -16,6 +18,10 @@
          </div> 
     </div>
 </form>
+
+<div class="form-group row col-sm-4 offset-4">
+    <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+</div>
 
 @if(Model.Articles != null && Model.Articles.Count() > 0)
 {

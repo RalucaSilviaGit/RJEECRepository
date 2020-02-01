@@ -52,11 +52,13 @@ namespace RJEEC.Controllers
             {
                 Magazine magazine = magazineRepository.GetMagazine(model.MagazineId ?? 0);
                 model.Articles = magazine?.Articles.OrderBy(a=>a.Order).ToList();
+                model.ExistingCoverPath = magazine?.CoverPath;
             }
             else if(magazines != null && magazines.Count() > 0)
             {
                 Magazine magazine = magazines.FirstOrDefault();
                 model.Articles = magazine?.Articles.OrderBy(a => a.Order).ToList();
+                model.ExistingCoverPath = magazine?.CoverPath;
             }
 
             return View(model);

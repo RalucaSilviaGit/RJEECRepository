@@ -1,0 +1,20 @@
+﻿@model GetArticlesByMagazineViewModel
+
+@{
+    ViewBag.PageTitle = "RJEEC - Article List";
+    var photoPath = "~/coverImages/" + (Model.ExistingCoverPath ?? "noimage.jpg");
+
+}
+
+    
+    <div class="form-group row col-sm-4 offset-4">
+        <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+    </div>
+
+<div class="card-deck">
+    @foreach (var article in Model.Articles)
+    {
+       <partial name="_ArticleCard" model="@article"/>
+    }
+</div>
+
