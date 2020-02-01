@@ -40,7 +40,7 @@ namespace RJEEC.Controllers
                 model = new GetPublishedMagazineViewModel();
             }
 
-            IEnumerable<Magazine> magazines = magazineRepository.GetAllMagazines().Where(m => m.Published == true);
+            IEnumerable<Magazine> magazines = magazineRepository.GetAllMagazines().Where(m => m.Published == true).OrderByDescending(m=>m.Number);
             model.PublishedMagazines = magazines.Select(m =>
                                   new SelectListItem()
                                   {
@@ -51,8 +51,13 @@ namespace RJEEC.Controllers
             if (model.MagazineId != null)
             {
                 Magazine magazine = magazineRepository.GetMagazine(model.MagazineId ?? 0);
-                model.Articles = magazine?.Articles;
-            }           
+                model.Articles = magazine?.Articles.OrderBy(a=>a.Order).ToList();
+            }
+            else if(magazines != null && magazines.Count() > 0)
+            {
+                Magazine magazine = magazines.FirstOrDefault();
+                model.Articles = magazine?.Articles.OrderBy(a => a.Order).ToList();
+            }
 
             return View(model);
         }
