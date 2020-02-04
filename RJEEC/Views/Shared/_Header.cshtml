@@ -1,12 +1,12 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
     <div class="row header">
-        <div class="col-md-7 leaddiv">
+        <div class="col-md-9 leaddiv">
             Romanian Journal of Ecology & Environmental Chemistry
         </div>
-        <div class="col-sm-5 lead">
-            <p class="lead">
+        <div class="col-sm-3 lead">
+            @*<p class="lead">*@
                 <img class="img-responsive" alt="RJEEC Magazine Logo" src="~/Images/logo_RJEEC.png" />
-            </p>
+            @*</p>*@
         </div>  
 
     </div>
@@ -102,7 +102,7 @@
                     </li>
                     <li class="nav-item">
                         <form method="post" asp-controller="account" asp-action="logout">
-                            <button type="submit" style="width:auto; margin:0.5rem 0;text-transform:none;"
+                            <button type="submit" style="width:auto; margin:-0.1rem 0;text-transform:none;"
                                     class="nav-link btn btn-link py-0">
                                 Logout @User.Identity.Name
                             </button>

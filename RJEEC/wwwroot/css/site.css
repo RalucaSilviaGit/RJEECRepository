@@ -104,34 +104,34 @@ h2{
 }
 
 .graytab {
-    background-color: #bbb;
+    background-color: rgb(153,255,153);
     /*background-color: rgb(249, 242, 161);*/
 }
 
 .greentab {
     /*background-color: #58cb97;*/
-    background-color: rgb(115, 202, 211);
+    background-color: rgb(255, 204, 102);
 }
 
-    .darkbluetab {
-        background-color: #5b98c3;
-    }
+.darkbluetab {
+    background-color: rgb(0,204,0);
+}
 
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 
 .graytab:hover {
-    background-color: #999;
+    background-color: rgba(153,255,153, 0.75);
     /*background-color: rgb(247, 240, 126);*/
 }
 
-    .greentab:hover {
-        /*background-color: #32b97c;*/
-        background-color: rgb(11, 189, 237);
-    }
+.greentab:hover {
+    /*background-color: #32b97c;*/
+    background-color: rgba(255, 204, 102, 0.75);
+}
 
-    .darkbluetab:hover {
-        background-color: #377dae;
-    }
+.darkbluetab:hover {
+    background-color: rgba(0,204,0,0.75);
+}
 
 /* Style the collapsible content. Note: hidden by default */
 .content {
@@ -381,8 +381,8 @@ a {
 
 .editorialboardcard {
     text-align:center;
-    margin-bottom:1em;
-    margin-top:1em;
+    margin-bottom:0.3rem;
+    margin-top:0.3rem;
 }
 
     .editorialboardcard div {
@@ -408,7 +408,7 @@ a {
 
 .lead {
     font-size: 2.5rem;
-    padding: 0% 6% 0% 5%;
+    padding: 0% 0% 1% 0%;
     text-align: center;
     font-weight: bold;
     color: #327713;
@@ -416,8 +416,8 @@ a {
 
 .leaddiv {
     font-family: 'Bahnschrift SemiBold Condensed', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 2.5rem;
-    padding: 3% 6% 0% 5%;
+    font-size: 4rem;
+    padding: 0% 0% 0% 0%;
     text-align: center;
     font-weight: bold;
     color: rgb(48, 117, 18);    ;
@@ -425,6 +425,29 @@ a {
 
 .row .header{
     margin:0;
+}
+
+@media (min-width: 1400px) {
+    footer {
+        font-size:1.2rem;
+    }
+
+    footer h6{
+        font-size:1.4rem;
+    }
+
+    .logo{
+        padding:0;
+    }
+    .logoecoind {
+        width:100%;
+    }
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 1.3rem !important;
+        padding-bottom:0;
+        padding-top:0;
+    }
+    
 }
 
 @media (min-width: 768px) {
@@ -470,7 +493,9 @@ a {
         /*color: #873600;*/
         font-weight: bold;
         text-decoration: none;
-        font-size: 0.9rem;
+        font-size: 1rem;
+        padding-bottom: 0.4rem;
+        padding-top: 0.4rem;
         text-transform: capitalize;
     }
 

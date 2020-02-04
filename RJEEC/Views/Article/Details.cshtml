@@ -56,7 +56,7 @@
 
         @if (!String.IsNullOrEmpty(Model.ExistingReviewerDecisionFileName))
         {
-            <div class="form-group row col-sm-4">
+            <div class="form-group row col-sm-12">
                 <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName" asp-route-subfolder="reviewerDecision">Download Reviewer Suggestions</a>
             </div>
         }
