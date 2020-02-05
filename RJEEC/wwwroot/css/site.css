@@ -14,6 +14,12 @@ body {
     color: #00675c;
 }
 
+.logout {
+    width: auto !important;
+    text-transform: none !important;
+    border: 0 !important;
+}
+
 .logoecoind {
     max-width: 100%;
     height: 10rem;
@@ -58,6 +64,10 @@ h2{
 
 .footer a:hover{
     color:rgba(255,255,255,0.75);
+}
+
+.footer p{
+    margin-bottom:0.5rem;
 }
 
 .lead img {
@@ -444,8 +454,8 @@ a {
     }
     .navbar-dark .navbar-nav .nav-link {
         font-size: 1.3rem !important;
-        padding-bottom:0;
-        padding-top:0;
+        padding-bottom:0 !important;
+        padding-top:0 !important;
     }
     
 }
@@ -493,9 +503,9 @@ a {
         /*color: #873600;*/
         font-weight: bold;
         text-decoration: none;
-        font-size: 1rem;
-        padding-bottom: 0.4rem;
-        padding-top: 0.4rem;
+        font-size: 0.85rem;
+        padding-bottom: 0.4rem !important;
+        padding-top: 0.4rem !important;
         text-transform: capitalize;
     }
 
