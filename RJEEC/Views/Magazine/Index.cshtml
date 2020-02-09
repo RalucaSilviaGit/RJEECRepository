@@ -16,7 +16,7 @@
             </div>
             <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
             <div class="card-footer text-center">
-                @if (magazine.Published != null && magazine.Published==true)
+                @if (magazine.Published==true)
                 {
                     <a asp-controller="Magazine" asp-action="Publish" asp-route-id="@magazine.Id" class="btn btn-primary m-1">Update</a>
                 }
