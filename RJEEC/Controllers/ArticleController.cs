@@ -236,6 +236,53 @@ namespace RJEEC.Controllers
             return View();
         }
 
+        public void sendStatusChangeByByEmail(Article model)
+        {
+            string host = _config.GetSection("SMTP").GetSection("Host").Value;
+            string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
+            string pass = _config.GetSection("SMTP").GetSection("Password").Value;
+
+            Author author = authorRepository.GetAuthor(model.contactAuthorId);
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(rjeecContactMail);
+            mailMessage.To.Add(author.Email);
+            mailMessage.Subject = "[RJEEC] Your article " + model.Title + " was reviewed.";
+            mailMessage.Body = String.Format($"<b>Article No.:</b> {model.Id} <br />" +
+                $"<b>Title:</b> {model.Title} <br />" +
+                $"<b>Authors:</b> {model.Authors} <br />" +
+                $"<b>Abstract:</b> {model.Description} <br />" +
+                $"<b>Keywords:</b> {model.KeyWords} <br />" +
+                $"<b>Review result:</b> {model.Status} <br />" );
+            if(model.Status == ArticleStatus.Accepted)
+            {
+                mailMessage.Body += String.Format($"<b>Will be published in volume:</b> {model.Magazine.Volume}, " +
+                $"<b>No:</b> {model.Magazine.Number}, " +
+                $"<b>Year:</b> {model.Magazine.PublishingYear} <br />");
+            }
+
+            mailMessage.IsBodyHtml = true;
+            if (model.Documents.FirstOrDefault(d => d.Type == DocumentType.ReviewerDecision) != null)
+            {
+                mailMessage.Attachments.Add(new Attachment(Path.Combine(hostingEnvironment.WebRootPath, "reviewerDecision", model.Documents.FirstOrDefault(d => d.Type == DocumentType.ReviewerDecision).DocumentPath)));
+
+            }
+
+            using (var smtp = new SmtpClient(host, 587))
+            {
+                var credential = new NetworkCredential
+                {
+                    UserName = rjeecContactMail,  // replace with valid value
+                    Password = pass  // replace with valid value
+                };
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mailMessage);
+            }
+        }
+
         public void sendArticleByEmail(Article model)
         {
             string host = _config.GetSection("SMTP").GetSection("Host").Value;
@@ -247,6 +294,7 @@ namespace RJEEC.Controllers
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(rjeecContactMail);
             mailMessage.To.Add(rjeecContactMail);
+            mailMessage.CC.Add(author.Email);
             mailMessage.Subject = "[RJEEC] New Article Submitted By " + author.FirstName + " " + author.LastName;
             mailMessage.Body = String.Format($"<b>Article No.:</b> {model.Id} <br />" +
                 $"<b>Title:</b> {model.Title} <br />" +
@@ -300,6 +348,8 @@ namespace RJEEC.Controllers
             {
                 if (User.IsInRole("Researcher"))
                     model.Articles = articleRepository.GetAllArticlesForAuthor(authorRepository.GetAuthorByEmail(User.Identity.Name)?.Id ?? -1).ToList();
+                else if (User.IsInRole("Editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    model.Articles = articleRepository.GetAllArticlesByStatus(model.StatusId ?? 0).ToList();
             }
 
             return View("ViewReviewStatus", model);
@@ -374,6 +424,7 @@ namespace RJEEC.Controllers
                 }
 
                 Article updatedArticle = articleRepository.Update(article);
+                sendStatusChangeByByEmail(updatedArticle);
 
                 return RedirectToAction("details", new { id = article.Id});
             }

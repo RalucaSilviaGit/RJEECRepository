@@ -49,12 +49,12 @@ namespace RJEEC.Models
 
         public IEnumerable<Article> GetAllArticlesByStatus(int statusId)
         {
-            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => (int)a.Status == statusId);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => (int)a.Status == statusId).OrderByDescending(a=>a.Id);
         }
 
         public IEnumerable<Article> GetAllArticlesForAuthor(int authorId)
         {
-            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => a.contactAuthorId == authorId);
+            return context.Articles.Include(a => a.Documents).Include(a => a.contactAuthor).Where(a => a.contactAuthorId == authorId).OrderByDescending(a => a.Id);
         }
 
         public Article GetArticle(int id)
