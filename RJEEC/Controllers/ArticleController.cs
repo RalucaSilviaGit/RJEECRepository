@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using Microsoft.Office.Interop.Word;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -96,15 +95,15 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
-        //[Route("Read/{articleId}")]
-        public IActionResult Read(int? id)
+        [Route("Read/{articleId}")]
+        public IActionResult Read(int? articleId, string Id)
         {
-            Article article = articleRepository.GetArticle(id ?? 1);
+            Article article = articleRepository.GetArticle(articleId ?? 1);
 
             if (article == null)
             {
                 Response.StatusCode = 404;
-                return View("ArticleNotFound", id);
+                return View("ArticleNotFound", articleId);
             }
 
             ArticleReadViewModel articleReadViewModel = new ArticleReadViewModel
@@ -479,12 +478,11 @@ namespace RJEEC.Controllers
                 case ".doc":
                 case ".docx":
                     string newFileName = Path.GetFileNameWithoutExtension(downloadFile) + "ToPdf.pdf";
-                    Application word = new Application();
-                    Microsoft.Office.Interop.Word.Document doc = word.Documents.Open(downloadFile);
-                    doc.Activate();
+                    Spire.Doc.Document document = new Spire.Doc.Document(downloadFile);
                     downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, newFileName);
-                    doc.SaveAs2(downloadFile, WdSaveFormat.wdFormatPDF);
-                    doc.Close();
+                    document.SaveToFile(downloadFile, Spire.Doc.FileFormat.PDF);
+                    //doc.SaveAs2(downloadFile, WdSaveFormat.wdFormatPDF);
+                    document.Close();
                     goto case ".pdf";
                 default:
                     return null;

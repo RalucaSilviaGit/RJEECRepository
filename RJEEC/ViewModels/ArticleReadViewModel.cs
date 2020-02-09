@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,5 +16,6 @@ namespace RJEEC.ViewModels
         [Display(Name="Abstract")]
         public string Description { get; set; }
         public string Content { get; set; }
+        public FileStreamResult file { get; set; }
     }
 }

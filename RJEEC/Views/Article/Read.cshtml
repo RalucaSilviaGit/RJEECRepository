@@ -21,8 +21,8 @@
 
             <div class="card-body text-justify">
                 <p>@Model.Description</p>
-                <a id="iframefill" target="iframepdf" asp-action="PreviewFile" asp-controller="Article" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" style="display:none">Preview</a>
-                <iframe id="iframepdf" name="iframepdf" style="height:50em;width:100%"></iframe>
+                @*<a id="iframefill" target="iframepdf" asp-action="PreviewFile" asp-controller="Article" asp-route-fileName="@Model.Content" asp-route-subfolder="articles" style="display:none">Preview</a>*@
+                <iframe id="iframepdf" name="iframepdf" style="height:50em;width:100%" src="/article/PreviewFile?fileName=@Model.Content&subfolder=articles"></iframe>
             </div>
             <div class="card-footer text-center">
                 <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
@@ -32,12 +32,10 @@
     </div>
 </div>
 
-@section Scripts {
+@*@section Scripts {
     <script>
         $(document).ready(function () {
             $('#iframefill')[0].click();
-            $('#iframefill1')[0].click();
-            $('#iframefill2')[0].click();
         });
     </script>
-}
+}*@
