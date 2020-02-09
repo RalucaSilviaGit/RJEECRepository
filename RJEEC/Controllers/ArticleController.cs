@@ -96,15 +96,15 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
-        [Route("Read/{articleId}")]
-        public IActionResult Read(int? articleId, string id)
+        //[Route("Read/{articleId}")]
+        public IActionResult Read(int? id)
         {
-            Article article = articleRepository.GetArticle(articleId ?? 1);
+            Article article = articleRepository.GetArticle(id ?? 1);
 
             if (article == null)
             {
                 Response.StatusCode = 404;
-                return View("ArticleNotFound", articleId);
+                return View("ArticleNotFound", id);
             }
 
             ArticleReadViewModel articleReadViewModel = new ArticleReadViewModel

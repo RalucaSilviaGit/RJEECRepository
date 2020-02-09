@@ -20,7 +20,8 @@
     {
         <a asp-controller="Article" asp-action="Review" asp-route-id="@Model.Id" class="btn btn-primary m-1">Review</a>
     }
-    <a asp-controller="Article" asp-action="Read" asp-route-articleId ="@Model.Id" asp-route-id="@Model.Title" class="btn btn-primary m-1">Read</a>
+    @*<a asp-controller="Article" asp-action="Read" asp-route-articleId="@Model.Id" asp-route-id="@Model.Title" class="btn btn-primary m-1">Read</a>*@
+    <a asp-controller="Article" asp-action="Read" asp-route-id="@Model.Id" class="btn btn-primary m-1">Read</a>
     <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:10em">Download</a>
     @if (!String.IsNullOrWhiteSpace(Model.Description))
     {
