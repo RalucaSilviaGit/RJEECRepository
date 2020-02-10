@@ -112,7 +112,8 @@ namespace RJEEC.Controllers
                 Description = article.Description,
                 Authors = article.Authors,
                 KeyWords = article.KeyWords,
-                Content = article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent).DocumentPath
+                Content = article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent).DocumentPath,
+                Doc = PreviewFile(article.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent).DocumentPath, "articles")
             };
 
             return View(articleReadViewModel);
@@ -466,24 +467,22 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult PreviewFile(string fileName, string subfolder)
+        public string PreviewFile(string fileName, string subfolder)
         {
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
             var fileExt = Path.GetExtension(fileName);
             switch (fileExt)
             {
                 case ".pdf":
-                    var stream = new FileStream(downloadFile, FileMode.Open);
-                    return new FileStreamResult(stream, "application/pdf");
+                    return fileName;
                 case ".doc":
                 case ".docx":
                     string newFileName = Path.GetFileNameWithoutExtension(downloadFile) + "ToPdf.pdf";
                     Spire.Doc.Document document = new Spire.Doc.Document(downloadFile);
                     downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, newFileName);
                     document.SaveToFile(downloadFile, Spire.Doc.FileFormat.PDF);
-                    //doc.SaveAs2(downloadFile, WdSaveFormat.wdFormatPDF);
                     document.Close();
-                    goto case ".pdf";
+                    return "ToPdf.pdf";
                 default:
                     return null;
             }

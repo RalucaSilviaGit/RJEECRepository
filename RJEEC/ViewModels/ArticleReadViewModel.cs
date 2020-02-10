@@ -16,6 +16,6 @@ namespace RJEEC.ViewModels
         [Display(Name="Abstract")]
         public string Description { get; set; }
         public string Content { get; set; }
-        public FileStreamResult file { get; set; }
+        public string Doc { get; set; }
     }
 }
