@@ -31,51 +31,6 @@ namespace RJEEC.Models
                     userManager.AddToRoleAsync(user,"SuperAdmin").Wait();
                 }
             }
-
-            if (userManager.FindByEmailAsync("aralu10000@yahoo.com").Result == null)
-            {
-                IdentityUser user = new IdentityUser();
-                user.UserName = "aralu10000@yahoo.com";
-                user.Email = "aralu10000@yahoo.com";
-                user.EmailConfirmed = true;
-
-                IdentityResult result = userManager.CreateAsync(user, "Network1").Result;
-
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user,"Admin").Wait();
-                }
-            }
-
-            if (userManager.FindByEmailAsync("researcher@yahoo.com").Result == null)
-            {
-                IdentityUser user = new IdentityUser();
-                user.UserName = "researcher@yahoo.com";
-                user.Email = "researcher@yahoo.com";
-                user.EmailConfirmed = true;
-
-                IdentityResult result = userManager.CreateAsync(user, "Network1").Result;
-
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user, "Researcher").Wait();
-                }
-            }
-
-            if (userManager.FindByEmailAsync("editor@yahoo.com").Result == null)
-            {
-                IdentityUser user = new IdentityUser();
-                user.UserName = "editor@yahoo.com";
-                user.Email = "editor@yahoo.com";
-                user.EmailConfirmed = true;
-
-                IdentityResult result = userManager.CreateAsync(user, "Network1").Result;
-
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user, "Editor").Wait();
-                }
-            }
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
