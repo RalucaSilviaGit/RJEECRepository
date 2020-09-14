@@ -45,6 +45,7 @@ namespace RJEEC.ViewModels
         [DocumentValidation]
         public IFormFile ArticleContentDoc { get; set; }
         [Display(Name = "Publishing agreement")]
+        [DocumentMandForResearcherValidation]
         [DocumentValidation]
         public IFormFile PulishingAgreementDoc { get; set; }
         [Display(Name = "Additional document (optional)")]

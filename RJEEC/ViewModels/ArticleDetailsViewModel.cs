@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RJEEC.Models;
 using RJEEC.Utilities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RJEEC.ViewModels
@@ -10,6 +11,7 @@ namespace RJEEC.ViewModels
         [Display(Name = "Article number")]
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Authors { get; set; }
         [Display(Name = "First Name")]
         public string AuthorFirstName { get; set; }
         [Display(Name = "Last Name")]
@@ -31,5 +33,18 @@ namespace RJEEC.ViewModels
         public IFormFile ReviewerDecision { get; set; }
 
         public string ExistingReviewerDecisionFileName { get; set; }
+
+        public List<Document> DocumentsForArticle { get; set; }
+
+        [Display(Name = "Upload new version for the article")]
+        [DocumentValidation]
+        public IFormFile ArticleContentNewDoc { get; set; }
+
+        [Display(Name = "Additional document (optional)")]
+        [DocumentValidation]
+        public IFormFile AdditionalDoc1 { get; set; }
+        [Display(Name = "Additional document (optional)")]
+        [DocumentValidation]
+        public IFormFile AdditionalDoc2 { get; set; }
     }
 }

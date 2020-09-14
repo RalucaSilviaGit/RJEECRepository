@@ -7,8 +7,8 @@ namespace RJEEC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHostingEnvironment hostingEnvironment;
-        public HomeController(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment hostingEnvironment;
+        public HomeController(IWebHostEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
         }

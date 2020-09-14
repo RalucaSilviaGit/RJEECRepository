@@ -6,9 +6,15 @@
     </div>
     @if (!String.IsNullOrEmpty(Model.Authors))
     {
-        <h6 style="margin:1em 2em">Authors: @Model.Authors</h6>
+        <h5 style="margin:1em 2em">Authors: @Model.Authors</h5>
     }
 
+    @if (!String.IsNullOrEmpty(Model.DOI))
+    {
+        <div style="margin:0em 2.5em 1em 2.5em">
+            <a href="@Model.DOI" target="_blank">@Model.DOI</a>
+        </div>
+    }
 
 <div class="card-footer">
     @if (SignInManager.IsSignedIn(User) && (User.Identity.Name == Model.contactAuthor?.Email || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
@@ -22,7 +28,7 @@
     }
     <a asp-controller="Article" asp-action="Read" asp-route-articleId="@Model.Id" asp-route-id="@Model.Title" class="btn btn-primary m-1">Read</a>
     @*<a asp-controller="Article" asp-action="Read" asp-route-id="@Model.Title" asp-route-articleId="@Model.Id" class="btn btn-primary m-1">Read</a>*@
-    <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Documents.FirstOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:10em">Download</a>
+    <a asp-controller="Article" asp-action="DownloadFile" asp-route-fileName="@Model.Documents.LastOrDefault(d => d.Type == DocumentType.ArticleContent)?.DocumentPath" asp-route-subfolder="articles" asp-route-title="@Model.Title" class="btn btn-primary" style="width:10em">Download</a>
     @if (!String.IsNullOrWhiteSpace(Model.Description))
     {
         <button type="button" class="collapsibleAbs btn btn-primary" style="width:10em">Read Abstract</button>

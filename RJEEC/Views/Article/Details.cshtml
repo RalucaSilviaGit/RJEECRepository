@@ -4,7 +4,8 @@
     ViewBag.PageTitle = "RJEEC - Article Page";
 }
 
-    <form class="mt-3">
+    <form class="mt-3" enctype="multipart/form-data" asp-controller="article" asp-action="details" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group row">
             <label asp-for="Id" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
@@ -15,6 +16,12 @@
             <label asp-for="Title" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
                 <textarea asp-for="Title" class="form-control" readonly></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Authors" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="Authors" class="form-control" readonly></textarea>
             </div>
         </div>
         <h3>Correspondent Author</h3>
@@ -78,5 +85,63 @@
                 </div>
             </div>
         </div>
-        <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
+        <partial name="_ArticleDocuments" model="@Model.DocumentsForArticle" />
+
+        @if (Model.Status != ArticleStatus.Published || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor"))
+        {
+            <h4>Upload a new version of the article or additional documents, if needed:</h4>
+            <div class="form-group row">
+                <label asp-for="@Model.ArticleContentNewDoc" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <div class="custom-file">
+                        <input asp-for="@Model.ArticleContentNewDoc" class="form-control custom-file-input">
+                        <label class="custom-file-label">Choose File...</label>
+                    </div>
+                    <span asp-validation-for="@Model.ArticleContentNewDoc" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="@Model.AdditionalDoc1" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <div class="custom-file">
+                        <input asp-for="@Model.AdditionalDoc1" class="form-control custom-file-input">
+                        <label class="custom-file-label">Choose File...</label>
+                    </div>
+                    <span asp-validation-for="@Model.AdditionalDoc1" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="@Model.AdditionalDoc2" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <div class="custom-file">
+                        <input asp-for="@Model.AdditionalDoc2" class="form-control custom-file-input">
+                        <label class="custom-file-label">Choose File...</label>
+                    </div>
+                    <span asp-validation-for="@Model.AdditionalDoc2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary mr-2" style="width:30em;">SUBMIT THE NEW DOCUMENTS</button>
+                <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
+            </div>
+        }
+        else
+        {
+            <div class="form-group row">
+                <a class="btn btn-primary" href='javascript:history.go(-1)'>Back</a>
+            </div>
+        }
+
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $('.custom-file-input').on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next('.custom-file-label').html(fileName);
+                    });
+                });
+            </script>
+        }
     </form>

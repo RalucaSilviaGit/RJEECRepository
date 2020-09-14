@@ -25,5 +25,6 @@ namespace RJEEC.Models
         public bool AgreePublishingEthics { get; set; }
         public string Comments { get; set; }
         public int Order { get; set; }
+        public string DOI { get; set; }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Document>
+
+@{
+    var guidLength = new Guid().ToString().Length + 1;
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    <h4>Already submitted papers and documents: </h4>
+    <ul>
+        @foreach (var doc in Model)
+        {
+            <li>
+                @if (doc.Type == DocumentType.ArticleContent)
+                {
+                    <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="articles">@doc?.DocumentPath.Substring(guidLength)</a>
+                }
+                @if (doc.Type == DocumentType.PublishingAgreement)
+                {
+            <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="publishingAgreements">@doc?.DocumentPath.Substring(guidLength)</a>
+                }
+                @if (doc.Type == DocumentType.Additional)
+                {
+            <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="additionalDocuments">@doc?.DocumentPath.Substring(guidLength)</a>
+                }
+            </li>
+        }
+    </ul>
+}

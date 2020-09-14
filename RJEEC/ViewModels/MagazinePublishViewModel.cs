@@ -23,9 +23,13 @@ namespace RJEEC.ViewModels
         [Display(Name = "Publishing Year")]
         public int PublishingYear { get; set; }
         public List<Article> Articles { get; set; }
-        [Display(Name = "Cover")]
+        [Display(Name = "Front Cover")]
         public IFormFile Cover { get; set; }
         public string ExistingCoverPath { get; set; }
+
+        [Display(Name = "Back Cover")]
+        public IFormFile BackCover { get; set; }
+        public string ExistingBackCoverPath { get; set; }
         public bool Published { get; set; }
     }
 }

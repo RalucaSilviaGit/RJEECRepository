@@ -3,7 +3,7 @@
 @{
     ViewBag.PageTitle = "RJEEC - Archive";
     var photoPath = "~/coverImages/" + (Model.ExistingCoverPath ?? "noimage.jpg");
-
+    var backPhotoPath = "~/coverImages/" + (Model.ExistingBackCoverPath ?? "noimage.jpg");
 }
 
 <form name="form1" asp-controller="Magazine" asp-action="GetPublishedMagazine" method="post">
@@ -32,6 +32,10 @@
         }
     </div>
 }
+
+<div class="form-group row col-sm-4 offset-4">
+    <img class="imageThumbnail" src="@backPhotoPath" asp-append-version="true" />
+</div>
 
 @section Scripts {
     <script>

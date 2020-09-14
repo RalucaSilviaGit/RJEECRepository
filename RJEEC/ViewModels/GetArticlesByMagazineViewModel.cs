@@ -9,6 +9,7 @@ namespace RJEEC.ViewModels
     public class GetArticlesByMagazineViewModel
     {
         public string ExistingCoverPath { get; set; }
+        public string ExistingBackCoverPath { get; set; }
         public List<Article> Articles { get; set; }
     }
 }

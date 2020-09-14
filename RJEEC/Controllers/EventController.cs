@@ -15,10 +15,10 @@ namespace RJEEC.Controllers
     public class EventController : Controller
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         public EventController(IEventRepository eventRepository, 
-                            IHostingEnvironment hostingEnvironment)
+                            IWebHostEnvironment hostingEnvironment)
         {
             this._eventRepository = eventRepository;
             this.hostingEnvironment = hostingEnvironment;

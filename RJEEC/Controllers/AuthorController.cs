@@ -14,9 +14,9 @@ namespace RJEEC.Controllers
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository authorRepository;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public AuthorController(IAuthorRepository authorRepository, IHostingEnvironment hostingEnvironment)
+        public AuthorController(IAuthorRepository authorRepository, IWebHostEnvironment hostingEnvironment)
         {
             this.authorRepository = authorRepository;
             this.hostingEnvironment = hostingEnvironment;

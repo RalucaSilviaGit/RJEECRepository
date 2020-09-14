@@ -11,6 +11,11 @@ namespace RJEEC.Migrations
                 table: "Magazines",
                 nullable: true);
 
+            migrationBuilder.AddColumn<string>(
+                name: "BackCoverPath",
+                table: "Magazines",
+                nullable: true);
+
             migrationBuilder.AddColumn<bool>(
                 name: "Published",
                 table: "Magazines",
@@ -28,6 +33,10 @@ namespace RJEEC.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "CoverPath",
+                table: "Magazines");
+
+            migrationBuilder.DropColumn(
+                name: "BackCoverPath",
                 table: "Magazines");
 
             migrationBuilder.DropColumn(

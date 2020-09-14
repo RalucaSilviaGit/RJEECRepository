@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RJEEC.Models;
@@ -16,11 +17,11 @@ namespace RJEEC.Controllers
     {
         private readonly IMagazineRepository magazineRepository;
         private readonly IArticleRepository articleRepository;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         public MagazineController(IMagazineRepository magazineRepository,
             IArticleRepository articleRepository,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         {
             this.magazineRepository = magazineRepository;
             this.articleRepository = articleRepository;
@@ -53,12 +54,14 @@ namespace RJEEC.Controllers
                 Magazine magazine = magazineRepository.GetMagazine(model.MagazineId ?? 0);
                 model.Articles = magazine?.Articles.OrderBy(a=>a.Order).ToList();
                 model.ExistingCoverPath = magazine?.CoverPath;
+                model.ExistingBackCoverPath = magazine?.BackCoverPath;
             }
             else if(magazines != null && magazines.Count() > 0)
             {
                 Magazine magazine = magazines.FirstOrDefault();
                 model.Articles = magazine?.Articles.OrderBy(a => a.Order).ToList();
                 model.ExistingCoverPath = magazine?.CoverPath;
+                model.ExistingBackCoverPath = magazine?.BackCoverPath;
             }
 
             return View(model);
@@ -84,8 +87,9 @@ namespace RJEEC.Controllers
                 PublishingYear = magazine.PublishingYear,
                 Published = magazine.Published,
                 Articles=magazine.Articles.OrderBy(a=>a.Order).ToList(),
-                ExistingCoverPath = magazine.CoverPath
-            };
+                ExistingCoverPath = magazine.CoverPath,
+                ExistingBackCoverPath = magazine.BackCoverPath
+        };
             return View(magazinePublishViewModel);
         }
 
@@ -101,6 +105,7 @@ namespace RJEEC.Controllers
                 {
                     Article art = articleRepository.GetArticle(article.Id);
                     art.Order = article.Order;
+                    art.DOI = article.DOI;
                     art.Status = ArticleStatus.Published;
                     Article updatedArticle = articleRepository.Update(art);
                 }        
@@ -113,7 +118,18 @@ namespace RJEEC.Controllers
                             "coverImages", model.ExistingCoverPath);
                         System.IO.File.Delete(filePath);
                     }
-                    magazine.CoverPath = ProcessUploadedFile(model);
+                    magazine.CoverPath = ProcessUploadedFile(model.Cover);
+                }
+
+                if (model.BackCover != null)
+                {
+                    if (model.ExistingBackCoverPath != null)
+                    {
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath,
+                            "coverImages", model.ExistingBackCoverPath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    magazine.BackCoverPath = ProcessUploadedFile(model.BackCover);
                 }
 
                 Magazine updatedMagazine = magazineRepository.UpdateMagazine(magazine);
@@ -124,18 +140,18 @@ namespace RJEEC.Controllers
             return View(model);
         }
 
-        private string ProcessUploadedFile(MagazinePublishViewModel model)
+        private string ProcessUploadedFile(IFormFile model)
         {
             string uniqueFileName = null;
 
-            if (model.Cover != null)
+            if (model != null)
             {
                 string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "coverImages");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Cover.FileName;
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    model.Cover.CopyTo(fileStream);
+                    model.CopyTo(fileStream);
                 }
             }
 

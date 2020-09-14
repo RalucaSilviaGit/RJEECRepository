@@ -3,7 +3,7 @@
 @{
     ViewBag.PageTitle = "RJEEC - Article List";
     var photoPath = "~/coverImages/" + (Model.ExistingCoverPath ?? "noimage.jpg");
-
+    var backPhotoPath = "~/coverImages/" + (Model.ExistingBackCoverPath ?? "noimage.jpg");
 }
 
     
@@ -16,5 +16,9 @@
     {
        <partial name="_ArticleCard" model="@article"/>
     }
+</div>
+
+<div class="form-group row col-sm-4 offset-4">
+    <img class="imageThumbnail" src="@backPhotoPath" asp-append-version="true" />
 </div>
 

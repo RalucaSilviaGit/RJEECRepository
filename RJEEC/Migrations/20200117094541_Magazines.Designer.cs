@@ -356,6 +356,8 @@ namespace RJEEC.Migrations
 
                     b.Property<string>("CoverPath");
 
+                    b.Property<string>("BackCoverPath");
+
                     b.Property<int>("Number");
 
                     b.Property<bool>("Published");

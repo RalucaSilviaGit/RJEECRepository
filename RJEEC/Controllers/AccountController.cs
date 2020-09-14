@@ -73,7 +73,15 @@ namespace RJEEC.Controllers
                 {
                     userManager.AddToRoleAsync(user, "Researcher").Wait();
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+                    string confirmationLink;
+                    if (String.IsNullOrWhiteSpace(_config.GetSection("Host").Value))
+                    {
+                        confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+                    }
+                    else
+                    {
+                        confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme, _config.GetSection("Host").Value);
+                    }
                     sendEmail(confirmationLink, model.Email, "ConfirmEmail");
 
                     if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
@@ -196,8 +204,17 @@ namespace RJEEC.Controllers
                 {
                     var token = await userManager.GeneratePasswordResetTokenAsync(user);
 
-                    var passwordResetLink = Url.Action("ResetPassword", "Account",
-                            new { email = model.Email, token = token }, Request.Scheme);
+                    string passwordResetLink;
+                    if (String.IsNullOrWhiteSpace(_config.GetSection("Host").Value))
+                    {
+                        passwordResetLink = Url.Action("ResetPassword", "Account",
+                             new { email = model.Email, token = token }, Request.Scheme);
+                    }
+                    else
+                    {
+                        passwordResetLink = Url.Action("ResetPassword", "Account",
+                            new { email = model.Email, token = token }, Request.Scheme, _config.GetSection("Host").Value);
+                    }
 
                     sendEmail(passwordResetLink, model.Email, "PasswordReset");
 

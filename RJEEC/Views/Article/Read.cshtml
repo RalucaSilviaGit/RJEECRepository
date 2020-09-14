@@ -8,7 +8,7 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h2>@Model.Title</h2><br/>
+                <h2>@Model.Title</h2><br />
                 @if (!String.IsNullOrWhiteSpace(Model.Authors))
                 {
                     <h5>Authors: @Model.Authors</h5><br />
@@ -16,6 +16,10 @@
                 @if (!String.IsNullOrWhiteSpace(Model.KeyWords))
                 {
                     <h6>Keywords: @Model.KeyWords</h6>
+                }
+                @if (!String.IsNullOrEmpty(Model.DOI))
+                {
+                    <a href="@Model.DOI">@Model.DOI</a>
                 }
             </div>
 

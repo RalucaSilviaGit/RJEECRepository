@@ -15,6 +15,7 @@ namespace RJEEC.ViewModels
         public List<SelectListItem> PublishedMagazines { get; set; }
 
         public string ExistingCoverPath { get; set; }
+        public string ExistingBackCoverPath { get; set; }
         public List<Article> Articles { get; set; }
     }
 }

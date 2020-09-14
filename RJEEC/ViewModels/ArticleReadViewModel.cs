@@ -17,5 +17,6 @@ namespace RJEEC.ViewModels
         public string Description { get; set; }
         public string Content { get; set; }
         public string Doc { get; set; }
+        public string DOI { get; set; }
     }
 }
