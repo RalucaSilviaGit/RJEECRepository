@@ -153,7 +153,12 @@ namespace RJEEC.Controllers
                 MagazineVolume = magazine?.Volume,
                 MagazineNumber = magazine?.Number,
                 MagazinePublishingYear = magazine?.PublishingYear,
-                ExistingReviewerDecisionFileName = article.Documents.LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
+                ExistingReviewerDecisionFileName = article.Documents
+                    .Where(d => d.Type == DocumentType.ReviewerDecision)
+                    .GroupBy(d => d.UserName)
+                    .Select(d => d.LastOrDefault()?.DocumentPath)
+                    .ToList(),
+                //LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
                 DocumentsForArticle = article.Documents.OrderBy(d => d.Id).ToList()
             };
 
@@ -520,7 +525,12 @@ namespace RJEEC.Controllers
                 MagazineVolume = article.Magazine?.Volume,
                 MagazineNumber = article.Magazine?.Number,
                 MagazinePublishingYear = article.Magazine?.PublishingYear,
-                ExistingReviewerDecisionFileName = article.Documents.LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
+                ExistingReviewerDecisionFileName = article.Documents
+                    .Where(d => d.Type == DocumentType.ReviewerDecision)
+                    .GroupBy(d => d.UserName)
+                    .Select(d => d.LastOrDefault()?.DocumentPath)
+                    .ToList(),
+                    //.LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
                 DocumentsForArticle = article.Documents.OrderBy(d=>d.Id).ToList()
             };
 
@@ -548,7 +558,8 @@ namespace RJEEC.Controllers
                         Document newDocument = new Document
                         {
                             Type = DocumentType.ReviewerDecision,
-                            DocumentPath = uniqueFileName
+                            DocumentPath = uniqueFileName,
+                            UserName = User.Identity.Name
                         };
                         article.Documents.Add(newDocument);
                     }

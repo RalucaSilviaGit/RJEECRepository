@@ -10,20 +10,26 @@
     <ul>
         @foreach (var doc in Model)
         {
-            <li>
-                @if (doc.Type == DocumentType.ArticleContent)
-                {
+
+            @if (doc.Type == DocumentType.ArticleContent)
+            {
+                <li>
                     <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="articles">@doc?.DocumentPath.Substring(guidLength)</a>
-                }
-                @if (doc.Type == DocumentType.PublishingAgreement)
-                {
-            <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="publishingAgreements">@doc?.DocumentPath.Substring(guidLength)</a>
-                }
-                @if (doc.Type == DocumentType.Additional)
-                {
-            <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="additionalDocuments">@doc?.DocumentPath.Substring(guidLength)</a>
-                }
-            </li>
+                </li>
+            }
+            @if (doc.Type == DocumentType.PublishingAgreement)
+            {
+                <li>
+                    <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="publishingAgreements">@doc?.DocumentPath.Substring(guidLength)</a>
+                </li>
+            }
+            @if (doc.Type == DocumentType.Additional)
+            {
+                <li>
+                    <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@doc?.DocumentPath" asp-route-subfolder="additionalDocuments">@doc?.DocumentPath.Substring(guidLength)</a>
+                </li>
+            }
+
         }
     </ul>
 }

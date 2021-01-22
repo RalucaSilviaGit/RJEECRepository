@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,5 +13,8 @@ namespace RJEEC.Models
         public Article Article { get; set; }
         public DocumentType Type { get; set; }
         public string DocumentPath { get; set; }
+
+        [StringLength(100, MinimumLength = 3)]
+        public string UserName { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace RJEEC.ViewModels
         [DocumentValidation]
         public IFormFile ReviewerDecision { get; set; }
 
-        public string ExistingReviewerDecisionFileName { get; set; }
+        public List<string> ExistingReviewerDecisionFileName { get; set; }
 
         public List<Document> DocumentsForArticle { get; set; }
 
