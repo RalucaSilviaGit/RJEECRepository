@@ -145,6 +145,7 @@ namespace RJEEC.Controllers
             {
                 Id = article.Id,
                 Title = article.Title,
+                Description = article.Description,
                 Authors = article.Authors,
                 AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
@@ -344,9 +345,9 @@ namespace RJEEC.Controllers
                 $"<b>Review result:</b> {model.Status} <br />" );
             if(model.Status == ArticleStatus.Accepted)
             {
-                mailMessage.Body += String.Format($"<b>Will be published in volume:</b> {model.Magazine.Volume}, " +
-                $"<b>No:</b> {model.Magazine.Number}, " +
-                $"<b>Year:</b> {model.Magazine.PublishingYear} <br />");
+                mailMessage.Body += String.Format($"<b>Will be published in volume:</b> {model?.Magazine?.Volume}, " +
+                $"<b>No:</b> {model?.Magazine?.Number}, " +
+                $"<b>Year:</b> {model?.Magazine?.PublishingYear} <br />");
             }
 
             mailMessage.Body += String.Format($"You can follow the status of the article or update additional documents by logging into your account on www.rjeec.ro.<br />" +
@@ -517,6 +518,7 @@ namespace RJEEC.Controllers
             {
                 Id = article.Id,
                 Title = article.Title,
+                Description = article.Description,
                 Authors = article.Authors,
                 AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
@@ -546,6 +548,7 @@ namespace RJEEC.Controllers
                 Article article = articleRepository.GetArticle(model.Id);
                 article.Status = model.Status;
                 article.Title = model.Title;
+                article.Description = model.Description;
                 article.Authors = model.Authors;
                 article.Magazine = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear);
                 article.MagazineId = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear)?.Id;

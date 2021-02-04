@@ -11,6 +11,11 @@ namespace RJEEC.ViewModels
         [Display(Name = "Article number")]
         public int Id { get; set; }
         public string Title { get; set; }
+
+        [MaxLength(5000)]
+        [Display(Name = "Abstract")]
+        public string Description { get; set; }
+
         public string Authors { get; set; }
         [Display(Name = "First Name")]
         public string AuthorFirstName { get; set; }
