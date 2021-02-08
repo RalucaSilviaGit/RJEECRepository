@@ -323,7 +323,7 @@ namespace RJEEC.Controllers
         {
             ViewBag.userId = userId;
 
-            var user = await userManager.FindByIdAsync(userId);
+            var user = userManager.Users.FirstOrDefault(u => u.Id == userId);
 
             if (user == null)
             {
@@ -333,7 +333,7 @@ namespace RJEEC.Controllers
 
             var model = new List<UserRolesViewModel>();
 
-            foreach (var role in roleManager.Roles)
+            foreach (var role in roleManager.Roles.ToList())
             {
                 var userRolesViewModel = new UserRolesViewModel
                 {
@@ -341,19 +341,18 @@ namespace RJEEC.Controllers
                     RoleName = role.Name
                 };
 
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRolesViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRolesViewModel.IsSelected = false;
-                }
+                userRolesViewModel.IsSelected = await IsUserInRole(user, role.Name);
 
                 model.Add(userRolesViewModel);
             }
 
             return View(model);
+        }
+
+        [NonAction]
+        public async Task<bool> IsUserInRole(IdentityUser user, string role)
+        {
+            return await userManager.IsInRoleAsync(user, role);
         }
 
         [HttpPost]
