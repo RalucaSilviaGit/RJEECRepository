@@ -15,6 +15,7 @@ using Document = RJEEC.Models.Document;
 using MailMessage = System.Net.Mail.MailMessage;
 using Microsoft.AspNetCore.Identity;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web;
 
 namespace RJEEC.Controllers
 {
@@ -387,8 +388,9 @@ namespace RJEEC.Controllers
             mailMessage.From = new MailAddress(rjeecContactMail);
             mailMessage.To.Add(author.Email);
             mailMessage.To.Add(rjeecContactMail);
+            model.Title = model.Title.Replace("\r\n", string.Empty);
 
-            mailMessage.Subject = "[RJEEC] Article " + model.Title + " was updated.";
+            mailMessage.Subject = String.Format($"[RJEEC] Article { model.Title } was updated.");
             mailMessage.Body = String.Format($"<b>Article No.:</b> {model.Id} <br />" +
                 $"<b>Title:</b> {model.Title} <br />" +
                 $"<b>Authors:</b> {model.Authors} <br />" +
