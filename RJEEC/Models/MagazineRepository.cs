@@ -23,12 +23,14 @@ namespace RJEEC.Models
 
         public IEnumerable<Magazine> GetAllMagazines()
         {
-            return context.Magazines.Include(m => m.Articles);
+            return context.Magazines.Include(m => m.Articles).ThenInclude(a => a.Documents);
         }
 
         public IEnumerable<Magazine> GetLast5Magazines()
         {
-            return context.Magazines.OrderByDescending(m => m.PublishingYear).ThenByDescending(m => m.Volume).ThenByDescending(m => m.Number).Take(5);
+            return context.Magazines.Where(m => m.Published == true).OrderByDescending(m => m.PublishingYear).ThenByDescending(m => m.Volume).ThenByDescending(m => m.Number)
+                //.Take(5)
+                ;
         }
 
         public Magazine GetMagazine(int id)

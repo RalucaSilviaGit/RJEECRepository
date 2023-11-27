@@ -16,6 +16,9 @@ namespace RJEEC.ViewModels
         [Display(Name = "Abstract")]
         public string Description { get; set; }
 
+        [MaxLength(1000)]
+        public string KeyWords { get; set; }
+
         public string Authors { get; set; }
         [Display(Name = "First Name")]
         public string AuthorFirstName { get; set; }
@@ -37,7 +40,7 @@ namespace RJEEC.ViewModels
         [DocumentValidation]
         public IFormFile ReviewerDecision { get; set; }
 
-        public List<string> ExistingReviewerDecisionFileName { get; set; }
+        public List<ReviewModel> ExistingReviewerDecisionFileName { get; set; } = new List<ReviewModel>();
 
         public List<Document> DocumentsForArticle { get; set; }
 

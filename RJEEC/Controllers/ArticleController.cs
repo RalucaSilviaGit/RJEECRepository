@@ -157,8 +157,13 @@ namespace RJEEC.Controllers
                 MagazinePublishingYear = magazine?.PublishingYear,
                 ExistingReviewerDecisionFileName = article.Documents
                     .Where(d => d.Type == DocumentType.ReviewerDecision)
-                    .GroupBy(d => d.UserName)
-                    .Select(d => d.LastOrDefault()?.DocumentPath)
+                    .Select(d => new ReviewModel() { 
+                        Id = d.Id,
+                        DocumentName = d.DocumentPath.Substring(d.DocumentPath.IndexOf('_') + 1),
+                        DocumentPath = d.DocumentPath,
+                        UserName = d.UserName 
+                    })
+                    .OrderByDescending(d => d.Id)
                     .ToList(),
                 //LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
                 DocumentsForArticle = article.Documents.OrderBy(d => d.Id).ToList()
@@ -521,6 +526,7 @@ namespace RJEEC.Controllers
                 Id = article.Id,
                 Title = article.Title,
                 Description = article.Description,
+                KeyWords = article.KeyWords,
                 Authors = article.Authors,
                 AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
@@ -531,10 +537,16 @@ namespace RJEEC.Controllers
                 MagazinePublishingYear = article.Magazine?.PublishingYear,
                 ExistingReviewerDecisionFileName = article.Documents
                     .Where(d => d.Type == DocumentType.ReviewerDecision)
-                    .GroupBy(d => d.UserName)
-                    .Select(d => d.LastOrDefault()?.DocumentPath)
+                    .Select(d => new ReviewModel()
+                    {
+                        Id = d.Id,
+                        DocumentName = d.DocumentPath.Substring(d.DocumentPath.IndexOf('_') + 1),
+                        DocumentPath = d.DocumentPath,
+                        UserName = d.UserName
+                    })
+                    .OrderByDescending(d => d.Id)
                     .ToList(),
-                    //.LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
+                //.LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
                 DocumentsForArticle = article.Documents.OrderBy(d=>d.Id).ToList()
             };
 
@@ -551,6 +563,7 @@ namespace RJEEC.Controllers
                 article.Status = model.Status;
                 article.Title = model.Title;
                 article.Description = model.Description;
+                article.KeyWords = model.KeyWords;
                 article.Authors = model.Authors;
                 article.Magazine = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear);
                 article.MagazineId = magazineRepository.GetMagazineByVolumeNumberYear(model.MagazineVolume, model.MagazineNumber, model.MagazinePublishingYear)?.Id;
@@ -621,7 +634,7 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public IActionResult GetLast5Magazines()
         {
-            IEnumerable<Magazine> magazines = magazineRepository.GetLast5Magazines().Where(m => m.Published == true);
+            IEnumerable<Magazine> magazines = magazineRepository.GetLast5Magazines();
             return PartialView("_GetLast5Magazines", magazines);
         }
 

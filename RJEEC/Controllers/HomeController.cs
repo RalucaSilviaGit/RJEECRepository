@@ -58,6 +58,20 @@ namespace RJEEC.Controllers
         }
 
         [AllowAnonymous]
+        [Route("CopyrightAndLicense")]
+        public IActionResult CopyrightAndLicense()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [Route("JournalOpenAccessPolicy")]
+        public IActionResult JournalOpenAccessPolicy()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public IActionResult DownloadFile(string fileName, string subfolder)
         {
             string downloadFile = Path.Combine(hostingEnvironment.WebRootPath, subfolder, fileName);
