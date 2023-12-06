@@ -72,7 +72,7 @@
         {
             <div class="form-group row col-sm-12">
                 @*<a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName[i]" asp-route-subfolder="reviewerDecision">Download Reviewer @(i + 1) Suggestions</a>*@
-                <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName[i].DocumentPath" asp-route-subfolder="reviewerDecision">Download file @Model.ExistingReviewerDecisionFileName[i].DocumentName with suggestions made by @Model.ExistingReviewerDecisionFileName[i].UserName</a>
+                <a asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="@Model.ExistingReviewerDecisionFileName[i].DocumentPath" asp-route-subfolder="reviewerDecision">@Model.ExistingReviewerDecisionFileName[i].DocumentName</a>
             </div>
         }
 
