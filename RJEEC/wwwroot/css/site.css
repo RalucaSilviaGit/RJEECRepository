@@ -127,6 +127,10 @@ h2{
     background-color: rgb(0,204,0);
 }
 
+.darkgreentab {
+    background-color: #0be3b8;
+}
+
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 
 .graytab:hover {
@@ -141,6 +145,10 @@ h2{
 
 .darkbluetab:hover {
     background-color: rgba(0,204,0,0.75);
+}
+
+.darkgreentab:hover {
+    background-color: #06FBCA;
 }
 
 /* Style the collapsible content. Note: hidden by default */
