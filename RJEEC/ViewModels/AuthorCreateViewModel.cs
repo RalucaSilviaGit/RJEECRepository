@@ -22,6 +22,8 @@ namespace RJEEC.ViewModels
         [EmailAddress]
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string OrcidId { get; set; }
+        public string ResearcherId { get; set; }
         public IFormFile Photo { get; set; }
     }
 }

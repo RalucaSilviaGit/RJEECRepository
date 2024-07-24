@@ -27,6 +27,10 @@ namespace RJEEC.ViewModels
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
         public string AuthorEmail { get; set; }
+        [Display(Name = "Orcid Id")]
+        public string AuthorOrcidId { get; set; }
+        [Display(Name = "Researcher Id")]
+        public string AuthorResearcherId { get; set; }
         [Display(Name = "Article Status")]
         public ArticleStatus Status { get; set; }
         [Display(Name = "Volume")]

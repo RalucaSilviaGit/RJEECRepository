@@ -40,6 +40,12 @@ namespace RJEEC.ViewModels
         [Display(Name = "Phone")]
         [DataType(DataType.PhoneNumber)]
         public string AuthorPhone { get; set; }
+        [MaxLength(20)]
+        [Display(Name = "Orcid Id")]
+        public string AuthorOrcidId { get; set; }
+        [MaxLength(20)]
+        [Display(Name = "Researcher Id")]
+        public string AuthorResearcherId { get; set; }
         [Required]
         [Display(Name = "Upload article")]
         [DocumentValidation]

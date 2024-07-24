@@ -20,6 +20,8 @@ namespace RJEEC.Models
         [EmailAddress(ErrorMessage ="The email format is invalid.")]
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string OrcidId    { get; set; }
+        public string ResearcherId       { get; set; }
         public string PhotoPath { get; set; }
     }
 }

@@ -78,6 +78,8 @@ namespace RJEEC.Controllers
                     LastName = model.LastName,
                     Email = model.Email,
                     Phone = model.Phone,
+                    OrcidId = model.OrcidId,
+                    ResearcherId = model.ResearcherId,
                     PhotoPath = uniqueFileName
                 };
                     
@@ -106,6 +108,8 @@ namespace RJEEC.Controllers
                 LastName = author.LastName,
                 Email = author.Email,
                 Phone = author.Phone,
+                OrcidId = author.OrcidId,
+                ResearcherId = author.ResearcherId,
                 ExistingPhotoPath = author.PhotoPath
             };
             return View(authorEditViewModel);
@@ -122,6 +126,8 @@ namespace RJEEC.Controllers
                 author.LastName = model.LastName;
                 author.Email = model.Email;
                 author.Phone = model.Phone;
+                author.OrcidId = model.OrcidId;
+                author.ResearcherId = model.ResearcherId;
 
                 if (model.Photo != null)
                 {

@@ -151,6 +151,8 @@ namespace RJEEC.Controllers
                 AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
                 AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
+                AuthorOrcidId = authorRepository.GetAuthor(article.contactAuthorId)?.OrcidId,
+                AuthorResearcherId = authorRepository.GetAuthor(article.contactAuthorId)?.ResearcherId,
                 Status = article.Status,
                 MagazineVolume = magazine?.Volume,
                 MagazineNumber = magazine?.Number,
@@ -251,7 +253,9 @@ namespace RJEEC.Controllers
                 AuthorEmail = User?.Identity?.Name,
                 AuthorFirstName = author?.FirstName,
                 AuthorLastName = author?.LastName,
-                AuthorPhone = author?.Phone
+                AuthorPhone = author?.Phone,
+                AuthorOrcidId = author?.OrcidId,
+                AuthorResearcherId = author?.ResearcherId
             };
             return View(model);
         }
@@ -280,7 +284,9 @@ namespace RJEEC.Controllers
                         FirstName = model.AuthorFirstName,
                         LastName = model.AuthorLastName,
                         Email = model.AuthorEmail,
-                        Phone = model.AuthorPhone
+                        Phone = model.AuthorPhone,
+                        OrcidId = model.AuthorOrcidId,
+                        ResearcherId = model.AuthorResearcherId
                     };
                     authorRepository.AddAuthor(contactAuthor);
                 } else if (model.AuthorEmail != null) {
@@ -288,6 +294,8 @@ namespace RJEEC.Controllers
                     auth.FirstName = model.AuthorFirstName;
                     auth.LastName = model.AuthorLastName;
                     auth.Phone = model.AuthorPhone;
+                    auth.OrcidId = model?.AuthorOrcidId;
+                    auth.ResearcherId = model?.AuthorResearcherId;
                     contactAuthor = authorRepository.Update(auth);
                 }
                 newArticle.contactAuthorId = contactAuthor.Id;
@@ -531,6 +539,8 @@ namespace RJEEC.Controllers
                 AuthorFirstName = authorRepository.GetAuthor(article.contactAuthorId)?.FirstName,
                 AuthorLastName = authorRepository.GetAuthor(article.contactAuthorId)?.LastName,
                 AuthorEmail = authorRepository.GetAuthor(article.contactAuthorId)?.Email,
+                AuthorOrcidId = authorRepository.GetAuthor(article.contactAuthorId)?.OrcidId,
+                AuthorResearcherId = authorRepository.GetAuthor(article.contactAuthorId)?.ResearcherId,
                 Status = article.Status,
                 MagazineVolume = article.Magazine?.Volume,
                 MagazineNumber = article.Magazine?.Number,
