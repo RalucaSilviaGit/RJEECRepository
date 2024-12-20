@@ -17,6 +17,7 @@ namespace RJEEC.ViewModels
         public bool AgreePublishingEthics { get; set; }
         [Required]
         [MaxLength(500)]
+        [Display(Name = "Article Title")]
         public string Title { get; set; }
         [MaxLength(1000)]
         public string Authors { get; set; }

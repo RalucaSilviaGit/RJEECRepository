@@ -8,8 +8,9 @@ namespace RJEEC.ViewModels
 {
     public class ArticleDetailsViewModel
     {
-        [Display(Name = "Article number")]
+        [Display(Name = "Article Number")]
         public int Id { get; set; }
+        [Display(Name = "Article Title")]
         public string Title { get; set; }
 
         [MaxLength(5000)]

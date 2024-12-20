@@ -9,9 +9,14 @@ body {
     text-align: justify;
     margin: 0 1rem;
     padding: 0;
+    line-height:1.2;
     /*background-color: #EAFAF1;*/
     background-color:rgb(248, 249, 253);
     color: #00675c;
+}
+
+p {
+    margin-bottom:0.6rem;
 }
 
 .logout {
