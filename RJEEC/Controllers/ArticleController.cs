@@ -168,7 +168,9 @@ namespace RJEEC.Controllers
                     .OrderByDescending(d => d.Id)
                     .ToList(),
                 //LastOrDefault(d => d.Type == DocumentType.ReviewerDecision)?.DocumentPath,
-                DocumentsForArticle = article.Documents.OrderBy(d => d.Id).ToList()
+                DocumentsForArticle = User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor") ?
+                article.Documents.OrderBy(d => d.Id).ToList() :
+                article.Documents.Where(x => x.UserName == User.Identity.Name || x.UserName == null).OrderBy(d => d.Id).ToList()
             };
 
             return View(articleDetailsViewModel);
@@ -190,7 +192,8 @@ namespace RJEEC.Controllers
                             {
                                 ArticleId = model.Id,
                                 Type = DocumentType.ArticleContent,
-                                DocumentPath = fileName
+                                DocumentPath = fileName,
+                                UserName = User.Identity.Name
                             };
                             documentRepository.AddDocument(newArticleContent);
                         }
@@ -205,7 +208,8 @@ namespace RJEEC.Controllers
                             {
                                 ArticleId = model.Id,
                                 Type = DocumentType.Additional,
-                                DocumentPath = fileName
+                                DocumentPath = fileName,
+                                UserName = User.Identity.Name
                             };
                             documentRepository.AddDocument(newAdditional);
                         }
@@ -220,7 +224,8 @@ namespace RJEEC.Controllers
                             {
                                 ArticleId = model.Id,
                                 Type = DocumentType.Additional,
-                                DocumentPath = fileName
+                                DocumentPath = fileName,
+                                UserName = User.Identity.Name
                             };
                             documentRepository.AddDocument(newAdditional);
                         }
@@ -319,7 +324,8 @@ namespace RJEEC.Controllers
                         RJEEC.Models.Document newDocument = new RJEEC.Models.Document
                         {
                             Type = fileName.Value,
-                            DocumentPath = fileName.Key
+                            DocumentPath = fileName.Key,
+                            UserName = User.Identity.Name
                         };
                         docs.Add(newDocument);
                     }
