@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using RJEEC.Models;
 using RJEEC.ViewModels;
 
@@ -18,14 +21,20 @@ namespace RJEEC.Controllers
         private readonly IMagazineRepository magazineRepository;
         private readonly IArticleRepository articleRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
+        private readonly IAuthorRepository authorRepository;
 
         public MagazineController(IMagazineRepository magazineRepository,
             IArticleRepository articleRepository,
-            IWebHostEnvironment hostingEnvironment)
+            IAuthorRepository authorRepository,
+            IWebHostEnvironment hostingEnvironment,
+            IConfiguration config)
         {
             this.magazineRepository = magazineRepository;
             this.articleRepository = articleRepository;
+            this.authorRepository = authorRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this._config = config;
         }
         public IActionResult Index()
         {
@@ -108,6 +117,7 @@ namespace RJEEC.Controllers
                     art.DOI = article.DOI;
                     art.Status = ArticleStatus.Published;
                     Article updatedArticle = articleRepository.Update(art);
+                    SendMailToAuthor(updatedArticle);
                 }        
 
                 if (model.Cover != null)
@@ -138,6 +148,49 @@ namespace RJEEC.Controllers
             }
 
             return View(model);
+        }
+
+        private void SendMailToAuthor(Article updatedArticle)
+        {
+            string host = _config.GetSection("SMTP").GetSection("Host").Value;
+            string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
+            string pass = _config.GetSection("SMTP").GetSection("Password").Value;
+
+            Author author = authorRepository.GetAuthor(updatedArticle.contactAuthorId);
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(rjeecContactMail);
+            mailMessage.To.Add(author.Email);
+            mailMessage.To.Add(rjeecContactMail);
+            var articleTitle = updatedArticle.Title.Replace("\r\n", string.Empty);
+            var articleDOI = updatedArticle.DOI;
+
+            mailMessage.Subject = String.Format($"[RJEEC] Article { articleTitle } has been published.");
+            mailMessage.Body = String.Format($"<b>Dear Author,</b><br/ ><br />") +
+                $"<b>Congratulations!</b> Your manuscript {articleTitle} has been published open access in Romanian Journal of Ecology & Environmental Chemistry.<br />" +
+                $@"Thank you for choosing our journal. Your article is now publicly and freely available on the journal website (<a href='http://www.rjeec.ro' target='_blank'>www.rjeec.ro</a>).<br />" +
+                $"The assigned DOI identifier <a href = '{updatedArticle.DOI}' target = '_blank'> {updatedArticle.DOI} </a> will be active in 48 hours. <br />" +
+                $"As part of the post-publication process, we encourage you to promote and share your work to increase its visibility, impact, and citations. <br /><br />" +
+                $"<b>Kind regards,</b>" +
+                $"Ph.D. Eng. Gabriela Vasile<br />" +
+                $"Managing Editor<br />" +
+                $"e-mail: office@rjeec.ro<br />";
+
+            mailMessage.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient(host, 587))
+            {
+                var credential = new NetworkCredential
+                {
+                    UserName = rjeecContactMail,  // replace with valid value
+                    Password = pass  // replace with valid value
+                };
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mailMessage);
+            }
         }
 
         private string ProcessUploadedFile(IFormFile model)
