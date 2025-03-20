@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,15 +19,18 @@ namespace RJEEC.Controllers
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _config;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager,
-            IConfiguration config)
+            IConfiguration config,
+            IHttpClientFactory httpClientFactory)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this._config = config;
+            this._httpClientFactory = httpClientFactory;
         }
 
         [AcceptVerbs("Get", "Post")]
@@ -55,6 +60,11 @@ namespace RJEEC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (!await VerifyRecaptcha(model.gRecaptchaResponse))
+            {
+                ModelState.AddModelError("", "Verificare reCAPTCHA eșuată. Te rog încearcă din nou.");
+            }
+
             if (ModelState.IsValid)
             {
                 // Copy data from RegisterViewModel to IdentityUser
@@ -100,6 +110,19 @@ namespace RJEEC.Controllers
             }
 
             return View(model);
+        }
+
+        private async Task<bool> VerifyRecaptcha(string recaptchaResponse)
+        {
+            if (string.IsNullOrEmpty(recaptchaResponse)) return false;
+
+            var secretKey = "6Lc5ffoqAAAAAFQApyFIDOg1NKa_aZTUvXuZOEuK"; // Înlocuiește cu Secret Key-ul tău
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.GetStringAsync(
+                $"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={recaptchaResponse}");
+
+            using var jsonDoc = JsonDocument.Parse(response);
+            return jsonDoc.RootElement.GetProperty("success").GetBoolean();
         }
 
         [AllowAnonymous]
