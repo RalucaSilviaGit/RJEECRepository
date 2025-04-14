@@ -51,7 +51,7 @@ namespace RJEEC.ViewModels
         [Display(Name = "Upload article")]
         [DocumentValidation]
         public IFormFile ArticleContentDoc { get; set; }
-        [Display(Name = "Publishing agreement")]
+        [Display(Name = "Submission agreement")]
         [DocumentMandForResearcherValidation]
         [DocumentValidation]
         public IFormFile PulishingAgreementDoc { get; set; }

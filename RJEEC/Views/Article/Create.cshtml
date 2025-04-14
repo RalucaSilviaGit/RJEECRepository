@@ -105,12 +105,12 @@
     <div class="form-group row">
         <label asp-for="PulishingAgreementDoc" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-4">
-            <a class="btn btn-primary m-1" style="width:auto;" asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Publishing agreement.doc" asp-route-subfolder="generalDocuments">Download Publising Agreement Template</a>
+            <a class="btn btn-primary m-1" style="width:auto;" asp-controller="Home" asp-action="DownloadFile" asp-route-fileName="Submission agreement.doc" asp-route-subfolder="generalDocuments">Download Submission Agreement Template</a>
         </div>
         <div class="col-sm-6">
             <div class="custom-file" style="margin-top:0.3em;">
                 <input asp-for="PulishingAgreementDoc" class="form-control custom-file-input">
-                <label class="custom-file-label">Upload signed publishing agreement...</label>
+                <label class="custom-file-label">Upload signed submission agreement...</label>
             </div>
             <span asp-validation-for="PulishingAgreementDoc" class="text-danger"></span>
         </div>

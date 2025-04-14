@@ -19,7 +19,7 @@ namespace RJEEC.Utilities
             var user = httpContextAccessor.HttpContext.User;
             if (file == null && !(user.IsInRole("Admin") || user.IsInRole("SuperAdmin")))
             {
-                return new ValidationResult("Please fill in and upload the publishing agreement!");
+                return new ValidationResult("Please fill in and upload the submission agreement!");
             }
             return ValidationResult.Success;
         }
