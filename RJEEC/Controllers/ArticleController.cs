@@ -179,7 +179,8 @@ namespace RJEEC.Controllers
         [HttpPost]
         public IActionResult Details(ArticleDetailsViewModel model)
         {
-            if (ModelState.IsValid && (model.Status != ArticleStatus.Published || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor")))
+            var notSubmittedByAuthor = User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Editor");
+            if (ModelState.IsValid && (model.Status != ArticleStatus.Published || notSubmittedByAuthor))
             {
                 if (model.AdditionalDoc1 != null || model.ArticleContentNewDoc != null || model.AdditionalDoc2 != null)
                 {
@@ -231,7 +232,7 @@ namespace RJEEC.Controllers
                         }
                     }
 
-                    sendArticleUpdatedByByEmail(articleRepository.GetArticle(model.Id));
+                    sendArticleUpdatedByByEmail(articleRepository.GetArticle(model.Id), notSubmittedByAuthor);
                 }
                 else
                 {
@@ -395,7 +396,7 @@ namespace RJEEC.Controllers
             }
         }
 
-        public void sendArticleUpdatedByByEmail(Article model)
+        public void sendArticleUpdatedByByEmail(Article model, bool notSubmittedByAuthor)
         {
             string host = _config.GetSection("SMTP").GetSection("Host").Value;
             string rjeecContactMail = _config.GetSection("SMTP").GetSection("From").Value;
@@ -405,7 +406,10 @@ namespace RJEEC.Controllers
 
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(rjeecContactMail);
-            mailMessage.To.Add(author.Email);
+            if (!notSubmittedByAuthor)
+            {
+                mailMessage.To.Add(author.Email);
+            }
             mailMessage.To.Add(rjeecContactMail);
             model.Title = model.Title.Replace("\r\n", string.Empty);
 
